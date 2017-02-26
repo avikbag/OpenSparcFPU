@@ -1,0 +1,283 @@
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+Warning: Design has unannotated black box outputs. (PWR-428)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : fpu
+Version: J-2014.09-SP5
+Date   : Sun Feb 26 18:30:24 2017
+****************************************
+
+
+Library(s) Used:
+
+    gtech (File: /opt/synopsys/J-2014.09-SP5/libraries/syn/gtech.db)
+
+
+Operating Conditions: TYPICAL   Library: saed90nm_typ
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+fpu                    ForQA             saed90nm_typ
+fpu_in                 ForQA             saed90nm_typ
+bw_r_rf16x160          ForQA             saed90nm_typ
+fpu_add                ForQA             saed90nm_typ
+fpu_mul                ForQA             saed90nm_typ
+fpu_div                ForQA             saed90nm_typ
+fpu_out                ForQA             saed90nm_typ
+test_stub_scan         ForQA             saed90nm_typ
+bw_clk_cl_fpu_cmp      ForQA             saed90nm_typ
+fpu_rptr_groups        ForQA             saed90nm_typ
+fpu_in_ctl             ForQA             saed90nm_typ
+fpu_in_dp              ForQA             saed90nm_typ
+fpu_add_ctl            ForQA             saed90nm_typ
+fpu_add_exp_dp         ForQA             saed90nm_typ
+fpu_add_frac_dp        ForQA             saed90nm_typ
+fpu_mul_ctl            ForQA             saed90nm_typ
+fpu_mul_exp_dp         ForQA             saed90nm_typ
+fpu_mul_frac_dp        ForQA             saed90nm_typ
+mul64                  ForQA             saed90nm_typ
+fpu_div_ctl            ForQA             saed90nm_typ
+fpu_div_exp_dp         ForQA             saed90nm_typ
+fpu_div_frac_dp        ForQA             saed90nm_typ
+fpu_out_ctl            ForQA             saed90nm_typ
+fpu_out_dp             ForQA             saed90nm_typ
+cluster_header         ForQA             saed90nm_typ
+fpu_bufrpt_grp32       ForQA             saed90nm_typ
+fpu_bufrpt_grp64       ForQA             saed90nm_typ
+fpu_bufrpt_grp4        ForQA             saed90nm_typ
+fpu_rptr_pcx_fpio_grp16
+                       ForQA             saed90nm_typ
+fpu_rptr_fp_cpx_grp16  ForQA             saed90nm_typ
+fpu_rptr_inq           ForQA             saed90nm_typ
+dffrl_async_SIZE1      ForQA             saed90nm_typ
+dffr_SIZE1             ForQA             saed90nm_typ
+dff_SIZE1              ForQA             saed90nm_typ
+dff_SIZE5              ForQA             saed90nm_typ
+dffre_SIZE4            ForQA             saed90nm_typ
+dff_SIZE4              ForQA             saed90nm_typ
+dffre_SIZE1            ForQA             saed90nm_typ
+dff_SIZE8              ForQA             saed90nm_typ
+dff_SIZE16             ForQA             saed90nm_typ
+dffre_SIZE3            ForQA             saed90nm_typ
+clken_buf              ForQA             saed90nm_typ
+dff_SIZE2              ForQA             saed90nm_typ
+dff_SIZE64             ForQA             saed90nm_typ
+dffe_SIZE69            ForQA             saed90nm_typ
+dff_SIZE155            ForQA             saed90nm_typ
+dffe_SIZE1             ForQA             saed90nm_typ
+dffre_SIZE8            ForQA             saed90nm_typ
+dffe_SIZE4             ForQA             saed90nm_typ
+dffe_SIZE2             ForQA             saed90nm_typ
+dffe_SIZE5             ForQA             saed90nm_typ
+dffre_SIZE31           ForQA             saed90nm_typ
+dffre_SIZE19           ForQA             saed90nm_typ
+dffre_SIZE2            ForQA             saed90nm_typ
+dffre_SIZE18           ForQA             saed90nm_typ
+dffe_SIZE10            ForQA             saed90nm_typ
+dffre_SIZE9            ForQA             saed90nm_typ
+dffre_SIZE6            ForQA             saed90nm_typ
+dff_SIZE10             ForQA             saed90nm_typ
+dffe_SIZE11            ForQA             saed90nm_typ
+dffe_SIZE13            ForQA             saed90nm_typ
+dffe_SIZE12            ForQA             saed90nm_typ
+dff_SIZE13             ForQA             saed90nm_typ
+dffe_SIZE63            ForQA             saed90nm_typ
+dffe_SIZE55            ForQA             saed90nm_typ
+dffe_SIZE64            ForQA             saed90nm_typ
+fpu_in2_gt_in1_frac    ForQA             saed90nm_typ
+dffe_SIZE54            ForQA             saed90nm_typ
+fpu_denorm_frac        ForQA             saed90nm_typ
+fpu_cnt_lead0_64b      ForQA             saed90nm_typ
+dffe_SIZE58            ForQA             saed90nm_typ
+dffre_SIZE5            ForQA             saed90nm_typ
+dffe_SIZE6             ForQA             saed90nm_typ
+dffe_SIZE7             ForQA             saed90nm_typ
+fpu_cnt_lead0_53b      ForQA             saed90nm_typ
+dffe_SIZE56            ForQA             saed90nm_typ
+dff_SIZE55             ForQA             saed90nm_typ
+dffe_SIZE52            ForQA             saed90nm_typ
+mul_booth              ForQA             saed90nm_typ
+mul_array1             ForQA             saed90nm_typ
+dff_SIZE78             ForQA             saed90nm_typ
+dff_SIZE82             ForQA             saed90nm_typ
+mul_array2             ForQA             saed90nm_typ
+dp_mux2es_SIZE97       ForQA             saed90nm_typ
+dff_SIZE97             ForQA             saed90nm_typ
+dp_mux2es_SIZE98       ForQA             saed90nm_typ
+dff_SIZE98             ForQA             saed90nm_typ
+dff_SIZE68             ForQA             saed90nm_typ
+dff_SIZE69             ForQA             saed90nm_typ
+dff_SIZE104            ForQA             saed90nm_typ
+dff_SIZE32             ForQA             saed90nm_typ
+dffr_SIZE8             ForQA             saed90nm_typ
+dffr_SIZE3             ForQA             saed90nm_typ
+dff_SIZE53             ForQA             saed90nm_typ
+dff_SIZE12             ForQA             saed90nm_typ
+dff_SIZE3              ForQA             saed90nm_typ
+dff_SIZE77             ForQA             saed90nm_typ
+bw_u1_syncff_4x        ForQA             saed90nm_typ
+bw_u1_scanl_2x         ForQA             saed90nm_typ
+synchronizer_asr       ForQA             saed90nm_typ
+fpu_in2_gt_in1_3b      ForQA             saed90nm_typ
+fpu_in2_gt_in1_2b      ForQA             saed90nm_typ
+fpu_in2_gt_in1_3to1    ForQA             saed90nm_typ
+fpu_denorm_3b          ForQA             saed90nm_typ
+fpu_denorm_3to1        ForQA             saed90nm_typ
+fpu_cnt_lead0_lvl1     ForQA             saed90nm_typ
+fpu_cnt_lead0_lvl2     ForQA             saed90nm_typ
+fpu_cnt_lead0_lvl3     ForQA             saed90nm_typ
+fpu_cnt_lead0_lvl4     ForQA             saed90nm_typ
+mul_bodec              ForQA             saed90nm_typ
+dp_mux2es_SIZE3        ForQA             saed90nm_typ
+dp_mux2es              ForQA             saed90nm_typ
+mul_negen              ForQA             saed90nm_typ
+mul_csa42              ForQA             saed90nm_typ
+mul_csa32              ForQA             saed90nm_typ
+mul_ha                 ForQA             saed90nm_typ
+mul_ppgenrow3          ForQA             saed90nm_typ
+mul_mux2               ForQA             saed90nm_typ
+bw_u1_soffasr_2x       ForQA             saed90nm_typ
+mul_ppgen3sign         ForQA             saed90nm_typ
+mul_ppgen3             ForQA             saed90nm_typ
+mul_ppgen3lsb4         ForQA             saed90nm_typ
+zsoffasr_prim          ForQA             saed90nm_typ
+mul_ppgensign          ForQA             saed90nm_typ
+mul_ppgen              ForQA             saed90nm_typ
+*ADD_UNS_OP_4_1_4      ForQA             saed90nm_typ
+DW01_inc_width4        ForQA             saed90nm_typ
+DW01_inc_width4        ForQA             saed90nm_typ
+DW01_inc_width4        ForQA             saed90nm_typ
+DW01_inc_width4        ForQA             saed90nm_typ
+*EQ_UNS_OP_4_4_1       ForQA             saed90nm_typ
+DW01_cmp6_width4       ForQA             saed90nm_typ
+DW01_cmp6_width4       ForQA             saed90nm_typ
+DW01_cmp6_width4       ForQA             saed90nm_typ
+*LT_UNS_OP_11_6_1      ForQA             saed90nm_typ
+DW01_cmp2_width11      ForQA             saed90nm_typ
+*ADD_UNS_OP_11_12_12   ForQA             saed90nm_typ
+DW01_add_width12       ForQA             saed90nm_typ
+*ADD_UNS_OP_12_1_12    ForQA             saed90nm_typ
+DW01_inc_width12       ForQA             saed90nm_typ
+*ADD_UNS_OP_11_13_13   ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+*ADD_UNS_OP_13_1_13    ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+*ADD_UNS_OP_11_11_11   ForQA             saed90nm_typ
+DW01_add_width11       ForQA             saed90nm_typ
+*ADD_UNS_OP_11_1_11    ForQA             saed90nm_typ
+DW01_inc_width11       ForQA             saed90nm_typ
+*ADD_UNS_OP_11_1_12    ForQA             saed90nm_typ
+DW01_inc_width12       ForQA             saed90nm_typ
+*ADD_UNS_OP_13_13_13   ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+*SUB_UNS_OP_13_1_13    ForQA             saed90nm_typ
+DW01_dec_width13       ForQA             saed90nm_typ
+DW01_inc_width11       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+*ADD_UNS_OP_64_64_64   ForQA             saed90nm_typ
+DW01_add_width64       ForQA             saed90nm_typ
+*ADD_UNS_OP_64_1_64    ForQA             saed90nm_typ
+DW01_add_width64       ForQA             saed90nm_typ
+*ASHR_UNS_UNS_OP_54_6_54
+                       ForQA             saed90nm_typ
+DW_rightsh             ForQA             saed90nm_typ
+DW01_add_width64       ForQA             saed90nm_typ
+DW01_add_width64       ForQA             saed90nm_typ
+*ADD_UNS_OP_52_30_53   ForQA             saed90nm_typ
+DW01_add_width53       ForQA             saed90nm_typ
+*ASH_UNS_UNS_OP_64_4_64
+                       ForQA             saed90nm_typ
+DW_leftsh              ForQA             saed90nm_typ
+*ADD_UNS_OP_6_6_7      ForQA             saed90nm_typ
+DW01_add_width7        ForQA             saed90nm_typ
+*ADD_UNS_OP_6_6_6      ForQA             saed90nm_typ
+DW01_add_width6        ForQA             saed90nm_typ
+*SUB_UNS_OP_1_6_6      ForQA             saed90nm_typ
+DW01_sub_width6        ForQA             saed90nm_typ
+*ADD_UNS_OP_1_6_6      ForQA             saed90nm_typ
+DW01_inc_width6        ForQA             saed90nm_typ
+*ADD_UNS_OP_11_11_12   ForQA             saed90nm_typ
+DW01_add_width12       ForQA             saed90nm_typ
+*ADD_UNS_OP_12_1_13    ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+DW01_inc_width13       ForQA             saed90nm_typ
+DW01_inc_width11       ForQA             saed90nm_typ
+*ASH_UNS_UNS_OP_106_6_106
+                       ForQA             saed90nm_typ
+DW_leftsh              ForQA             saed90nm_typ
+*ASHR_UNS_UNS_OP_169_6_169
+                       ForQA             saed90nm_typ
+DW_rightsh             ForQA             saed90nm_typ
+DW01_add_width53       ForQA             saed90nm_typ
+*ADD_UNS_OP_32_32_33   ForQA             saed90nm_typ
+DW01_add_width33       ForQA             saed90nm_typ
+*ADD_UNS_OP_66_66_66   ForQA             saed90nm_typ
+DW01_add_width66       ForQA             saed90nm_typ
+*ADD_UNS_OP_66_1_66    ForQA             saed90nm_typ
+DW01_add_width66       ForQA             saed90nm_typ
+*ADD_UNS_OP_7_1_7      ForQA             saed90nm_typ
+DW01_add_width7        ForQA             saed90nm_typ
+*EQ_UNS_OP_6_13_1      ForQA             saed90nm_typ
+DW01_cmp6_width13      ForQA             saed90nm_typ
+DW01_cmp6_width13      ForQA             saed90nm_typ
+*ADD_UNS_OP_6_1_6      ForQA             saed90nm_typ
+DW01_inc_width6        ForQA             saed90nm_typ
+*LT_UNS_OP_6_5_1       ForQA             saed90nm_typ
+DW01_cmp2_width6       ForQA             saed90nm_typ
+*LT_UNS_OP_6_6_1       ForQA             saed90nm_typ
+DW01_cmp2_width6       ForQA             saed90nm_typ
+*EQ_UNS_OP_12_6_1      ForQA             saed90nm_typ
+DW01_cmp6_width12      ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+DW01_add_width13       ForQA             saed90nm_typ
+*ASH_UNS_UNS_OP_53_6_53
+                       ForQA             saed90nm_typ
+DW_leftsh              ForQA             saed90nm_typ
+*ADD_UNS_OP_55_55_55   ForQA             saed90nm_typ
+DW01_add_width55       ForQA             saed90nm_typ
+*ADD_UNS_OP_55_1_55    ForQA             saed90nm_typ
+DW01_add_width55       ForQA             saed90nm_typ
+
+
+Global Operating Voltage = 1.2  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =   0.0000 uW    (0%)
+  Net Switching Power  =   1.7846 mW  (100%)
+                         ---------
+Total Dynamic Power    =   1.7846 mW  (100%)
+
+Cell Leakage Power     =   0.0000 pW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000        1.6403e+03            0.0000        1.6403e+03  (  91.92%)
+register           0.0000           18.1089            0.0000           18.1089  (   1.01%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.0000          126.1757            0.0000          126.1757  (   7.07%)
+--------------------------------------------------------------------------------------------------
+Total              0.0000 uW     1.7846e+03 uW         0.0000 pW     1.7846e+03 uW
+1

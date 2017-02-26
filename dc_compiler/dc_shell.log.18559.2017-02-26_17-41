@@ -1,0 +1,77 @@
+# To set up the working directory and analyze 
+# to test the verilog files for lab2 
+define_design_lib WORK –path ./work
+Error: extra positional option '–path' (CMD-012)
+Error: extra positional option './work' (CMD-012)
+Error: Required argument '-path' was not found (CMD-007)
+analyze -f verilog [list $os_path/common/cluster_header.v $os_path/common/swrvr_clib.v $os_path/common/swrvr_dlib.v $os_path/common/synchronizer_asr.v $os_path/rtl/bw_clk_cl_fpu_cmp.v $os_path/rtl/fpu_add_ctl.v $os_path/rtl/fpu_add_exp_dp.v $os_path/rtl/fpu_add_frac_dp.v $os_path/rtl/fpu_add.v $os_path/rtl/fpu_cnt_lead0_53b.v $os_path/rtl/fpu_cnt_lead0_64b.v $os_path/rtl/fpu_cnt_lead0_lvl1.v $os_path/rtl/fpu_cnt_lead0_lvl2.v $os_path/rtl/fpu_cnt_lead0_lvl3.v $os_path/rtl/fpu_cnt_lead0_lvl4.v $os_path/rtl/fpu_denorm_3b.v $os_path/rtl/fpu_denorm_3to1.v $os_path/rtl/fpu_denorm_frac.v $os_path/rtl/fpu_div_ctl.v $os_path/rtl/fpu_div_exp_dp.v $os_path/rtl/fpu_div_frac_dp.v $os_path/rtl/fpu_div.v $os_path/rtl/fpu_in2_gt_in1_2b.v $os_path/rtl/fpu_in2_gt_in1_3b.v $os_path/rtl/fpu_in2_gt_in1_3to1.v $os_path/rtl/fpu_in2_gt_in1_frac.v $os_path/rtl/fpu_in_ctl.v $os_path/rtl/fpu_in_dp.v $os_path/rtl/fpu_in.v $os_path/rtl/fpu_mul_ctl.v $os_path/rtl/fpu_mul_exp_dp.v $os_path/rtl/fpu_mul_frac_dp.v $os_path/rtl/fpu_mul.v $os_path/rtl/fpu_out_ctl.v $os_path/rtl/fpu_out_dp.v $os_path/rtl/fpu_out.v $os_path/rtl/fpu_rptr_groups.v $os_path/rtl/fpu_rptr_macros.v $os_path/rtl/fpu_rptr_min_global.v $os_path/pr_macro/mul64.v $os_path/common/test_stub_scan.v $os_path/srams/bw_r_rf16x160.v ]
+Running PRESTO HDLC
+Compiling source file ../OpenSPARC/design/common/cluster_header.v
+Opening include file sys.h
+Error:  ../OpenSPARC/design/common/cluster_header.v:23: Unable to open file `sys.h': No such file or directory. (VER-41)
+*** Presto compilation terminated with 1 errors. ***
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db'
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_max.db'
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db'
+0
+# Now moving onto s15850 sample benchmark. 
+elaborate fpu
+Loading db file '/opt/synopsys/J-2014.09-SP5/libraries/syn/gtech.db'
+Loading db file '/opt/synopsys/J-2014.09-SP5/libraries/syn/standard.sldb'
+  Loading link library 'saed90nm_typ'
+  Loading link library 'saed90nm_max'
+  Loading link library 'saed90nm_min'
+  Loading link library 'gtech'
+Error: Cannot find the design 'fpu' in the library 'WORK'. (LBR-0)
+0
+link
+Error: Current design is not defined. (UID-4)
+0
+# Set the clock consraints
+create_clock gclk -period 2
+Error: Current design is not defined. (UID-4)
+Error: Can't find object 'gclk'. (UID-109)
+Error: Value for list 'source_objects' must have 1 elements. (CMD-036)
+0
+set_clock_latency 0.4 gclk
+Error: Current design is not defined. (UID-4)
+Error: Can't find object 'gclk'. (UID-109)
+Error: Value for list 'object_list' must have 1 elements. (CMD-036)
+0
+set_clock_uncertainty 0.05 gclk 
+Error: Current design is not defined. (UID-4)
+Error: Can't find object 'gclk'. (UID-109)
+Error: Value for list 'object_list' must have 1 elements. (CMD-036)
+0
+set_clock_transition 0.1 gclk
+Error: Current design is not defined. (UID-4)
+Error: Can't find clock 'gclk'. (UID-109)
+Error: Value for list 'clock_list' must have 1 elements. (CMD-036)
+0
+# Comile for optimization reports
+compile_ultra -gate_clock -no_autoungroup
+Error: Current design is not defined. (UID-4)
+0
+write_sdc ./const/fpu.sdc
+Error: Current design is not defined. (UID-4)
+0
+#Reports for different constraints 
+#report_wire_load > logs/s15850/wire.report
+report_design > logs/design.report
+#report_timing > logs/s15850/timing.report
+#report_power  > logs/s15850/power.report 
+#report_clock  > logs/s15850/clk_def.report
+#report_clock_timing -type transition -clock CK  > logs/s15850/transition_clock.report
+#report_clock_timing -type skew -clock CK  > logs/s15850/skew_clock.report
+#report_clock_timing -type latency -clock CK  > logs/s15850/latency_clock.report
+#write output
+write -hier -f ddc -output unmapped/fpu.ddc
+Error: No files or designs were specified. (UID-22)
+0
+write -hier -f verilog -output unmapped/fpu.v
+Error: No files or designs were specified. (UID-22)
+0
+quit
+
+Thank you...
+

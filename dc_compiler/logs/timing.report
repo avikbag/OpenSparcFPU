@@ -1,0 +1,103 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'fpu' contains 3 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : fpu
+Version: J-2014.09-SP5
+Date   : Sun Feb 26 18:30:19 2017
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: TYPICAL   Library: saed90nm_typ
+Wire Load Model Mode: enclosed
+
+  Startpoint: fpu_in/fpu_in_dp/i_fp_op_in/q_reg[7]
+              (rising edge-triggered flip-flop clocked by gclk)
+  Endpoint: fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/clken_reg
+            (positive level-sensitive latch clocked by gclk')
+  Path Group: gclk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  fpu_in_dp          ForQA                 saed90nm_typ
+  fpu                ForQA                 saed90nm_typ
+  fpu_in_ctl         ForQA                 saed90nm_typ
+  clken_buf          ForQA                 saed90nm_typ
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock gclk (rise edge)                                  0.00       0.00
+  clock network delay (ideal)                             0.40       0.40
+  fpu_in/fpu_in_dp/i_fp_op_in/q_reg[7]/clocked_on (**SEQGEN**)
+                                                          0.00       0.40 r
+  fpu_in/fpu_in_dp/i_fp_op_in/q_reg[7]/Q (**SEQGEN**)     0.00       0.40 r
+  fpu_in/fpu_in_dp/i_fp_op_in/q[7] (dff_SIZE8)            0.00       0.40 r
+  fpu_in/fpu_in_dp/fp_op_in_7in (fpu_in_dp)               0.00       0.40 r
+  fpu_in/fpu_in_ctl/fp_op_in_7in (fpu_in_ctl)             0.00       0.40 r
+  fpu_in/fpu_in_ctl/I_33/Z (GTECH_NOT)                    0.04       0.44 f
+  fpu_in/fpu_in_ctl/C348/Z (GTECH_AND2)                   0.01       0.45 f
+  fpu_in/fpu_in_ctl/C347/Z (GTECH_AND2)                   0.00       0.45 f
+  fpu_in/fpu_in_ctl/C540/Z (GTECH_AND2)                   0.03       0.48 f
+  fpu_in/fpu_in_ctl/C539/Z (GTECH_AND2)                   0.00       0.49 f
+  fpu_in/fpu_in_ctl/C538/Z (GTECH_AND2)                   0.00       0.49 f
+  fpu_in/fpu_in_ctl/C537/Z (GTECH_AND2)                   0.00       0.50 f
+  fpu_in/fpu_in_ctl/C534/Z (GTECH_OR2)                    0.00       0.50 f
+  fpu_in/fpu_in_ctl/I_75/Z (GTECH_NOT)                    0.01       0.51 r
+  fpu_in/fpu_in_ctl/C550/Z (GTECH_AND2)                   0.01       0.51 r
+  fpu_in/fpu_in_ctl/C541/Z (GTECH_OR2)                    0.00       0.51 r
+  fpu_in/fpu_in_ctl/C664/Z (GTECH_OR2)                    0.01       0.53 r
+  fpu_in/fpu_in_ctl/C663/Z (GTECH_OR2)                    0.00       0.53 r
+  fpu_in/fpu_in_ctl/C662/Z (GTECH_OR2)                    0.00       0.53 r
+  fpu_in/fpu_in_ctl/I_78/Z (GTECH_NOT)                    0.00       0.54 f
+  fpu_in/fpu_in_ctl/fdiv_clken_l (fpu_in_ctl)             0.00       0.54 f
+  fpu_in/fdiv_clken_l (fpu_in)                            0.00       0.54 f
+  fpu_rptr_groups/fdiv_clken_l (fpu_rptr_groups)          0.00       0.54 f
+  fpu_rptr_groups/i_fdiv_clken_l_buf1/in[3] (fpu_bufrpt_grp4)
+                                                          0.00       0.54 f
+  fpu_rptr_groups/i_fdiv_clken_l_buf1/out[3] (fpu_bufrpt_grp4)
+                                                          0.00       0.54 f
+  fpu_rptr_groups/fdiv_clken_l_div_exp_buf1 (fpu_rptr_groups)
+                                                          0.00       0.54 f
+  fpu_div/fdiv_clken_l_div_exp_buf1 (fpu_div)             0.00       0.54 f
+  fpu_div/fpu_div_exp_dp/fdiv_clken_l (fpu_div_exp_dp)
+                                                          0.00       0.54 f
+  fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/enb_l (clken_buf)
+                                                          0.00       0.54 f
+  fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/I_1/Z (GTECH_NOT)
+                                                          0.00       0.54 r
+  fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/C18/Z (GTECH_OR2)
+                                                          0.00       0.55 r
+  fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/clken_reg/data_in (**SEQGEN**)
+                                                          0.00       0.55 r
+  data arrival time                                                  0.55
+
+  clock gclk' (rise edge)                                 1.00       1.00
+  clock network delay (ideal)                             0.40       1.40
+  clock uncertainty                                      -0.10       1.30
+  fpu_div/fpu_div_exp_dp/ckbuf_div_exp_dp/clken_reg/enable (**SEQGEN**)
+                                                          0.00       1.30 r
+  time borrowed from endpoint                             0.00       1.30
+  data required time                                                 1.30
+  --------------------------------------------------------------------------
+  data required time                                                 1.30
+  data arrival time                                                 -0.55
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.75
+
+  Time Borrowing Information
+  --------------------------------------------------------------
+  gclk' nominal pulse width                               1.00   
+  library setup time                                      0.00   
+  --------------------------------------------------------------
+  max time borrow                                         1.00   
+  actual time borrow                                      0.00   
+  --------------------------------------------------------------
+
+
+1
