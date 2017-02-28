@@ -61,7 +61,7 @@ set_clock_latency -max 0.4 gclk
 
 # Comile for optimization reports
 
-#compile_ultra -gate_clock -no_autoungroup
+compile_ultra -gate_clock -no_autoungroup
 write_sdc ./const/fpu.sdc
 
 #Reports for different constraints 
