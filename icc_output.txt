@@ -1,0 +1,4 @@
+Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
+
+Thank you...
+Exit IC Compiler!

@@ -1,0 +1,40 @@
+# General useful settings
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Disable more-like page mode
+set_app_var enable_page_mode false
+# Don't want to see CMD-041 when creating new variables
+set_app_var sh_new_variable_message false
+# Increase history buffer from 20 commands to 100
+history keep 100
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Enable logging of commands and everything by date/shell
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+set timestamp [clock format [clock scan now] -format "%Y-%m-%d_%H-%M"]
+set sh_output_log_file "${synopsys_program_name}.log.[pid].$timestamp"
+set sh_command_log_file "${synopsys_program_name}.cmd.[pid].$timestamp"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Logic Library settings
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+set file_lib "/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library"
+set search_path "$file_lib/synopsys/models ./src ./scripts ./data_design ./unmapped"
+set target_library "saed90nm_typ.db"
+set link_library "* $target_library saed90nm_max.db saed90nm_min.db"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# RISC_CHIP setup variables
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+set my_mw_lib s15850.mw
+set mw_path       "./dep"
+set tech_file     "$file_lib/process/astro/tech/astroTechFile.tf"
+set ref_file      "$file_lib/process/astro/fram/saed90nm/"
+set tlup_map      "$file_lib/process/astro/tech/tech2itf.map"
+set tlup_max      "$file_lib/process/star_rcxt/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
+set tlup_min      "$file_lib/process/star_rcxt/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
+set top_design    "s15850"
+set verilog_file  "./unmapped/s15850.v"
+set ddc_file      "./unmapped/s15850.ddc"
+set dff           "./data_design/dff.ddc"
