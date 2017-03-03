@@ -10,13 +10,14 @@ file delete -force $my_mw_lib
 ## This is used to start the GUI for capturing 
 ## the necessary maps for this project
 
-start_gui
+#start_gui
 
 ## This creates a fresh copy of a milkyway library based 
 ## on the designated technology files and reference libraries
 ## all of which are defined in the setup file
-create_mw_lib $my_mw_lib -open -technology $tech_file \
-  -mw_reference_library $ref_file
+create_mw_lib -technology $tech_file \
+  -mw_reference_library $ref_file \
+  $my_mw_lib -open 
 
 ## This imports the s15850 compiled ddc file that was generated
 ## in the previous dc_shell lab, and will be used for this lab
@@ -58,7 +59,7 @@ create_fp_placement
 ## Generate the floorplan power rails
 synthesize_fp_rail \
   -power_budget 1000 \
-  -voltage_supply 1.8 \
+  -voltage_supply 1.16 \
   -target_voltage_drop 250 \
   -nets "VDD VSS" \
   -output_dir "./power.pna" \
