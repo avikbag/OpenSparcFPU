@@ -1,5 +1,3 @@
-Information: Updating graph... (UID-83)
-Information: Updating design information... (UID-85)
  
 ****************************************
 Report : timing
@@ -8,63 +6,96 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Fri Mar  3 21:14:45 2017
+Date   : Sat Mar  4 16:46:46 2017
 ****************************************
 
-Operating Conditions: ff1p16vn40c   Library: saed32lvt_ff1p16vn40c
+ * Some/all delay information is back-annotated.
 
-  Startpoint: fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]
+Operating Conditions: TYPICAL   Library: saed90nm_typ
+	Parasitic source    : LPE
+	Parasitic mode      : RealRC
+	Extraction mode     : MIN_MAX
+	Extraction derating : 25/25/25
+
+Information: Percent of Arnoldi-based delays = 23.40%
+
+  Startpoint: fpu_div/fpu_div_frac_dp/i_div_frac_add_in2/q_reg[0]
               (rising edge-triggered flip-flop clocked by gclk)
-  Endpoint: fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg
-            (positive level-sensitive latch clocked by gclk')
+  Endpoint: fpu_div/fpu_div_exp_dp/i_div_exp_out/q_reg[11]
+            (rising edge-triggered flip-flop clocked by gclk)
   Path Group: gclk
   Path Type: max
 
   Point                                                   Incr       Path
   --------------------------------------------------------------------------
   clock gclk (rise edge)                                  0.00       0.00
-  clock network delay (ideal)                             0.40       0.40
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/CLK (DFFX1_LVT)
-                                                          0.00       0.40 r
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/Q (DFFX1_LVT)
-                                                          0.05       0.45 r
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q[2] (dffre_SIZE3_2)
-                                                          0.00       0.45 r
-  fpu_mul/fpu_mul_ctl/U119/Y (NAND2X0_LVT)                0.86       1.31 f
-  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       1.31 f
-  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       1.31 f
-  fpu_mul/i_m4stg_frac/U501/Y (INVX1_LVT)                 0.11       1.42 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       1.42 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.03       1.45 f
-  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/D (LATCHX1_LVT)
-                                                          0.00       1.45 f
-  data arrival time                                                  1.45
+  clock network delay (propagated)                        0.59       0.59
+  fpu_div/fpu_div_frac_dp/i_div_frac_add_in2/q_reg[0]/CLK (DFFX1)
+                                                          0.00       0.59 r
+  fpu_div/fpu_div_frac_dp/i_div_frac_add_in2/q_reg[0]/Q (DFFX1)
+                                                          0.19       0.79 r
+  fpu_div/fpu_div_frac_dp/i_div_frac_add_in2/q[0] (dffe_SIZE55_3)
+                                                          0.00       0.79 r
+  fpu_div/fpu_div_frac_dp/U434/QN (NAND2X0)               0.04 &     0.83 f
+  fpu_div/fpu_div_frac_dp/U435/QN (OAI21X1)               0.11 &     0.94 r
+  fpu_div/fpu_div_frac_dp/U441/QN (AOI21X1)               0.11 &     1.05 f
+  fpu_div/fpu_div_frac_dp/U447/QN (OAI21X1)               0.10 &     1.15 r
+  fpu_div/fpu_div_frac_dp/U474/QN (AOI21X1)               0.11 &     1.26 f
+  fpu_div/fpu_div_frac_dp/U496/QN (OAI21X1)               0.12 &     1.37 r
+  fpu_div/fpu_div_frac_dp/U510/CO (FADDX1)                0.10 &     1.48 r
+  fpu_div/fpu_div_frac_dp/U771/CO (FADDX1)                0.10 &     1.58 r
+  fpu_div/fpu_div_frac_dp/U777/CO (FADDX1)                0.10 &     1.67 r
+  fpu_div/fpu_div_frac_dp/U782/CO (FADDX1)                0.10 &     1.77 r
+  fpu_div/fpu_div_frac_dp/U787/CO (FADDX1)                0.10 &     1.87 r
+  fpu_div/fpu_div_frac_dp/U792/CO (FADDX1)                0.10 &     1.97 r
+  fpu_div/fpu_div_frac_dp/U797/CO (FADDX1)                0.10 &     2.08 r
+  fpu_div/fpu_div_frac_dp/U802/CO (FADDX1)                0.10 &     2.18 r
+  fpu_div/fpu_div_frac_dp/U807/CO (FADDX1)                0.10 &     2.28 r
+  fpu_div/fpu_div_frac_dp/U812/CO (FADDX1)                0.10 &     2.38 r
+  fpu_div/fpu_div_frac_dp/U817/CO (FADDX1)                0.10 &     2.48 r
+  fpu_div/fpu_div_frac_dp/U822/CO (FADDX1)                0.10 &     2.58 r
+  fpu_div/fpu_div_frac_dp/U827/CO (FADDX1)                0.10 &     2.68 r
+  fpu_div/fpu_div_frac_dp/U832/CO (FADDX1)                0.10 &     2.78 r
+  fpu_div/fpu_div_frac_dp/U837/CO (FADDX1)                0.10 &     2.89 r
+  fpu_div/fpu_div_frac_dp/U842/CO (FADDX1)                0.10 &     2.99 r
+  fpu_div/fpu_div_frac_dp/U847/CO (FADDX1)                0.10 &     3.09 r
+  fpu_div/fpu_div_frac_dp/U852/CO (FADDX1)                0.10 &     3.19 r
+  fpu_div/fpu_div_frac_dp/U857/CO (FADDX1)                0.10 &     3.29 r
+  fpu_div/fpu_div_frac_dp/U862/CO (FADDX1)                0.10 &     3.38 r
+  fpu_div/fpu_div_frac_dp/U867/CO (FADDX1)                0.10 &     3.48 r
+  fpu_div/fpu_div_frac_dp/U872/CO (FADDX1)                0.10 &     3.59 r
+  fpu_div/fpu_div_frac_dp/U524/CO (FADDX1)                0.10 &     3.69 r
+  fpu_div/fpu_div_frac_dp/U506/S (FADDX1)                 0.09 &     3.78 r
+  fpu_div/fpu_div_frac_dp/U497/ZN (INVX0)                 0.05 &     3.83 f
+  fpu_div/fpu_div_frac_dp/div_frac_add_52_inv (fpu_div_frac_dp)
+                                                          0.00       3.83 f
+  fpu_div/fpu_div_exp_dp/div_frac_add_52_inv (fpu_div_exp_dp)
+                                                          0.00       3.83 f
+  fpu_div/fpu_div_exp_dp/U187/QN (NAND2X0)                0.04 &     3.87 r
+  fpu_div/fpu_div_exp_dp/U188/QN (NAND2X1)                0.05 &     3.92 f
+  fpu_div/fpu_div_exp_dp/U7/QN (NOR2X0)                   0.18 &     4.10 r
+  fpu_div/fpu_div_exp_dp/U211/Q (MUX21X1)                 0.14 &     4.23 r
+  fpu_div/fpu_div_exp_dp/U212/Q (AO22X1)                  0.07 &     4.30 r
+  fpu_div/fpu_div_exp_dp/U213/Q (AO21X1)                  0.06 &     4.36 r
+  fpu_div/fpu_div_exp_dp/i_div_exp_out/din[11] (dffe_SIZE13_0)
+                                                          0.00       4.36 r
+  fpu_div/fpu_div_exp_dp/i_div_exp_out/U15/Q (AND2X1)     0.06 &     4.42 r
+  fpu_div/fpu_div_exp_dp/i_div_exp_out/q_reg[11]/D (DFFX1)
+                                                          0.00 &     4.42 r
+  data arrival time                                                  4.42
 
-  clock gclk' (rise edge)                                 1.00       1.00
-  clock network delay (ideal)                             0.40       1.40
-  clock uncertainty                                      -0.10       1.30
-  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/CLK (LATCHX1_LVT)
-                                                          0.00       1.30 r
-  time borrowed from endpoint                             0.15       1.45
-  data required time                                                 1.45
+  clock gclk (rise edge)                                  4.00       4.00
+  clock network delay (propagated)                        0.57       4.57
+  clock uncertainty                                      -0.10       4.47
+  fpu_div/fpu_div_exp_dp/i_div_exp_out/q_reg[11]/CLK (DFFX1)
+                                                          0.00       4.47 r
+  library setup time                                     -0.05       4.42
+  data required time                                                 4.42
   --------------------------------------------------------------------------
-  data required time                                                 1.45
-  data arrival time                                                 -1.45
+  data required time                                                 4.42
+  data arrival time                                                 -4.42
   --------------------------------------------------------------------------
   slack (MET)                                                        0.00
-
-  Time Borrowing Information
-  --------------------------------------------------------------
-  gclk' nominal pulse width                               1.00   
-  library setup time                                     -0.03   
-  --------------------------------------------------------------
-  max time borrow                                         0.97   
-  --------------------------------------------------------------
-  actual time borrow                                      0.15   
-  clock uncertainty                                      -0.10   
-  --------------------------------------------------------------
-  time given to startpoint                                0.05   
-  --------------------------------------------------------------
 
 
 1
