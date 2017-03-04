@@ -6,114 +6,73 @@ Report : timing
         -delay max
         -max_paths 1
 Design : fpu
-Version: J-2014.09-SP5
-Date   : Tue Feb 28 15:59:22 2017
+Version: M-2016.12-SP1
+Date   : Fri Mar  3 15:02:49 2017
 ****************************************
 
-Operating Conditions: ff1p16vn40c   Library: saed32rvt_ff1p16vn40c
+Operating Conditions: ff1p16vn40c   Library: saed32lvt_ff1p16vn40c
 Wire Load Model Mode: enclosed
 
-  Startpoint: fpu_div/fpu_div_frac_dp/i_div_frac_add_in1a/q_reg[0]
+  Startpoint: fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]
               (rising edge-triggered flip-flop clocked by gclk)
-  Endpoint: fpu_div/fpu_div_frac_dp/i_div_frac_add_in1/q_reg[26]
-            (rising edge-triggered flip-flop clocked by gclk)
+  Endpoint: fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg
+            (positive level-sensitive latch clocked by gclk')
   Path Group: gclk
   Path Type: max
 
   Des/Clust/Port     Wire Load Model       Library
   ------------------------------------------------
-  dffe_SIZE55_2      8000                  saed32rvt_ff1p16vn40c
-  fpu_div_frac_dp    8000                  saed32rvt_ff1p16vn40c
-  dffe_SIZE55_3      8000                  saed32rvt_ff1p16vn40c
+  dffre_SIZE3_2      ForQA                 saed32lvt_ff1p16vn40c
+  fpu_mul_ctl        8000                  saed32lvt_ff1p16vn40c
+  fpu_mul            70000                 saed32lvt_ff1p16vn40c
+  mul64              35000                 saed32lvt_ff1p16vn40c
+  clken_buf_6        ForQA                 saed32lvt_ff1p16vn40c
 
   Point                                                   Incr       Path
   --------------------------------------------------------------------------
   clock gclk (rise edge)                                  0.00       0.00
   clock network delay (ideal)                             0.40       0.40
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1a/q_reg[0]/CLK (DFFX1_RVT)
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/CLK (DFFX1_LVT)
                                                           0.00       0.40 r
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1a/q_reg[0]/Q (DFFX1_RVT)
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/Q (DFFX1_LVT)
                                                           0.05       0.45 r
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1a/q[0] (dffe_SIZE55_2)
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q[2] (dffre_SIZE3_2)
                                                           0.00       0.45 r
-  fpu_div/fpu_div_frac_dp/U123/CO (FADDX1_RVT)            0.03       0.48 r
-  fpu_div/fpu_div_frac_dp/U130/CO (FADDX1_RVT)            0.03       0.51 r
-  fpu_div/fpu_div_frac_dp/U134/CO (FADDX1_RVT)            0.03       0.54 r
-  fpu_div/fpu_div_frac_dp/U138/CO (FADDX1_RVT)            0.03       0.58 r
-  fpu_div/fpu_div_frac_dp/U142/CO (FADDX1_RVT)            0.03       0.61 r
-  fpu_div/fpu_div_frac_dp/U146/CO (FADDX1_RVT)            0.03       0.64 r
-  fpu_div/fpu_div_frac_dp/U150/CO (FADDX1_RVT)            0.03       0.67 r
-  fpu_div/fpu_div_frac_dp/U154/CO (FADDX1_RVT)            0.03       0.70 r
-  fpu_div/fpu_div_frac_dp/U158/CO (FADDX1_RVT)            0.03       0.73 r
-  fpu_div/fpu_div_frac_dp/U162/CO (FADDX1_RVT)            0.03       0.76 r
-  fpu_div/fpu_div_frac_dp/U166/CO (FADDX1_RVT)            0.03       0.79 r
-  fpu_div/fpu_div_frac_dp/U170/CO (FADDX1_RVT)            0.03       0.82 r
-  fpu_div/fpu_div_frac_dp/U174/CO (FADDX1_RVT)            0.03       0.85 r
-  fpu_div/fpu_div_frac_dp/U178/CO (FADDX1_RVT)            0.03       0.88 r
-  fpu_div/fpu_div_frac_dp/U182/CO (FADDX1_RVT)            0.03       0.91 r
-  fpu_div/fpu_div_frac_dp/U186/CO (FADDX1_RVT)            0.03       0.94 r
-  fpu_div/fpu_div_frac_dp/U190/CO (FADDX1_RVT)            0.03       0.97 r
-  fpu_div/fpu_div_frac_dp/U194/CO (FADDX1_RVT)            0.03       1.00 r
-  fpu_div/fpu_div_frac_dp/U198/CO (FADDX1_RVT)            0.03       1.03 r
-  fpu_div/fpu_div_frac_dp/U202/CO (FADDX1_RVT)            0.03       1.06 r
-  fpu_div/fpu_div_frac_dp/U206/CO (FADDX1_RVT)            0.03       1.09 r
-  fpu_div/fpu_div_frac_dp/U210/CO (FADDX1_RVT)            0.03       1.12 r
-  fpu_div/fpu_div_frac_dp/U214/CO (FADDX1_RVT)            0.03       1.15 r
-  fpu_div/fpu_div_frac_dp/U218/CO (FADDX1_RVT)            0.03       1.18 r
-  fpu_div/fpu_div_frac_dp/U222/CO (FADDX1_RVT)            0.03       1.21 r
-  fpu_div/fpu_div_frac_dp/U226/CO (FADDX1_RVT)            0.03       1.24 r
-  fpu_div/fpu_div_frac_dp/U230/CO (FADDX1_RVT)            0.03       1.27 r
-  fpu_div/fpu_div_frac_dp/U234/CO (FADDX1_RVT)            0.03       1.30 r
-  fpu_div/fpu_div_frac_dp/U238/CO (FADDX1_RVT)            0.03       1.33 r
-  fpu_div/fpu_div_frac_dp/U441/CO (FADDX1_RVT)            0.03       1.36 r
-  fpu_div/fpu_div_frac_dp/U242/CO (FADDX1_RVT)            0.03       1.39 r
-  fpu_div/fpu_div_frac_dp/U247/CO (FADDX1_RVT)            0.03       1.42 r
-  fpu_div/fpu_div_frac_dp/U251/CO (FADDX1_RVT)            0.03       1.45 r
-  fpu_div/fpu_div_frac_dp/U255/CO (FADDX1_RVT)            0.03       1.48 r
-  fpu_div/fpu_div_frac_dp/U259/CO (FADDX1_RVT)            0.03       1.51 r
-  fpu_div/fpu_div_frac_dp/U263/CO (FADDX1_RVT)            0.03       1.54 r
-  fpu_div/fpu_div_frac_dp/U267/CO (FADDX1_RVT)            0.03       1.57 r
-  fpu_div/fpu_div_frac_dp/U271/CO (FADDX1_RVT)            0.03       1.60 r
-  fpu_div/fpu_div_frac_dp/U275/CO (FADDX1_RVT)            0.03       1.64 r
-  fpu_div/fpu_div_frac_dp/U279/CO (FADDX1_RVT)            0.03       1.67 r
-  fpu_div/fpu_div_frac_dp/U283/CO (FADDX1_RVT)            0.03       1.70 r
-  fpu_div/fpu_div_frac_dp/U287/CO (FADDX1_RVT)            0.03       1.73 r
-  fpu_div/fpu_div_frac_dp/U291/CO (FADDX1_RVT)            0.03       1.76 r
-  fpu_div/fpu_div_frac_dp/U295/CO (FADDX1_RVT)            0.03       1.79 r
-  fpu_div/fpu_div_frac_dp/U299/CO (FADDX1_RVT)            0.03       1.82 r
-  fpu_div/fpu_div_frac_dp/U303/CO (FADDX1_RVT)            0.03       1.85 r
-  fpu_div/fpu_div_frac_dp/U307/CO (FADDX1_RVT)            0.03       1.88 r
-  fpu_div/fpu_div_frac_dp/U311/CO (FADDX1_RVT)            0.03       1.91 r
-  fpu_div/fpu_div_frac_dp/U315/CO (FADDX1_RVT)            0.03       1.94 r
-  fpu_div/fpu_div_frac_dp/U319/CO (FADDX1_RVT)            0.03       1.97 r
-  fpu_div/fpu_div_frac_dp/U323/CO (FADDX1_RVT)            0.03       2.00 r
-  fpu_div/fpu_div_frac_dp/U327/CO (FADDX1_RVT)            0.03       2.03 r
-  fpu_div/fpu_div_frac_dp/U124/CO (FADDX1_RVT)            0.03       2.06 r
-  fpu_div/fpu_div_frac_dp/U334/CO (FADDX1_RVT)            0.03       2.09 r
-  fpu_div/fpu_div_frac_dp/U125/S (FADDX1_RVT)             0.05       2.14 f
-  fpu_div/fpu_div_frac_dp/U341/Y (AND2X2_RVT)             0.06       2.20 f
-  fpu_div/fpu_div_frac_dp/U436/Y (AOI22X1_RVT)            0.04       2.23 r
-  fpu_div/fpu_div_frac_dp/U438/Y (NAND3X0_RVT)            0.02       2.25 f
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1/din[26] (dffe_SIZE55_3)
-                                                          0.00       2.25 f
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1/U31/Y (AND2X1_RVT)
-                                                          0.02       2.27 f
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1/q_reg[26]/D (DFFX1_RVT)
-                                                          0.00       2.27 f
-  data arrival time                                                  2.27
+  fpu_mul/fpu_mul_ctl/U119/Y (NAND2X0_LVT)                0.86       1.31 f
+  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       1.31 f
+  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       1.31 f
+  fpu_mul/i_m4stg_frac/U501/Y (INVX1_LVT)                 0.11       1.42 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       1.42 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.03       1.45 f
+  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/D (LATCHX1_LVT)
+                                                          0.00       1.45 f
+  data arrival time                                                  1.45
 
-  clock gclk (rise edge)                                  2.00       2.00
-  clock network delay (ideal)                             0.40       2.40
-  clock uncertainty                                      -0.10       2.30
-  fpu_div/fpu_div_frac_dp/i_div_frac_add_in1/q_reg[26]/CLK (DFFX1_RVT)
-                                                          0.00       2.30 r
-  library setup time                                     -0.01       2.29
-  data required time                                                 2.29
+  clock gclk' (rise edge)                                 1.00       1.00
+  clock network delay (ideal)                             0.40       1.40
+  clock uncertainty                                      -0.10       1.30
+  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/CLK (LATCHX1_LVT)
+                                                          0.00       1.30 r
+  time borrowed from endpoint                             0.15       1.45
+  data required time                                                 1.45
   --------------------------------------------------------------------------
-  data required time                                                 2.29
-  data arrival time                                                 -2.27
+  data required time                                                 1.45
+  data arrival time                                                 -1.45
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.02
+  slack (MET)                                                        0.00
+
+  Time Borrowing Information
+  --------------------------------------------------------------
+  gclk' nominal pulse width                               1.00   
+  library setup time                                     -0.03   
+  --------------------------------------------------------------
+  max time borrow                                         0.97   
+  --------------------------------------------------------------
+  actual time borrow                                      0.15   
+  clock uncertainty                                      -0.10   
+  --------------------------------------------------------------
+  time given to startpoint                                0.05   
+  --------------------------------------------------------------
 
 
 1

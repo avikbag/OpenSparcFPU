@@ -1,7 +1,7 @@
 set file_lib "/mnt/class_data/ecec574-f2016/SAED32nm/"
 set os_path "../OpenSPARC/design"
-set search_path "$search_path $file_lib/lib/stdcell_rvt/db_ccs/ $os_path/include $os_path/common $os_path/lib ./src ./scripts"
+set search_path "$search_path $file_lib/lib/stdcell_lvt/db_ccs/ $os_path/include $os_path/common $os_path/lib ./src ./scripts"
 set synthetic_library "dw_foundation.sldb"
-set target_library "saed32rvt_ff1p16vn40c.db"
+set target_library "saed32lvt_ff1p16vn40c.db"
 set link_library "* $target_library $synthetic_library"
 

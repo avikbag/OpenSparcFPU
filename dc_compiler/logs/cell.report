@@ -3,8 +3,8 @@ Information: Updating graph... (UID-83)
 ****************************************
 Report : cell
 Design : fpu
-Version: J-2014.09-SP5
-Date   : Tue Feb 28 15:59:21 2017
+Version: M-2016.12-SP1
+Date   : Fri Mar  3 15:02:47 2017
 ****************************************
 
 Attributes:
@@ -16,21 +16,21 @@ Attributes:
 
 Cell                      Reference       Library             Area  Attributes
 --------------------------------------------------------------------------------
-bw_r_rf16x160             bw_r_rf16x160                   23700.198774
+bw_r_rf16x160             bw_r_rf16x160                   24109.370626
                                                                     b, h, n
-cluster_header            bw_clk_cl_fpu_cmp               82.342657 h, n
-fpu_add                   fpu_add                         25708.953450
+cluster_header            bw_clk_cl_fpu_cmp               79.038785 h, n
+fpu_add                   fpu_add                         24665.184065
                                                                     b, h, n
-fpu_div                   fpu_div                         10344.677573
+fpu_div                   fpu_div                         10305.539434
                                                                     b, h, n
-fpu_in                    fpu_in                          5282.129061
+fpu_in                    fpu_in                          5266.372134
                                                                     b, h, n
-fpu_mul                   fpu_mul                         39127.756414
+fpu_mul                   fpu_mul                         39051.767392
                                                                     b, h, n
-fpu_out                   fpu_out                         1605.427683
+fpu_out                   fpu_out                         1563.748073
                                                                     h, n
 fpu_rptr_groups           fpu_rptr_groups                 0.000000  h
 test_stub_scan            test_stub_scan                  9.403328  h
 --------------------------------------------------------------------------------
-Total 9 cells                                             105860.888940
+Total 9 cells                                             105050.423836
 1

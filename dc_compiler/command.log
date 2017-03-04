@@ -1,11 +1,11 @@
 #@ # 
-#@ # Running dc_shell Version J-2014.09-SP5 for amd64 -- Apr 22, 2015
-#@ # Date:   Tue Feb 28 15:38:32 2017
+#@ # Running dc_shell Version M-2016.12-SP1 for linux64 -- Jan 13, 2017
+#@ # Date:   Fri Mar  3 14:51:15 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
-source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
-#@ # -- Starting source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
+source /opt/synopsys/2016/core-synthesis-tools/admin/setup/.synopsys_dc.setup
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/admin/setup/.synopsys_dc.setup
 
 #@ #
 #@ #		".synopsys_dc.setup" Initialization File for
@@ -58,6 +58,1772 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ set de_log_html_filename	 "default.html"
 #@ }
 #@ 
+#@ if {$synopsys_program_name == "dc_shell" || $synopsys_program_name == "de_shell"} {
+#@   lappend auto_path [file join ${synopsys_root} auxx syn lib]      
+#@   package require cae
+#@ }
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/tm.tcl
+
+#@ # -*- tcl -*-
+#@ #
+#@ # Searching for Tcl Modules. Defines a procedure, declares it as the primary
+#@ # command for finding packages, however also uses the former 'package unknown'
+#@ # command as a fallback.
+#@ #
+#@ # Locates all possible packages in a directory via a less restricted glob. The
+#@ # targeted directory is derived from the name of the requested package, i.e.
+#@ # the TM scan will look only at directories which can contain the requested
+#@ # package. It will register all packages it found in the directory so that
+#@ # future requests have a higher chance of being fulfilled by the ifneeded
+#@ # database without having to come to us again.
+#@ #
+#@ # We do not remember where we have been and simply rescan targeted directories
+#@ # when invoked again. The reasoning is this:
+#@ #
+#@ # - The only way we get back to the same directory is if someone is trying to
+#@ #   [package require] something that wasn't there on the first scan.
+#@ #
+#@ #   Either
+#@ #   1) It is there now:  If we rescan, you get it; if not you don't.
+#@ #
+#@ #      This covers the possibility that the application asked for a package
+#@ #      late, and the package was actually added to the installation after the
+#@ #      application was started. It shoukld still be able to find it.
+#@ #
+#@ #   2) It still is not there: Either way, you don't get it, but the rescan
+#@ #      takes time. This is however an error case and we dont't care that much
+#@ #      about it
+#@ #
+#@ #   3) It was there the first time; but for some reason a "package forget" has
+#@ #      been run, and "package" doesn't know about it anymore.
+#@ #
+#@ #      This can be an indication that the application wishes to reload some
+#@ #      functionality. And should work as well.
+#@ #
+#@ # Note that this also strikes a balance between doing a glob targeting a
+#@ # single package, and thus most likely requiring multiple globs of the same
+#@ # directory when the application is asking for many packages, and trying to
+#@ # glob for _everything_ in all subdirectories when looking for a package,
+#@ # which comes with a heavy startup cost.
+#@ #
+#@ # We scan for regular packages only if no satisfying module was found.
+#@ 
+#@ namespace eval ::tcl::tm {
+#@     # Default paths. None yet.
+#@ 
+#@     variable paths {}
+#@ 
+#@     # The regex pattern a file name has to match to make it a Tcl Module.
+#@ 
+#@     set pkgpattern {^([_[:alpha:]][:_[:alnum:]]*)-([[:digit:]].*)[.]tm$}
+#@ 
+#@     # Export the public API
+#@ 
+#@     namespace export path
+#@     namespace ensemble create -command path -subcommands {add remove list}
+#@ }
+#@ 
+#@ # ::tcl::tm::path implementations --
+#@ #
+#@ #	Public API to the module path. See specification.
+#@ #
+#@ # Arguments
+#@ #	cmd -	The subcommand to execute
+#@ #	args -	The paths to add/remove. Must not appear querying the
+#@ #		path with 'list'.
+#@ #
+#@ # Results
+#@ #	No result for subcommands 'add' and 'remove'. A list of paths for
+#@ #	'list'.
+#@ #
+#@ # Sideeffects
+#@ #	The subcommands 'add' and 'remove' manipulate the list of paths to
+#@ #	search for Tcl Modules. The subcommand 'list' has no sideeffects.
+#@ 
+#@ proc ::tcl::tm::add {args} {
+#@     # PART OF THE ::tcl::tm::path ENSEMBLE
+#@     #
+#@     # The path is added at the head to the list of module paths.
+#@     #
+#@     # The command enforces the restriction that no path may be an ancestor
+#@     # directory of any other path on the list. If the new path violates this
+#@     # restriction an error wil be raised.
+#@     #
+#@     # If the path is already present as is no error will be raised and no
+#@     # action will be taken.
+#@ 
+#@     variable paths
+#@ 
+#@     # We use a copy of the path as source during validation, and extend it as
+#@     # well. Because we not only have to detect if the new paths are bogus with
+#@     # respect to the existing paths, but also between themselves. Otherwise we
+#@     # can still add bogus paths, by specifying them in a single call. This
+#@     # makes the use of the new paths simpler as well, a trivial assignment of
+#@     # the collected paths to the official state var.
+#@ 
+#@     set newpaths $paths
+#@     foreach p $args {
+#@ 	if {$p in $newpaths} {
+#@ 	    # Ignore a path already on the list.
+#@ 	    continue
+#@ 	}
+#@ 
+#@ 	# Search for paths which are subdirectories of the new one. If there
+#@ 	# are any then the new path violates the restriction about ancestors.
+#@ 
+#@ 	set pos [lsearch -glob $newpaths ${p}/*]
+#@ 	# Cannot use "in", we need the position for the message.
+#@ 	if {$pos >= 0} {
+#@ 	    return -code error 		"$p is ancestor of existing module path [lindex $newpaths $pos]."
+#@ 	}
+#@ 
+#@ 	# Now look for existing paths which are ancestors of the new one. This
+#@ 	# reverse question forces us to loop over the existing paths, as each
+#@ 	# element is the pattern, not the new path :(
+#@ 
+#@ 	foreach ep $newpaths {
+#@ 	    if {[string match ${ep}/* $p]} {
+#@ 		return -code error 		    "$p is subdirectory of existing module path $ep."
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	set newpaths [linsert $newpaths 0 $p]
+#@     }
+#@ 
+#@     # The validation of the input is complete and successful, and everything
+#@     # in newpaths is either an old path, or added. We can now extend the
+#@     # official list of paths, a simple assignment is sufficient.
+#@ 
+#@     set paths $newpaths
+#@     return
+#@ }
+#@ 
+#@ proc ::tcl::tm::remove {args} {
+#@     # PART OF THE ::tcl::tm::path ENSEMBLE
+#@     #
+#@     # Removes the path from the list of module paths. The command is silently
+#@     # ignored if the path is not on the list.
+#@ 
+#@     variable paths
+#@ 
+#@     foreach p $args {
+#@ 	set pos [lsearch -exact $paths $p]
+#@ 	if {$pos >= 0} {
+#@ 	    set paths [lreplace $paths $pos $pos]
+#@ 	}
+#@     }
+#@ }
+#@ 
+#@ proc ::tcl::tm::list {} {
+#@     # PART OF THE ::tcl::tm::path ENSEMBLE
+#@ 
+#@     variable paths
+#@     return  $paths
+#@ }
+#@ 
+#@ # ::tcl::tm::UnknownHandler --
+#@ #
+#@ #	Unknown handler for Tcl Modules, i.e. packages in module form.
+#@ #
+#@ # Arguments
+#@ #	original	- Original [package unknown] procedure.
+#@ #	name		- Name of desired package.
+#@ #	version		- Version of desired package. Can be the
+#@ #			  empty string.
+#@ #	exact		- Either -exact or ommitted.
+#@ #
+#@ #	Name, version, and exact are used to determine satisfaction. The
+#@ #	original is called iff no satisfaction was achieved. The name is also
+#@ #	used to compute the directory to target in the search.
+#@ #
+#@ # Results
+#@ #	None.
+#@ #
+#@ # Sideeffects
+#@ #	May populate the package ifneeded database with additional provide
+#@ #	scripts.
+#@ 
+#@ proc ::tcl::tm::UnknownHandler {original name args} {
+#@     # Import the list of paths to search for packages in module form.
+#@     # Import the pattern used to check package names in detail.
+#@ 
+#@     variable paths
+#@     variable pkgpattern
+#@ 
+#@     # Without paths to search we can do nothing. (Except falling back to the
+#@     # regular search).
+#@ 
+#@     if {[llength $paths]} {
+#@ 	set pkgpath [string map {:: /} $name]
+#@ 	set pkgroot [file dirname $pkgpath]
+#@ 	if {$pkgroot eq "."} {
+#@ 	    set pkgroot ""
+#@ 	}
+#@ 
+#@ 	# We don't remember a copy of the paths while looping. Tcl Modules are
+#@ 	# unable to change the list while we are searching for them. This also
+#@ 	# simplifies the loop, as we cannot get additional directories while
+#@ 	# iterating over the list. A simple foreach is sufficient.
+#@ 
+#@ 	set satisfied 0
+#@ 	foreach path $paths {
+#@ 	    if {![interp issafe] && ![file exists $path]} {
+#@ 		continue
+#@ 	    }
+#@ 	    set currentsearchpath [file join $path $pkgroot]
+#@ 	    if {![interp issafe] && ![file exists $currentsearchpath]} {
+#@ 		continue
+#@ 	    }
+#@ 	    set strip [llength [file split $path]]
+#@ 
+#@ 	    # We can't use glob in safe interps, so enclose the following in a
+#@ 	    # catch statement, where we get the module files out of the
+#@ 	    # subdirectories. In other words, Tcl Modules are not-functional
+#@ 	    # in such an interpreter. This is the same as for the command
+#@ 	    # "tclPkgUnknown", i.e. the search for regular packages.
+#@ 
+#@ 	    catch {
+#@ 		# We always look for _all_ possible modules in the current
+#@ 		# path, to get the max result out of the glob.
+#@ 
+#@ 		foreach file [glob -nocomplain -directory $currentsearchpath *.tm] {
+#@ 		    set pkgfilename [join [lrange [file split $file] $strip end] ::]
+#@ 
+#@ 		    if {![regexp -- $pkgpattern $pkgfilename --> pkgname pkgversion]} {
+#@ 			# Ignore everything not matching our pattern for
+#@ 			# package names.
+#@ 			continue
+#@ 		    }
+#@ 		    try {
+#@ 			package vcompare $pkgversion 0
+#@ 		    } on error {} {
+#@ 			# Ignore everything where the version part is not
+#@ 			# acceptable to "package vcompare".
+#@ 			continue
+#@ 		    }
+#@ 
+#@ 		    if {[package ifneeded $pkgname $pkgversion] ne {}} {
+#@ 			# There's already a provide script registered for
+#@ 			# this version of this package.  Since all units of
+#@ 			# code claiming to be the same version of the same
+#@ 			# package ought to be identical, just stick with
+#@ 			# the one we already have.
+#@ 			continue
+#@ 		    }
+#@ 
+#@ 		    # We have found a candidate, generate a "provide script"
+#@ 		    # for it, and remember it.  Note that we are using ::list
+#@ 		    # to do this; locally [list] means something else without
+#@ 		    # the namespace specifier.
+#@ 
+#@ 		    # NOTE. When making changes to the format of the provide
+#@ 		    # command generated below CHECK that the 'LOCATE'
+#@ 		    # procedure in core file 'platform/shell.tcl' still
+#@ 		    # understands it, or, if not, update its implementation
+#@ 		    # appropriately.
+#@ 		    #
+#@ 		    # Right now LOCATE's implementation assumes that the path
+#@ 		    # of the package file is the last element in the list.
+#@ 
+#@ 		    package ifneeded $pkgname $pkgversion 			"[::list package provide $pkgname $pkgversion];[::list source -encoding utf-8 $file]"
+#@ 
+#@ 		    # We abort in this unknown handler only if we got a
+#@ 		    # satisfying candidate for the requested package.
+#@ 		    # Otherwise we still have to fallback to the regular
+#@ 		    # package search to complete the processing.
+#@ 
+#@ 		    if {($pkgname eq $name)
+#@ 			    && [package vsatisfies $pkgversion {*}$args]} {
+#@ 			set satisfied 1
+#@ 
+#@ 			# We do not abort the loop, and keep adding provide
+#@ 			# scripts for every candidate in the directory, just
+#@ 			# remember to not fall back to the regular search
+#@ 			# anymore.
+#@ 		    }
+#@ 		}
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	if {$satisfied} {
+#@ 	    return
+#@ 	}
+#@     }
+#@ 
+#@     # Fallback to previous command, if existing.  See comment above about
+#@     # ::list...
+#@ 
+#@     if {[llength $original]} {
+#@ 	uplevel 1 $original [::linsert $args 0 $name]
+#@     }
+#@ }
+#@ 
+#@ # ::tcl::tm::Defaults --
+#@ #
+#@ #	Determines the default search paths.
+#@ #
+#@ # Arguments
+#@ #	None
+#@ #
+#@ # Results
+#@ #	None.
+#@ #
+#@ # Sideeffects
+#@ #	May add paths to the list of defaults.
+#@ 
+#@ proc ::tcl::tm::Defaults {} {
+#@     global env tcl_platform
+#@ 
+#@     lassign [split [info tclversion] .] major minor
+#@     set exe [file normalize [info nameofexecutable]]
+#@ 
+#@     # Note that we're using [::list], not [list] because [list] means
+#@     # something other than [::list] in this namespace.
+#@     roots [::list 	    [file dirname [info library]] 	    [file join [file dirname [file dirname $exe]] lib] 	    ]
+#@ 
+#@     if {$tcl_platform(platform) eq "windows"} {
+#@ 	set sep ";"
+#@     } else {
+#@ 	set sep ":"
+#@     }
+#@     for {set n $minor} {$n >= 0} {incr n -1} {
+#@ 	foreach ev [::list 			TCL${major}.${n}_TM_PATH 			TCL${major}_${n}_TM_PATH         ] {
+#@ 	    if {![info exists env($ev)]} continue
+#@ 	    foreach p [split $env($ev) $sep] {
+#@ 		path add $p
+#@ 	    }
+#@ 	}
+#@     }
+#@     return
+#@ }
+#@ 
+#@ # ::tcl::tm::roots --
+#@ #
+#@ #	Public API to the module path. See specification.
+#@ #
+#@ # Arguments
+#@ #	paths -	List of 'root' paths to derive search paths from.
+#@ #
+#@ # Results
+#@ #	No result.
+#@ #
+#@ # Sideeffects
+#@ #	Calls 'path add' to paths to the list of module search paths.
+#@ 
+#@ proc ::tcl::tm::roots {paths} {
+#@     lassign [split [package present Tcl] .] major minor
+#@     foreach pa $paths {
+#@ 	set p [file join $pa tcl$major]
+#@ 	for {set n $minor} {$n >= 0} {incr n -1} {
+#@ 	    set px [file join $p ${major}.${n}]
+#@ 	    if {![interp issafe]} {set px [file normalize $px]}
+#@ 	    path add $px
+#@ 	}
+#@ 	set px [file join $p site-tcl]
+#@ 	if {![interp issafe]} {set px [file normalize $px]}
+#@ 	path add $px
+#@     }
+#@     return
+#@ }
+#@ 
+#@ # Initialization. Set up the default paths, then insert the new handler into
+#@ # the chain.
+#@ 
+#@ if {![interp issafe]} {::tcl::tm::Defaults}
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/tm.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/package.tcl
+
+#@ # package.tcl --
+#@ #
+#@ # utility procs formerly in init.tcl which can be loaded on demand
+#@ # for package management.
+#@ #
+#@ # Copyright (c) 1991-1993 The Regents of the University of California.
+#@ # Copyright (c) 1994-1998 Sun Microsystems, Inc.
+#@ #
+#@ # See the file "license.terms" for information on usage and redistribution
+#@ # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+#@ #
+#@ 
+#@ namespace eval tcl::Pkg {}
+#@ 
+#@ # ::tcl::Pkg::CompareExtension --
+#@ #
+#@ # Used internally by pkg_mkIndex to compare the extension of a file to a given
+#@ # extension. On Windows, it uses a case-insensitive comparison because the
+#@ # file system can be file insensitive.
+#@ #
+#@ # Arguments:
+#@ #  fileName	name of a file whose extension is compared
+#@ #  ext		(optional) The extension to compare against; you must
+#@ #		provide the starting dot.
+#@ #		Defaults to [info sharedlibextension]
+#@ #
+#@ # Results:
+#@ #  Returns 1 if the extension matches, 0 otherwise
+#@ 
+#@ proc tcl::Pkg::CompareExtension {fileName {ext {}}} {
+#@     global tcl_platform
+#@     if {$ext eq ""} {set ext [info sharedlibextension]}
+#@     if {$tcl_platform(platform) eq "windows"} {
+#@         return [string equal -nocase [file extension $fileName] $ext]
+#@     } else {
+#@         # Some unices add trailing numbers after the .so, so
+#@         # we could have something like '.so.1.2'.
+#@         set root $fileName
+#@         while {1} {
+#@             set currExt [file extension $root]
+#@             if {$currExt eq $ext} {
+#@                 return 1
+#@             }
+#@ 
+#@ 	    # The current extension does not match; if it is not a numeric
+#@ 	    # value, quit, as we are only looking to ignore version number
+#@ 	    # extensions.  Otherwise we might return 1 in this case:
+#@ 	    #		tcl::Pkg::CompareExtension foo.so.bar .so
+#@ 	    # which should not match.
+#@ 
+#@ 	    if {![string is integer -strict [string range $currExt 1 end]]} {
+#@ 		return 0
+#@ 	    }
+#@             set root [file rootname $root]
+#@ 	}
+#@     }
+#@ }
+#@ 
+#@ # pkg_mkIndex --
+#@ # This procedure creates a package index in a given directory.  The package
+#@ # index consists of a "pkgIndex.tcl" file whose contents are a Tcl script that
+#@ # sets up package information with "package require" commands.  The commands
+#@ # describe all of the packages defined by the files given as arguments.
+#@ #
+#@ # Arguments:
+#@ # -direct		(optional) If this flag is present, the generated
+#@ #			code in pkgMkIndex.tcl will cause the package to be
+#@ #			loaded when "package require" is executed, rather
+#@ #			than lazily when the first reference to an exported
+#@ #			procedure in the package is made.
+#@ # -verbose		(optional) Verbose output; the name of each file that
+#@ #			was successfully rocessed is printed out. Additionally,
+#@ #			if processing of a file failed a message is printed.
+#@ # -load pat		(optional) Preload any packages whose names match
+#@ #			the pattern.  Used to handle DLLs that depend on
+#@ #			other packages during their Init procedure.
+#@ # dir -			Name of the directory in which to create the index.
+#@ # args -		Any number of additional arguments, each giving
+#@ #			a glob pattern that matches the names of one or
+#@ #			more shared libraries or Tcl script files in
+#@ #			dir.
+#@ 
+#@ proc pkg_mkIndex {args} {
+#@     set usage {"pkg_mkIndex ?-direct? ?-lazy? ?-load pattern? ?-verbose? ?--? dir ?pattern ...?"}
+#@ 
+#@     set argCount [llength $args]
+#@     if {$argCount < 1} {
+#@ 	return -code error "wrong # args: should be\n$usage"
+#@     }
+#@ 
+#@     set more ""
+#@     set direct 1
+#@     set doVerbose 0
+#@     set loadPat ""
+#@     for {set idx 0} {$idx < $argCount} {incr idx} {
+#@ 	set flag [lindex $args $idx]
+#@ 	switch -glob -- $flag {
+#@ 	    -- {
+#@ 		# done with the flags
+#@ 		incr idx
+#@ 		break
+#@ 	    }
+#@ 	    -verbose {
+#@ 		set doVerbose 1
+#@ 	    }
+#@ 	    -lazy {
+#@ 		set direct 0
+#@ 		append more " -lazy"
+#@ 	    }
+#@ 	    -direct {
+#@ 		append more " -direct"
+#@ 	    }
+#@ 	    -load {
+#@ 		incr idx
+#@ 		set loadPat [lindex $args $idx]
+#@ 		append more " -load $loadPat"
+#@ 	    }
+#@ 	    -* {
+#@ 		return -code error "unknown flag $flag: should be\n$usage"
+#@ 	    }
+#@ 	    default {
+#@ 		# done with the flags
+#@ 		break
+#@ 	    }
+#@ 	}
+#@     }
+#@ 
+#@     set dir [lindex $args $idx]
+#@     set patternList [lrange $args [expr {$idx + 1}] end]
+#@     if {![llength $patternList]} {
+#@ 	set patternList [list "*.tcl" "*[info sharedlibextension]"]
+#@     }
+#@ 
+#@     try {
+#@ 	set fileList [glob -directory $dir -tails -types {r f} -- 		{*}$patternList]
+#@     } on error {msg opt} {
+#@ 	return -options $opt $msg
+#@     }
+#@     foreach file $fileList {
+#@ 	# For each file, figure out what commands and packages it provides.
+#@ 	# To do this, create a child interpreter, load the file into the
+#@ 	# interpreter, and get a list of the new commands and packages that
+#@ 	# are defined.
+#@ 
+#@ 	if {$file eq "pkgIndex.tcl"} {
+#@ 	    continue
+#@ 	}
+#@ 
+#@ 	set c [interp create]
+#@ 
+#@ 	# Load into the child any packages currently loaded in the parent
+#@ 	# interpreter that match the -load pattern.
+#@ 
+#@ 	if {$loadPat ne ""} {
+#@ 	    if {$doVerbose} {
+#@ 		tclLog "currently loaded packages: '[info loaded]'"
+#@ 		tclLog "trying to load all packages matching $loadPat"
+#@ 	    }
+#@ 	    if {![llength [info loaded]]} {
+#@ 		tclLog "warning: no packages are currently loaded, nothing"
+#@ 		tclLog "can possibly match '$loadPat'"
+#@ 	    }
+#@ 	}
+#@ 	foreach pkg [info loaded] {
+#@ 	    if {![string match -nocase $loadPat [lindex $pkg 1]]} {
+#@ 		continue
+#@ 	    }
+#@ 	    if {$doVerbose} {
+#@ 		tclLog "package [lindex $pkg 1] matches '$loadPat'"
+#@ 	    }
+#@ 	    try {
+#@ 		load [lindex $pkg 0] [lindex $pkg 1] $c
+#@ 	    } on error err {
+#@ 		if {$doVerbose} {
+#@ 		    tclLog "warning: load [lindex $pkg 0]			    [lindex $pkg 1]\nfailed with: $err"
+#@ 		}
+#@ 	    } on ok {} {
+#@ 		if {$doVerbose} {
+#@ 		    tclLog "loaded [lindex $pkg 0] [lindex $pkg 1]"
+#@ 		}
+#@ 	    }
+#@ 	    if {[lindex $pkg 1] eq "Tk"} {
+#@ 		# Withdraw . if Tk was loaded, to avoid showing a window.
+#@ 		$c eval [list wm withdraw .]
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	$c eval {
+#@ 	    # Stub out the package command so packages can require other
+#@ 	    # packages.
+#@ 
+#@ 	    rename package __package_orig
+#@ 	    proc package {what args} {
+#@ 		switch -- $what {
+#@ 		    require {
+#@ 			return;		# Ignore transitive requires
+#@ 		    }
+#@ 		    default {
+#@ 			__package_orig $what {*}$args
+#@ 		    }
+#@ 		}
+#@ 	    }
+#@ 	    proc tclPkgUnknown args {}
+#@ 	    package unknown tclPkgUnknown
+#@ 
+#@ 	    # Stub out the unknown command so package can call into each other
+#@ 	    # during their initialilzation.
+#@ 
+#@ 	    proc unknown {args} {}
+#@ 
+#@ 	    # Stub out the auto_import mechanism
+#@ 
+#@ 	    proc auto_import {args} {}
+#@ 
+#@ 	    # reserve the ::tcl namespace for support procs and temporary
+#@ 	    # variables.  This might make it awkward to generate a
+#@ 	    # pkgIndex.tcl file for the ::tcl namespace.
+#@ 
+#@ 	    namespace eval ::tcl {
+#@ 		variable dir		;# Current directory being processed
+#@ 		variable file		;# Current file being processed
+#@ 		variable direct		;# -direct flag value
+#@ 		variable x		;# Loop variable
+#@ 		variable debug		;# For debugging
+#@ 		variable type		;# "load" or "source", for -direct
+#@ 		variable namespaces	;# Existing namespaces (e.g., ::tcl)
+#@ 		variable packages	;# Existing packages (e.g., Tcl)
+#@ 		variable origCmds	;# Existing commands
+#@ 		variable newCmds	;# Newly created commands
+#@ 		variable newPkgs {}	;# Newly created packages
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	$c eval [list set ::tcl::dir $dir]
+#@ 	$c eval [list set ::tcl::file $file]
+#@ 	$c eval [list set ::tcl::direct $direct]
+#@ 
+#@ 	# Download needed procedures into the slave because we've just deleted
+#@ 	# the unknown procedure.  This doesn't handle procedures with default
+#@ 	# arguments.
+#@ 
+#@ 	foreach p {::tcl::Pkg::CompareExtension} {
+#@ 	    $c eval [list namespace eval [namespace qualifiers $p] {}]
+#@ 	    $c eval [list proc $p [info args $p] [info body $p]]
+#@ 	}
+#@ 
+#@ 	try {
+#@ 	    $c eval {
+#@ 		set ::tcl::debug "loading or sourcing"
+#@ 
+#@ 		# we need to track command defined by each package even in the
+#@ 		# -direct case, because they are needed internally by the
+#@ 		# "partial pkgIndex.tcl" step above.
+#@ 
+#@ 		proc ::tcl::GetAllNamespaces {{root ::}} {
+#@ 		    set list $root
+#@ 		    foreach ns [namespace children $root] {
+#@ 			lappend list {*}[::tcl::GetAllNamespaces $ns]
+#@ 		    }
+#@ 		    return $list
+#@ 		}
+#@ 
+#@ 		# init the list of existing namespaces, packages, commands
+#@ 
+#@ 		foreach ::tcl::x [::tcl::GetAllNamespaces] {
+#@ 		    set ::tcl::namespaces($::tcl::x) 1
+#@ 		}
+#@ 		foreach ::tcl::x [package names] {
+#@ 		    if {[package provide $::tcl::x] ne ""} {
+#@ 			set ::tcl::packages($::tcl::x) 1
+#@ 		    }
+#@ 		}
+#@ 		set ::tcl::origCmds [info commands]
+#@ 
+#@ 		# Try to load the file if it has the shared library extension,
+#@ 		# otherwise source it.  It's important not to try to load
+#@ 		# files that aren't shared libraries, because on some systems
+#@ 		# (like SunOS) the loader will abort the whole application
+#@ 		# when it gets an error.
+#@ 
+#@ 		if {[::tcl::Pkg::CompareExtension $::tcl::file [info sharedlibextension]]} {
+#@ 		    # The "file join ." command below is necessary.  Without
+#@ 		    # it, if the file name has no \'s and we're on UNIX, the
+#@ 		    # load command will invoke the LD_LIBRARY_PATH search
+#@ 		    # mechanism, which could cause the wrong file to be used.
+#@ 
+#@ 		    set ::tcl::debug loading
+#@ 		    load [file join $::tcl::dir $::tcl::file]
+#@ 		    set ::tcl::type load
+#@ 		} else {
+#@ 		    set ::tcl::debug sourcing
+#@ 		    source [file join $::tcl::dir $::tcl::file]
+#@ 		    set ::tcl::type source
+#@ 		}
+#@ 
+#@ 		# As a performance optimization, if we are creating direct
+#@ 		# load packages, don't bother figuring out the set of commands
+#@ 		# created by the new packages.  We only need that list for
+#@ 		# setting up the autoloading used in the non-direct case.
+#@ 		if {!$::tcl::direct} {
+#@ 		    # See what new namespaces appeared, and import commands
+#@ 		    # from them.  Only exported commands go into the index.
+#@ 
+#@ 		    foreach ::tcl::x [::tcl::GetAllNamespaces] {
+#@ 			if {![info exists ::tcl::namespaces($::tcl::x)]} {
+#@ 			    namespace import -force ${::tcl::x}::*
+#@ 			}
+#@ 
+#@ 			# Figure out what commands appeared
+#@ 
+#@ 			foreach ::tcl::x [info commands] {
+#@ 			    set ::tcl::newCmds($::tcl::x) 1
+#@ 			}
+#@ 			foreach ::tcl::x $::tcl::origCmds {
+#@ 			    unset -nocomplain ::tcl::newCmds($::tcl::x)
+#@ 			}
+#@ 			foreach ::tcl::x [array names ::tcl::newCmds] {
+#@ 			    # determine which namespace a command comes from
+#@ 
+#@ 			    set ::tcl::abs [namespace origin $::tcl::x]
+#@ 
+#@ 			    # special case so that global names have no
+#@ 			    # leading ::, this is required by the unknown
+#@ 			    # command
+#@ 
+#@ 			    set ::tcl::abs 				    [lindex [auto_qualify $::tcl::abs ::] 0]
+#@ 
+#@ 			    if {$::tcl::x ne $::tcl::abs} {
+#@ 				# Name changed during qualification
+#@ 
+#@ 				set ::tcl::newCmds($::tcl::abs) 1
+#@ 				unset ::tcl::newCmds($::tcl::x)
+#@ 			    }
+#@ 			}
+#@ 		    }
+#@ 		}
+#@ 
+#@ 		# Look through the packages that appeared, and if there is a
+#@ 		# version provided, then record it
+#@ 
+#@ 		foreach ::tcl::x [package names] {
+#@ 		    if {[package provide $::tcl::x] ne ""
+#@ 			    && ![info exists ::tcl::packages($::tcl::x)]} {
+#@ 			lappend ::tcl::newPkgs 			    [list $::tcl::x [package provide $::tcl::x]]
+#@ 		    }
+#@ 		}
+#@ 	    }
+#@ 	} on error msg {
+#@ 	    set what [$c eval set ::tcl::debug]
+#@ 	    if {$doVerbose} {
+#@ 		tclLog "warning: error while $what $file: $msg"
+#@ 	    }
+#@ 	} on ok {} {
+#@ 	    set what [$c eval set ::tcl::debug]
+#@ 	    if {$doVerbose} {
+#@ 		tclLog "successful $what of $file"
+#@ 	    }
+#@ 	    set type [$c eval set ::tcl::type]
+#@ 	    set cmds [lsort [$c eval array names ::tcl::newCmds]]
+#@ 	    set pkgs [$c eval set ::tcl::newPkgs]
+#@ 	    if {$doVerbose} {
+#@ 		if {!$direct} {
+#@ 		    tclLog "commands provided were $cmds"
+#@ 		}
+#@ 		tclLog "packages provided were $pkgs"
+#@ 	    }
+#@ 	    if {[llength $pkgs] > 1} {
+#@ 		tclLog "warning: \"$file\" provides more than one package ($pkgs)"
+#@ 	    }
+#@ 	    foreach pkg $pkgs {
+#@ 		# cmds is empty/not used in the direct case
+#@ 		lappend files($pkg) [list $file $type $cmds]
+#@ 	    }
+#@ 
+#@ 	    if {$doVerbose} {
+#@ 		tclLog "processed $file"
+#@ 	    }
+#@ 	}
+#@ 	interp delete $c
+#@     }
+#@ 
+#@     append index "# Tcl package index file, version 1.1\n"
+#@     append index "# This file is generated by the \"pkg_mkIndex$more\" command\n"
+#@     append index "# and sourced either when an application starts up or\n"
+#@     append index "# by a \"package unknown\" script.  It invokes the\n"
+#@     append index "# \"package ifneeded\" command to set up package-related\n"
+#@     append index "# information so that packages will be loaded automatically\n"
+#@     append index "# in response to \"package require\" commands.  When this\n"
+#@     append index "# script is sourced, the variable \$dir must contain the\n"
+#@     append index "# full path name of this file's directory.\n"
+#@ 
+#@     foreach pkg [lsort [array names files]] {
+#@ 	set cmd {}
+#@ 	lassign $pkg name version
+#@ 	lappend cmd ::tcl::Pkg::Create -name $name -version $version
+#@ 	foreach spec [lsort -index 0 $files($pkg)] {
+#@ 	    foreach {file type procs} $spec {
+#@ 		if {$direct} {
+#@ 		    set procs {}
+#@ 		}
+#@ 		lappend cmd "-$type" [list $file $procs]
+#@ 	    }
+#@ 	}
+#@ 	append index "\n[eval $cmd]"
+#@     }
+#@ 
+#@     set f [open [file join $dir pkgIndex.tcl] w]
+#@     puts $f $index
+#@     close $f
+#@ }
+#@ 
+#@ # tclPkgSetup --
+#@ # This is a utility procedure use by pkgIndex.tcl files.  It is invoked as
+#@ # part of a "package ifneeded" script.  It calls "package provide" to indicate
+#@ # that a package is available, then sets entries in the auto_index array so
+#@ # that the package's files will be auto-loaded when the commands are used.
+#@ #
+#@ # Arguments:
+#@ # dir -			Directory containing all the files for this package.
+#@ # pkg -			Name of the package (no version number).
+#@ # version -		Version number for the package, such as 2.1.3.
+#@ # files -		List of files that constitute the package.  Each
+#@ #			element is a sub-list with three elements.  The first
+#@ #			is the name of a file relative to $dir, the second is
+#@ #			"load" or "source", indicating whether the file is a
+#@ #			loadable binary or a script to source, and the third
+#@ #			is a list of commands defined by this file.
+#@ 
+#@ proc tclPkgSetup {dir pkg version files} {
+#@     global auto_index
+#@ 
+#@     package provide $pkg $version
+#@     foreach fileInfo $files {
+#@ 	set f [lindex $fileInfo 0]
+#@ 	set type [lindex $fileInfo 1]
+#@ 	foreach cmd [lindex $fileInfo 2] {
+#@ 	    if {$type eq "load"} {
+#@ 		set auto_index($cmd) [list load [file join $dir $f] $pkg]
+#@ 	    } else {
+#@ 		set auto_index($cmd) [list source [file join $dir $f]]
+#@ 	    }
+#@ 	}
+#@     }
+#@ }
+#@ 
+#@ # tclPkgUnknown --
+#@ # This procedure provides the default for the "package unknown" function.  It
+#@ # is invoked when a package that's needed can't be found.  It scans the
+#@ # auto_path directories and their immediate children looking for pkgIndex.tcl
+#@ # files and sources any such files that are found to setup the package
+#@ # database. As it searches, it will recognize changes to the auto_path and
+#@ # scan any new directories.
+#@ #
+#@ # Arguments:
+#@ # name -		Name of desired package.  Not used.
+#@ # version -		Version of desired package.  Not used.
+#@ # exact -		Either "-exact" or omitted.  Not used.
+#@ 
+#@ proc tclPkgUnknown {name args} {
+#@     global auto_path env
+#@ 
+#@     if {![info exists auto_path]} {
+#@ 	return
+#@     }
+#@     # Cache the auto_path, because it may change while we run through the
+#@     # first set of pkgIndex.tcl files
+#@     set old_path [set use_path $auto_path]
+#@     while {[llength $use_path]} {
+#@ 	set dir [lindex $use_path end]
+#@ 
+#@ 	# Make sure we only scan each directory one time.
+#@ 	if {[info exists tclSeenPath($dir)]} {
+#@ 	    set use_path [lrange $use_path 0 end-1]
+#@ 	    continue
+#@ 	}
+#@ 	set tclSeenPath($dir) 1
+#@ 
+#@ 	# we can't use glob in safe interps, so enclose the following in a
+#@ 	# catch statement, where we get the pkgIndex files out of the
+#@ 	# subdirectories
+#@ 	catch {
+#@ 	    foreach file [glob -directory $dir -join -nocomplain 		    * pkgIndex.tcl] {
+#@ 		set dir [file dirname $file]
+#@ 		if {![info exists procdDirs($dir)]} {
+#@ 		    try {
+#@ 			source $file
+#@ 		    } trap {POSIX EACCES} {} {
+#@ 			# $file was not readable; silently ignore
+#@ 			continue
+#@ 		    } on error msg {
+#@ 			tclLog "error reading package index file $file: $msg"
+#@ 		    } on ok {} {
+#@ 			set procdDirs($dir) 1
+#@ 		    }
+#@ 		}
+#@ 	    }
+#@ 	}
+#@ 	set dir [lindex $use_path end]
+#@ 	if {![info exists procdDirs($dir)]} {
+#@ 	    set file [file join $dir pkgIndex.tcl]
+#@ 	    # safe interps usually don't have "file exists",
+#@ 	    if {([interp issafe] || [file exists $file])} {
+#@ 		try {
+#@ 		    source $file
+#@ 		} trap {POSIX EACCES} {} {
+#@ 		    # $file was not readable; silently ignore
+#@ 		    continue
+#@ 		} on error msg {
+#@ 		    tclLog "error reading package index file $file: $msg"
+#@ 		} on ok {} {
+#@ 		    set procdDirs($dir) 1
+#@ 		}
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	set use_path [lrange $use_path 0 end-1]
+#@ 
+#@ 	# Check whether any of the index scripts we [source]d above set a new
+#@ 	# value for $::auto_path.  If so, then find any new directories on the
+#@ 	# $::auto_path, and lappend them to the $use_path we are working from.
+#@ 	# This gives index scripts the (arguably unwise) power to expand the
+#@ 	# index script search path while the search is in progress.
+#@ 	set index 0
+#@ 	if {[llength $old_path] == [llength $auto_path]} {
+#@ 	    foreach dir $auto_path old $old_path {
+#@ 		if {$dir ne $old} {
+#@ 		    # This entry in $::auto_path has changed.
+#@ 		    break
+#@ 		}
+#@ 		incr index
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	# $index now points to the first element of $auto_path that has
+#@ 	# changed, or the beginning if $auto_path has changed length Scan the
+#@ 	# new elements of $auto_path for directories to add to $use_path.
+#@ 	# Don't add directories we've already seen, or ones already on the
+#@ 	# $use_path.
+#@ 	foreach dir [lrange $auto_path $index end] {
+#@ 	    if {![info exists tclSeenPath($dir)] && ($dir ni $use_path)} {
+#@ 		lappend use_path $dir
+#@ 	    }
+#@ 	}
+#@ 	set old_path $auto_path
+#@     }
+#@ }
+#@ 
+#@ # tcl::MacOSXPkgUnknown --
+#@ # This procedure extends the "package unknown" function for MacOSX.  It scans
+#@ # the Resources/Scripts directories of the immediate children of the auto_path
+#@ # directories for pkgIndex files.
+#@ #
+#@ # Arguments:
+#@ # original -		original [package unknown] procedure
+#@ # name -		Name of desired package.  Not used.
+#@ # version -		Version of desired package.  Not used.
+#@ # exact -		Either "-exact" or omitted.  Not used.
+#@ 
+#@ proc tcl::MacOSXPkgUnknown {original name args} {
+#@     #  First do the cross-platform default search
+#@     uplevel 1 $original [linsert $args 0 $name]
+#@ 
+#@     # Now do MacOSX specific searching
+#@     global auto_path
+#@ 
+#@     if {![info exists auto_path]} {
+#@ 	return
+#@     }
+#@     # Cache the auto_path, because it may change while we run through the
+#@     # first set of pkgIndex.tcl files
+#@     set old_path [set use_path $auto_path]
+#@     while {[llength $use_path]} {
+#@ 	set dir [lindex $use_path end]
+#@ 
+#@ 	# Make sure we only scan each directory one time.
+#@ 	if {[info exists tclSeenPath($dir)]} {
+#@ 	    set use_path [lrange $use_path 0 end-1]
+#@ 	    continue
+#@ 	}
+#@ 	set tclSeenPath($dir) 1
+#@ 
+#@ 	# get the pkgIndex files out of the subdirectories
+#@ 	foreach file [glob -directory $dir -join -nocomplain 		* Resources Scripts pkgIndex.tcl] {
+#@ 	    set dir [file dirname $file]
+#@ 	    if {![info exists procdDirs($dir)]} {
+#@ 		try {
+#@ 		    source $file
+#@ 		} trap {POSIX EACCES} {} {
+#@ 		    # $file was not readable; silently ignore
+#@ 		    continue
+#@ 		} on error msg {
+#@ 		    tclLog "error reading package index file $file: $msg"
+#@ 		} on ok {} {
+#@ 		    set procdDirs($dir) 1
+#@ 		}
+#@ 	    }
+#@ 	}
+#@ 	set use_path [lrange $use_path 0 end-1]
+#@ 
+#@ 	# Check whether any of the index scripts we [source]d above set a new
+#@ 	# value for $::auto_path.  If so, then find any new directories on the
+#@ 	# $::auto_path, and lappend them to the $use_path we are working from.
+#@ 	# This gives index scripts the (arguably unwise) power to expand the
+#@ 	# index script search path while the search is in progress.
+#@ 	set index 0
+#@ 	if {[llength $old_path] == [llength $auto_path]} {
+#@ 	    foreach dir $auto_path old $old_path {
+#@ 		if {$dir ne $old} {
+#@ 		    # This entry in $::auto_path has changed.
+#@ 		    break
+#@ 		}
+#@ 		incr index
+#@ 	    }
+#@ 	}
+#@ 
+#@ 	# $index now points to the first element of $auto_path that has
+#@ 	# changed, or the beginning if $auto_path has changed length Scan the
+#@ 	# new elements of $auto_path for directories to add to $use_path.
+#@ 	# Don't add directories we've already seen, or ones already on the
+#@ 	# $use_path.
+#@ 	foreach dir [lrange $auto_path $index end] {
+#@ 	    if {![info exists tclSeenPath($dir)] && ($dir ni $use_path)} {
+#@ 		lappend use_path $dir
+#@ 	    }
+#@ 	}
+#@ 	set old_path $auto_path
+#@     }
+#@ }
+#@ 
+#@ # ::tcl::Pkg::Create --
+#@ #
+#@ #	Given a package specification generate a "package ifneeded" statement
+#@ #	for the package, suitable for inclusion in a pkgIndex.tcl file.
+#@ #
+#@ # Arguments:
+#@ #	args		arguments used by the Create function:
+#@ #			-name		packageName
+#@ #			-version	packageVersion
+#@ #			-load		{filename ?{procs}?}
+#@ #			...
+#@ #			-source		{filename ?{procs}?}
+#@ #			...
+#@ #
+#@ #			Any number of -load and -source parameters may be
+#@ #			specified, so long as there is at least one -load or
+#@ #			-source parameter.  If the procs component of a module
+#@ #			specifier is left off, that module will be set up for
+#@ #			direct loading; otherwise, it will be set up for lazy
+#@ #			loading.  If both -source and -load are specified, the
+#@ #			-load'ed files will be loaded first, followed by the
+#@ #			-source'd files.
+#@ #
+#@ # Results:
+#@ #	An appropriate "package ifneeded" statement for the package.
+#@ 
+#@ proc ::tcl::Pkg::Create {args} {
+#@     append err(usage) "[lindex [info level 0] 0] "
+#@     append err(usage) "-name packageName -version packageVersion"
+#@     append err(usage) "?-load {filename ?{procs}?}? ... "
+#@     append err(usage) "?-source {filename ?{procs}?}? ..."
+#@ 
+#@     set err(wrongNumArgs) "wrong # args: should be \"$err(usage)\""
+#@     set err(valueMissing) "value for \"%s\" missing: should be \"$err(usage)\""
+#@     set err(unknownOpt)   "unknown option \"%s\": should be \"$err(usage)\""
+#@     set err(noLoadOrSource) "at least one of -load and -source must be given"
+#@ 
+#@     # process arguments
+#@     set len [llength $args]
+#@     if {$len < 6} {
+#@ 	error $err(wrongNumArgs)
+#@     }
+#@ 
+#@     # Initialize parameters
+#@     array set opts {-name {} -version {} -source {} -load {}}
+#@ 
+#@     # process parameters
+#@     for {set i 0} {$i < $len} {incr i} {
+#@ 	set flag [lindex $args $i]
+#@ 	incr i
+#@ 	switch -glob -- $flag {
+#@ 	    "-name"		-
+#@ 	    "-version"		{
+#@ 		if {$i >= $len} {
+#@ 		    error [format $err(valueMissing) $flag]
+#@ 		}
+#@ 		set opts($flag) [lindex $args $i]
+#@ 	    }
+#@ 	    "-source"		-
+#@ 	    "-load"		{
+#@ 		if {$i >= $len} {
+#@ 		    error [format $err(valueMissing) $flag]
+#@ 		}
+#@ 		lappend opts($flag) [lindex $args $i]
+#@ 	    }
+#@ 	    default {
+#@ 		error [format $err(unknownOpt) [lindex $args $i]]
+#@ 	    }
+#@ 	}
+#@     }
+#@ 
+#@     # Validate the parameters
+#@     if {![llength $opts(-name)]} {
+#@ 	error [format $err(valueMissing) "-name"]
+#@     }
+#@     if {![llength $opts(-version)]} {
+#@ 	error [format $err(valueMissing) "-version"]
+#@     }
+#@ 
+#@     if {!([llength $opts(-source)] || [llength $opts(-load)])} {
+#@ 	error $err(noLoadOrSource)
+#@     }
+#@ 
+#@     # OK, now everything is good.  Generate the package ifneeded statment.
+#@     set cmdline "package ifneeded $opts(-name) $opts(-version) "
+#@ 
+#@     set cmdList {}
+#@     set lazyFileList {}
+#@ 
+#@     # Handle -load and -source specs
+#@     foreach key {load source} {
+#@ 	foreach filespec $opts(-$key) {
+#@ 	    lassign $filespec filename proclist
+#@ 	    
+#@ 	    if { [llength $proclist] == 0 } {
+#@ 		set cmd "\[list $key \[file join \$dir [list $filename]\]\]"
+#@ 		lappend cmdList $cmd
+#@ 	    } else {
+#@ 		lappend lazyFileList [list $filename $key $proclist]
+#@ 	    }
+#@ 	}
+#@     }
+#@ 
+#@     if {[llength $lazyFileList]} {
+#@ 	lappend cmdList "\[list tclPkgSetup \$dir $opts(-name)		$opts(-version) [list $lazyFileList]\]"
+#@     }
+#@     append cmdline [join $cmdList "\\n"]
+#@     return $cmdline
+#@ }
+#@ 
+#@ interp alias {} ::pkg::create {} ::tcl::Pkg::Create
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/package.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/pkgIndex.tcl
+
+#@ # Copyright (c) 2016 Synopsys, Inc. This Synopsys software and all
+#@ # associated documentation are proprietary to Synopsys, Inc. and may
+#@ # only be used pursuant to the terms and conditions of a written
+#@ # license agreement with Synopsys, Inc. All other use, reproduction,
+#@ # modification, or distribution of the Synopsys software or the
+#@ # associated documentation is strictly prohibited.
+#@ 
+#@ package ifneeded cae        1.0 [list source [file join $dir syn.tcl]]
+#@ package ifneeded cae::utils 1.0 [list source [file join $dir utils utils.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/iwidgets4.1/pkgIndex.tcl
+
+#@ # Tcl package index file
+#@ package ifneeded iwidgets 4.1 "
+#@   package require itk 4
+#@    namespace eval ::iwidgets {
+#@        namespace export *
+#@        variable library [file dirname [info script]]
+#@        variable version 4.1
+#@   }
+#@   source [file join $dir colors.itcl]
+#@   source [file join $dir roman.itcl]
+#@   source [file join $dir buttonbox.itk]
+#@   source [file join $dir calendar.itk]
+#@   source [file join $dir canvasprintbox.itk]
+#@   source [file join $dir shell.itk]
+#@   source [file join $dir dialogshell.itk]
+#@   source [file join $dir dialog.itk]
+#@   source [file join $dir canvasprintdialog.itk]
+#@   source [file join $dir labeledframe.itk]
+#@   source [file join $dir checkbox.itk]
+#@   source [file join $dir labeledwidget.itk]
+#@   source [file join $dir entryfield.itk]
+#@   source [file join $dir combobox.itk]
+#@   source [file join $dir datefield.itk]
+#@   source [file join $dir dateentry.itk]
+#@   source [file join $dir disjointlistbox.itk]
+#@   source [file join $dir extbutton.itk]
+#@   source [file join $dir extfileselectionbox.itk]
+#@   source [file join $dir extfileselectiondialog.itk]
+#@   source [file join $dir feedback.itk]
+#@   source [file join $dir fileselectionbox.itk]
+#@   source [file join $dir fileselectiondialog.itk]
+#@   source [file join $dir finddialog.itk]
+#@   source [file join $dir scrolledwidget.itk]
+#@   source [file join $dir hierarchy.itk]
+#@   source [file join $dir hyperhelp.itk]
+#@   source [file join $dir mainwindow.itk]
+#@   source [file join $dir menubar.itk]
+#@   source [file join $dir messagebox.itk]
+#@   source [file join $dir messagedialog.itk]
+#@   source [file join $dir notebook.itk]
+#@   source [file join $dir optionmenu.itk]
+#@   source [file join $dir panedwindow.itk]
+#@   source [file join $dir pane.itk]
+#@   source [file join $dir promptdialog.itk]
+#@   source [file join $dir pushbutton.itk]
+#@   source [file join $dir radiobox.itk]
+#@   source [file join $dir regexpfield.itk]
+#@   source [file join $dir scrolledcanvas.itk]
+#@   source [file join $dir scrolledframe.itk]
+#@   source [file join $dir scrolledtext.itk]
+#@   source [file join $dir scrolledhtml.itk]
+#@   source [file join $dir scrolledlistbox.itk]
+#@   source [file join $dir selectionbox.itk]
+#@   source [file join $dir selectiondialog.itk]
+#@   source [file join $dir spindate.itk]
+#@   source [file join $dir spinner.itk]
+#@   source [file join $dir spinint.itk]
+#@   source [file join $dir spintime.itk]
+#@   source [file join $dir tabnotebook.itk]
+#@   source [file join $dir tabset.itk]
+#@   source [file join $dir timefield.itk]
+#@   source [file join $dir timeentry.itk]
+#@   source [file join $dir toolbar.itk]
+#@   source [file join $dir watch.itk]
+#@   package provide iwidgets 4.1
+#@ "
+#@ 
+#@ package ifneeded Iwidgets 4.1 "
+#@   package require iwidgets 4.1
+#@   package provide Iwidgets 4.1
+#@ "
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/iwidgets4.1/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsUtils/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.1
+#@ # This file is generated by the "pkg_mkIndex -direct" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ package ifneeded snpsUtils 1.0 [list source [file join $dir snpsUtils.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsUtils/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsTest/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.1
+#@ # This file is generated by the "pkg_mkIndex -direct" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ package ifneeded snpsTest 1.0 [list source [file join $dir snpsTest.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsTest/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsTclPro/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.1
+#@ # This file is generated by the "pkg_mkIndex -direct" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ package ifneeded snpsTclPro 1.0 [list source [file join $dir			snpsTclPro.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/snpsTclPro/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/pkgIndex.tcl
+
+#@ package ifneeded Itcl 3.4 {load {} Itcl}
+#@ package ifneeded tbcload 1.7 {load {} tbcload}
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/snps_tcl/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/platform/pkgIndex.tcl
+
+#@ package ifneeded platform        1.0.13 [list source [file join $dir platform.tcl]]
+#@ package ifneeded platform::shell 1.1.4 [list source [file join $dir shell.tcl]]
+#@ 
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/platform/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/dde/pkgIndex.tcl
+
+#@ if {([info commands ::tcl::pkgconfig] eq "")
+#@ 	|| ([info sharedlibextension] ne ".dll")} return
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/dde/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/msgcat/pkgIndex.tcl
+
+#@ if {![package vsatisfies [package provide Tcl] 8.5]} {return}
+#@ package ifneeded msgcat 1.5.2 [list source [file join $dir msgcat.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/msgcat/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/opt/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.1
+#@ # This file is generated by the "pkg_mkIndex -direct" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ if {![package vsatisfies [package provide Tcl] 8.2]} {return}
+#@ package ifneeded opt 0.4.6 [list source [file join $dir optparse.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/opt/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/http1.0/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.0
+#@ # This file is generated by the "pkg_mkIndex" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ package ifneeded http 1.0 [list tclPkgSetup $dir http 1.0 {{http.tcl source {httpCopyDone httpCopyStart httpEof httpEvent httpFinish httpMapReply httpProxyRequired http_code http_config http_data http_formatQuery http_get http_reset http_size http_status http_wait}}}]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/http1.0/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/tcltest/pkgIndex.tcl
+
+#@ # Tcl package index file, version 1.1
+#@ # This file is generated by the "pkg_mkIndex -direct" command
+#@ # and sourced either when an application starts up or
+#@ # by a "package unknown" script.  It invokes the
+#@ # "package ifneeded" command to set up package-related
+#@ # information so that packages will be loaded automatically
+#@ # in response to "package require" commands.  When this
+#@ # script is sourced, the variable $dir must contain the
+#@ # full path name of this file's directory.
+#@ 
+#@ if {![package vsatisfies [package provide Tcl] 8.5]} {return}
+#@ package ifneeded tcltest 2.3.8 [list source [file join $dir tcltest.tcl]]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/tcltest/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/reg/pkgIndex.tcl
+
+#@ if {([info commands ::tcl::pkgconfig] eq "")
+#@ 	|| ([info sharedlibextension] ne ".dll")} return
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/reg/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/http/pkgIndex.tcl
+
+#@ if {![package vsatisfies [package provide Tcl] 8.6]} {return}
+#@ package ifneeded http 2.8.8 [list tclPkgSetup $dir http 2.8.8 {{http.tcl source {::http::config ::http::formatQuery ::http::geturl ::http::reset ::http::wait ::http::register ::http::unregister ::http::mapReply}}}]
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/tcllib/lib/tcl8.6/http/pkgIndex.tcl
+
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/syn.tcl
+
+#@ # Copyright (c) 2016 Synopsys, Inc. This Synopsys software and all
+#@ # associated documentation are proprietary to Synopsys, Inc. and may
+#@ # only be used pursuant to the terms and conditions of a written
+#@ # license agreement with Synopsys, Inc. All other use, reproduction,
+#@ # modification, or distribution of the Synopsys software or the
+#@ # associated documentation is strictly prohibited.
+#@ 
+#@ # primary file of syn package
+#@ 
+#@ # require all the sub-packages (if any)
+#@ 
+#@ # name of the provided package
+#@ 
+#@ package provide cae 1.0
+#@ 
+#@ # create command group after loading sub packages
+#@ # because last group is listed first by "help"
+#@ 
+#@ create_command_group "syn"     -info "synthesis utilities"
+#@ 
+#@ namespace eval ::cae {
+#@     variable selfdir [file dirname [info script]]  
+#@     variable scripts [list                           auto_path_groups.tcl                          ]
+#@     variable script
+#@ }
+#@ 
+#@ # source encrypted version if available
+#@ # encrypted commands must use "define_proc_attributes -hide_body"
+#@ 
+#@ foreach ::cae::script ${::cae::scripts} {
+#@     if { [file exists ${::cae::selfdir}/${::cae::script}.e] } {
+#@         source ${::cae::selfdir}/${::cae::script}.e
+#@     } else {
+#@         source ${::cae::selfdir}/${::cae::script}
+#@     }
+#@ }
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/auto_path_groups.tcl
+
+#@ # Copyright (c) 2016 Synopsys, Inc. This Synopsys software and all
+#@ # associated documentation are proprietary to Synopsys, Inc. and may
+#@ # only be used pursuant to the terms and conditions of a written
+#@ # license agreement with Synopsys, Inc. All other use, reproduction,
+#@ # modification, or distribution of the Synopsys software or the
+#@ # associated documentation is strictly prohibited.
+#@ 
+#@ package require cae::utils
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/utils/utils.tcl
+
+#@ # Copyright (c) 2016 Synopsys, Inc. This Synopsys software and all
+#@ # associated documentation are proprietary to Synopsys, Inc. and may
+#@ # only be used pursuant to the terms and conditions of a written
+#@ # license agreement with Synopsys, Inc. All other use, reproduction,
+#@ # modification, or distribution of the Synopsys software or the
+#@ # associated documentation is strictly prohibited.
+#@ 
+#@ # primary file of cae::utils package
+#@ 
+#@ # name of the provided package
+#@ 
+#@ package provide cae::utils 1.0
+#@ 
+#@ namespace eval ::cae::utils {
+#@ }
+#@ 
+#@ proc ::cae::utils::msg { type s } {
+#@     switch -glob -- ${type} {
+#@         i* { return "INFO:    ${s}" }
+#@         w* { return "WARNING: ${s}" }
+#@         e* { return "ERROR:   ${s}" }
+#@     }
+#@     return
+#@ }
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/utils/utils.tcl
+
+#@ 
+#@ namespace eval ::cae {
+#@     
+#@     # note: check if these are all necessary
+#@     variable auto_path_groups_messages {ATTR-3 OPT-806 OPT-774 UID-101 TIM-134 TIM-99 OPT-806 MWUI-203 MW-212 TIM-112}
+#@     
+#@     # default prefix for path groups
+#@     variable auto_path_groups_prefix synopsys_pg_
+#@     # default slack for path groups
+#@     variable auto_path_groups_slack 0.0
+#@     # default max for path groups
+#@     variable auto_path_groups_max 0
+#@     # default verbosity
+#@     variable auto_path_groups_verbose false
+#@     # default priority
+#@     variable auto_path_groups_priority 1
+#@     # default min_regs_per_hierarchy
+#@     variable auto_path_groups_min_regs_per_hierarchy 10
+#@     # registers path group suffix
+#@     variable auto_path_groups_reg_suffix to_regs_
+#@     # macro path group suffix
+#@     variable auto_path_groups_macro_suffix to_macros_
+#@     # ICG path group suffix
+#@     variable auto_path_groups_icg_suffix to_ICGs
+#@     # input path group suffix
+#@     variable auto_path_groups_input_suffix inputs
+#@     # output path group suffix 
+#@     variable auto_path_groups_output_suffix outputs
+#@     # feedthrough path group suffix 
+#@     variable auto_path_groups_feedthrough_suffix feedthrough
+#@     # user path groups
+#@     variable auto_path_groups_user_path_groups [list]
+#@ }
+#@ 
+#@ proc create_auto_path_groups { args } {
+#@     variable ::cae::auto_path_groups_messages
+#@     variable ::cae::auto_path_groups_prefix
+#@     variable ::cae::auto_path_groups_slack
+#@     variable ::cae::auto_path_groups_max
+#@     variable ::cae::auto_path_groups_verbose
+#@     variable ::cae::auto_path_groups_priority
+#@     variable ::cae::auto_path_groups_min_regs_per_hierarchy
+#@     variable ::cae::auto_path_groups_reg_suffix
+#@     variable ::cae::auto_path_groups_macro_suffix
+#@     variable ::cae::auto_path_groups_icg_suffix
+#@     variable ::cae::auto_path_groups_input_suffix
+#@     variable ::cae::auto_path_groups_output_suffix
+#@     variable ::cae::auto_path_groups_feedthrough_suffix
+#@     variable ::cae::auto_path_groups_user_path_groups
+#@     
+#@     set options(-slack) ${auto_path_groups_slack}
+#@     set options(-max) ${auto_path_groups_max}
+#@     set options(-prefix) ${auto_path_groups_prefix}
+#@     set options(-verbose) ${auto_path_groups_verbose}
+#@     set options(-priority) ${auto_path_groups_priority}
+#@     set options(-min_regs_per_hierarchy) ${auto_path_groups_min_regs_per_hierarchy}
+#@     set options(-exclude) [list]
+#@     
+#@     parse_proc_arguments -args ${args} options
+#@     
+#@     if { [info exists options(-file)] } {
+#@         if {[catch {open $options(-file) w } fileId] } {
+#@             return -code error [::cae::utils::msg e ${fileId}]
+#@         }
+#@     }
+#@     
+#@     # save user path groups
+#@     if { [llength ${auto_path_groups_user_path_groups}] == 0 } {
+#@         echo [::cae::utils::msg i "Saving user path groups..."] 
+#@         redirect -variable script { write_script -nosplit }
+#@         foreach line [split ${script} \n] {
+#@             if { [string compare -length 10 "group_path" ${line}] == 0 } {
+#@                 lappend auto_path_groups_user_path_groups ${line}
+#@             }
+#@         }
+#@         echo [::cae::utils::msg i "[llength ${auto_path_groups_user_path_groups}] path group(s) saved"]         
+#@     }
+#@     
+#@     set total 0
+#@     
+#@     suppress_message ${auto_path_groups_messages}
+#@     switch -- $options(-mode) {
+#@         "rtl" {
+#@             # create one path group per hierarchy
+#@             
+#@             echo [::cae::utils::msg i "Collecting hierarchies without optimize_registers..."]
+#@             set optimize_registers_cells [get_cells -hier -filter {is_hierarchical==true && optimize_registers==true}]
+#@             if { $options(-verbose) } {
+#@                 set optimize_registers_cells_names [lsort [get_object_name ${optimize_registers_cells}]]
+#@                 echo [::cae::utils::msg i "cells with optimize_registers: ${optimize_registers_cells_names}"]
+#@             }
+#@             set optimize_registers_sub_cells {}
+#@             foreach_in_collection cell ${optimize_registers_cells} {
+#@                 redirect -file /dev/null {current_instance ${cell}}
+#@                 append_to_collection optimize_registers_sub_cells                     [get_cells -hier -filter {is_hierarchical==true && (optimize_registers==false || undefined(optimize_registers))}]
+#@             }
+#@             redirect -file /dev/null {current_instance}
+#@             if { $options(-verbose) } {
+#@                 set optimize_registers_sub_cells_names [lsort [get_object_name ${optimize_registers_sub_cells}]]
+#@                 echo [::cae::utils::msg i "sub-cells of cells with optimize_registers: ${optimize_registers_sub_cells_names}"]
+#@             }
+#@             set path_group_cells [get_cells -hier -filter {is_hierarchical==true && is_sequential==true && (optimize_registers==false || undefined(optimize_registers))}]
+#@             set path_group_cells [remove_from_collection ${path_group_cells} ${optimize_registers_sub_cells}]
+#@             
+#@             echo [::cae::utils::msg i "Collected [sizeof_collection ${path_group_cells}] hierarchies without optimize_registers"]
+#@             
+#@             set path_group_names [lsort [get_object_name ${path_group_cells}]]
+#@             
+#@             if { $options(-verbose) } {
+#@                 echo [::cae::utils::msg i "cells for which path groups will be created:"]
+#@                 foreach path_group_name ${path_group_names} {
+#@                     echo [::cae::utils::msg i "  ${path_group_name}"]
+#@                 }
+#@             }
+#@             
+#@             echo [::cae::utils::msg i "Creating path groups for hierarchies without optimize_registers..."]
+#@             set counter 0
+#@             foreach path_group_name ${path_group_names} {
+#@                 set number_of_registers [sizeof_collection [get_cells ${path_group_name}/* -filter "is_hierarchical==false && is_sequential==true"]]
+#@                 if { ${number_of_registers} > $options(-min_regs_per_hierarchy) } {
+#@                     echo [::cae::utils::msg i "Number of sequential cells found in ${path_group_name} hierarchy: ${number_of_registers}"]
+#@                     set command "group_path -name $options(-prefix)${auto_path_groups_reg_suffix}${counter} -to \[get_cells ${path_group_name}/* -filter \"is_hierarchical==false && is_sequential==true\"\] -priority $options(-priority)"
+#@                     echo [::cae::utils::msg i ${command}]
+#@                     if { [info exists options(-file)] } {
+#@                         puts ${fileId} ${command}
+#@                     }
+#@                     eval ${command}
+#@                     incr counter
+#@                 } else {
+#@                     echo [::cae::utils::msg i "Not enough sequential cells found in ${path_group_name} hierarchy (${number_of_registers}), skipping..."]
+#@                 }
+#@             }
+#@             echo [::cae::utils::msg i "Number of reg path groups created: ${counter}"]
+#@             set total [expr {${total} + ${counter}}]
+#@         }
+#@         "mapped" {
+#@             # create one path group per hierarchy not meeting timing
+#@             
+#@             array unset fail
+#@             echo [::cae::utils::msg i "Collecting hierarchies with timing violations..."]
+#@             foreach_in_collection pin [all_registers -data_pins] {
+#@                 set slack [get_attribute ${pin} max_slack]
+#@                 if { ${slack} < $options(-slack) && ${slack} != "" } {
+#@                     set cell [get_cells -of_objects ${pin}]
+#@                     set full_name [get_attribute ${cell} full_name]
+#@                     set name [get_attribute ${cell} name]
+#@                     if {[string length ${full_name}] > [string length ${name}]} {
+#@                         set length [expr [string length ${full_name}] - [string length ${name}] - 1]
+#@                         set hierarchy [string range ${full_name} 0 [expr ${length} - 1]]
+#@                     } else {
+#@                         set hierarchy ""
+#@                     }
+#@                     if { ![info exists fail(${hierarchy})] || 
+#@                          ([info exists fail(${hierarchy})] && ${slack} < $fail(${hierarchy})) } {
+#@                         set fail(${hierarchy}) ${slack}
+#@                     }
+#@                 }
+#@             }
+#@             echo [::cae::utils::msg i "Collected [array size fail] hierarchies with timing violations"]                
+#@             
+#@             if { $options(-max) > 0 } {
+#@                 echo [::cae::utils::msg i "Keeping only $options(-max) hierarchies with worst timing violations"]                
+#@                 set hierarchy_slack_list [lsort -stride 2 -index 1 -real -increasing [array get fail]]
+#@                 set hierarchy_slack_list [lrange ${hierarchy_slack_list} 0 [expr {2 * $options(-max) - 1}]]
+#@                 array unset fail
+#@                 array set fail ${hierarchy_slack_list}
+#@             }
+#@             
+#@             set path_group_names [lsort [array names fail]]
+#@             
+#@             if { $options(-verbose) } {
+#@                 echo [::cae::utils::msg i "hierarchies for which path groups will be created:"]
+#@                 foreach path_group_name ${path_group_names} {
+#@                     echo [::cae::utils::msg i "  ${path_group_name} $fail(${path_group_name})"]
+#@                 }
+#@             }
+#@             
+#@             echo [::cae::utils::msg i "Creating path groups for hierarchies with timing violations..."]
+#@             set counter 0
+#@             foreach path_group_name ${path_group_names} {
+#@                 if { ${path_group_name} == "" } {
+#@                     set command "group_path -name $options(-prefix)${auto_path_groups_reg_suffix}${counter} -to \[get_cells * -filter {is_hierarchical==false && is_sequential==true}\] -priority $options(-priority)" 
+#@                 } else {
+#@                     set command "group_path -name $options(-prefix)${auto_path_groups_reg_suffix}${counter} -to \[get_cells ${path_group_name}/* -filter {is_hierarchical==false && is_sequential==true}\] -priority $options(-priority)"
+#@                 }
+#@                 echo [::cae::utils::msg i ${command}]
+#@                 if { [info exists options(-file)] } {
+#@                     puts ${fileId} ${command}
+#@                 }
+#@                 eval ${command}
+#@                 incr counter                 
+#@             }            
+#@             echo [::cae::utils::msg i "Number of reg path groups created: ${counter}"]
+#@             set total [expr {${total} + ${counter}}]
+#@ 
+#@         }
+#@         
+#@     }
+#@ 
+#@     # macro path groups
+#@     if { [lsearch $options(-exclude) macro] == -1} {
+#@         echo [::cae::utils::msg i "Creating macro path groups..."]
+#@         if { [shell_is_in_topographical_mode] } {
+#@             set macro_cells [all_macro_cells]
+#@         } else {
+#@             set macro_cells [get_cells -hier * -filter "is_macro_cell == true"]
+#@         }
+#@         if { [sizeof_collection ${macro_cells}] != 0 } {
+#@             set path_group_names [get_object_name ${macro_cells}]
+#@             set counter 0
+#@             foreach path_group_name ${path_group_names} {
+#@                 set command "group_path -name $options(-prefix)${auto_path_groups_macro_suffix}${counter} -to \[get_cells ${path_group_name}\] -priority $options(-priority)"
+#@                 echo [::cae::utils::msg i ${command}]
+#@                 if { [info exists options(-file)] } {
+#@                     puts ${fileId} ${command}
+#@                 }
+#@                 eval ${command}
+#@                 incr counter
+#@             }
+#@             echo [::cae::utils::msg i "Number of macro path groups created: ${counter}"]
+#@             set total [expr {${total} + ${counter}}]
+#@         } else {
+#@             echo [::cae::utils::msg i "No macro found, skipping..."]
+#@         }
+#@     }
+#@     
+#@     # ICG path groups
+#@     if { [lsearch $options(-exclude) ICG] == -1} {
+#@         echo [::cae::utils::msg i "Creating ICG path groups..."]
+#@         set all_icg_cells [get_cells -hier -filter "full_name=~*latch || full_name=~*u_clkgate && defined(clock_gating_integrated_cell)"]
+#@         if { [sizeof_collection ${all_icg_cells}] } {
+#@             set counter 0
+#@             set command "group_path -name $options(-prefix)${auto_path_groups_icg_suffix} -to \[get_cells -hier -filter \"full_name=~*latch || full_name=~*u_clkgate && defined(clock_gating_integrated_cell)\"\] -priority $options(-priority)"
+#@             echo [::cae::utils::msg i ${command}]
+#@             if { [info exists options(-file)] } {
+#@                 puts ${fileId} ${command}
+#@             }
+#@             eval ${command}
+#@             incr counter
+#@             echo [::cae::utils::msg i "Number of ICG path groups created: ${counter}"]
+#@             set total [expr {${total} + ${counter}}]
+#@         } else {
+#@             echo [::cae::utils::msg i "No ICG found, skipping..."]
+#@         }
+#@     }
+#@     
+#@     # IO path groups
+#@     if { [lsearch $options(-exclude) IO] == -1} {
+#@         echo [::cae::utils::msg i "Creating IO path groups..."]
+#@         set counter 0
+#@         set command "group_path -name $options(-prefix)${auto_path_groups_input_suffix} -from \[ remove_from_collection \[all_inputs\] \[get_ports \[get_attribute \[get_clocks -filter defined(sources)\] sources\]\] \]"
+#@         echo [::cae::utils::msg i ${command}]
+#@         if { [info exists options(-file)] } {
+#@             puts ${fileId} ${command}
+#@         }
+#@         eval ${command}
+#@         incr counter
+#@         set command "group_path -name $options(-prefix)${auto_path_groups_output_suffix} -to \[all_outputs\]"
+#@         echo [::cae::utils::msg i ${command}]
+#@         if { [info exists options(-file)] } {
+#@             puts ${fileId} ${command}
+#@         }
+#@         eval ${command}
+#@         incr counter
+#@         set command "group_path -name $options(-prefix)${auto_path_groups_feedthrough_suffix} -from \[ remove_from_collection \[all_inputs\] \[get_ports \[get_attribute \[get_clocks -filter defined(sources)\] sources\]\] \] -to \[all_outputs\]"
+#@         echo [::cae::utils::msg i ${command}]
+#@         if { [info exists options(-file)] } {
+#@             puts ${fileId} ${command}
+#@         }
+#@         eval ${command}
+#@         incr counter            
+#@         echo [::cae::utils::msg i "Number of IO path groups created: ${counter}"]
+#@         set total [expr {${total} + ${counter}}]
+#@     }
+#@     
+#@     unsuppress_message ${auto_path_groups_messages}
+#@     
+#@     echo [::cae::utils::msg i "Total number of path groups created: ${total}"]
+#@     
+#@     if { [info exists options(-file)] } {
+#@         close ${fileId}
+#@     }
+#@     
+#@     return
+#@ }
+#@ 
+#@ define_proc_attributes create_auto_path_groups     -command_group syn -dont_abbrev -hide_body     -info "Creates path groups for current design"     -define_args {
+#@         { -mode "creates path groups for unmapped/mapped netlist" mode one_of_string {required value_help {values {rtl mapped}}} }
+#@         { -exclude "excludes specific path groups (IO ICG macro) (default: empty list)" list list {optional} } 
+#@         { -slack "slack value used to select hierarchy violating timing (default: 0.0) - mapped mode only" slack float optional }
+#@         { -max "maximum number of paths groups (default: 0=unlimited) - mapped mode only" max int optional }
+#@         { -min_regs_per_hierarchy "minimum number of registers per hierarchy (default: 10) - rtl mode only" min_regs int optional }
+#@         { -prefix "path group name prefix (default: synopsys_pg_)" prefix string optional }
+#@         { -file "file name to dump group_path commands" file_name string optional }
+#@         { -verbose "verbose mode" "" boolean optional }
+#@     }
+#@ 
+#@ proc remove_auto_path_groups { args } {
+#@     variable ::cae::auto_path_groups_messages
+#@     variable ::cae::auto_path_groups_prefix
+#@     variable ::cae::auto_path_groups_verbose
+#@     variable ::cae::auto_path_groups_user_path_groups
+#@     
+#@     set options(-prefix) ${auto_path_groups_prefix}
+#@     set options(-verbose) ${auto_path_groups_verbose}
+#@     parse_proc_arguments -args ${args} options
+#@     
+#@     if { [info exists options(-file)] } {
+#@         if {[catch {open $options(-file) w } fileId] } {
+#@             return -code error [::cae::utils::msg e ${fileId}]
+#@         }
+#@     }
+#@     
+#@     suppress_message ${auto_path_groups_messages}
+#@     set path_group_names [get_object_name [get_path_group -filter "full_name =~ $options(-prefix)*"]]
+#@     foreach path_group_name ${path_group_names} {
+#@         set command "remove_path_group ${path_group_name}"
+#@         echo [::cae::utils::msg i ${command}]
+#@         if { [info exists options(-file)] } {
+#@             puts ${fileId} ${command}
+#@         }
+#@         eval ${command}
+#@     }
+#@     echo [::cae::utils::msg i "Number of path groups removed: [llength ${path_group_names}]"]
+#@     unsuppress_message ${auto_path_groups_messages}
+#@     
+#@     if { [info exists options(-file)] } {
+#@         close ${fileId}
+#@     }
+#@     
+#@     # restore user path groups
+#@     if { [llength ${auto_path_groups_user_path_groups}] != 0 } {
+#@         echo [::cae::utils::msg i "Restoring user path groups..."] 
+#@         foreach command ${auto_path_groups_user_path_groups} {
+#@             echo [::cae::utils::msg i ${command}]
+#@             eval ${command}
+#@         }
+#@         echo [::cae::utils::msg i "[llength ${auto_path_groups_user_path_groups}] path group(s) restored"]         
+#@         set auto_path_groups_user_path_groups [list]
+#@     }
+#@     
+#@     return
+#@ }
+#@ 
+#@ define_proc_attributes remove_auto_path_groups     -command_group syn -dont_abbrev -hide_body     -info "Removes path groups for current design"     -define_args {
+#@         { -prefix "path group name prefix (default: synopsys_pg)" prefix string optional }
+#@         { -file "file name to dump group_path commands" file_name string optional }
+#@         { -verbose "verbose mode" "" boolean optional }
+#@     }
+#@ 
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/auto_path_groups.tcl
+
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/lib/syn.tcl
+
+#@ 
 #@ if { [string compare $dc_shell_mode "tcl"] == 0 } {
 #@  set sh_enable_line_editing       "true"
 #@  set sh_line_editing_mode         "emacs"
@@ -80,7 +1846,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ set auto_oldpath ""
 #@ 
 #@ # Enable customer support banner on fatal
-#@ if { $sh_arch == "linux"    || $sh_arch == "amd64"    ||      $sh_arch == "suse32"   || $sh_arch == "suse64"   ||      $sh_arch == "sparcOS5" || $sh_arch == "sparc64"  ||      $sh_arch == "x86sol32" || $sh_arch == "x86sol64" ||      $sh_arch == "rs6000"   || $sh_arch == "aix64" } {
+#@ if { $sh_arch == "linux"    || $sh_arch == "amd64"    || $sh_arch == "linux64" ||     $sh_arch == "suse32"   || $sh_arch == "suse64"   ||      $sh_arch == "sparcOS5" || $sh_arch == "sparc64"  ||      $sh_arch == "x86sol32" || $sh_arch == "x86sol64" ||      $sh_arch == "rs6000"   || $sh_arch == "aix64" } {
 #@    setenv SYNOPSYS_TRACE ""
 #@ }
 #@ 
@@ -94,7 +1860,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   }
 #@   alias list_commands help
 #@ }
-#@ # -- Starting source /opt/synopsys/J-2014.09-SP5/auxx/syn/.dc_common_procs.tcl
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/.dc_common_procs.tcl
 
 #@ ##############################################################################
 #@ #
@@ -292,9 +2058,9 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ }
 #@ define_proc_attributes _Variable_Groups_Get_Variables_Of_Group -hidden
 #@ 
-#@ # -- End source /opt/synopsys/J-2014.09-SP5/auxx/syn/.dc_common_procs.tcl
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/.dc_common_procs.tcl
 
-#@ # -- Starting source /opt/synopsys/J-2014.09-SP5/auxx/syn/.dc_procs.tcl
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/.dc_procs.tcl
 
 #@ ##############################################################################
 #@ #
@@ -720,55 +2486,6 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@     set cmd [format {update_mw_lib -technology %s %s} 		     $ra(-technology) 		     $ra() ]
 #@   }
 #@ 
-#@   if {[info exists ra(-plib)]} {
-#@ 
-#@     set cmd [format {update_mw_lib %s} 		     $ra() ]
-#@ 
-#@     if {[string match -nocase {*.pdb} $ra(-plib) ] } {
-#@       set cmd [concat [concat $cmd " -plib " ] " $ra(-plib) "]
-#@     }  
-#@     if {[string match -nocase {*.plib} $ra(-plib) ] } {
-#@       set subcmd [format {set lc_enable_legacy_library_compiler true;read_lib %s} $ra(-plib)]
-#@       redirect -file log_file {uplevel #0 $subcmd}
-#@       set f1 [open $log_file]
-#@       while {[gets $f1 line] >= 0} {
-#@    	set msg1 [lindex $line 3]
-#@ 	set msg2 [lindex $line 4]
-#@         if {[string match {read} $msg1] &&
-#@ 	    [string match {successfully} $msg2] } {
-#@ 	  set msg [lindex $line 2]
-#@ 	  set len [string length $msg]
-#@ 	  set lib_name [string range $msg 1 [expr $len-2] ]
-#@ 	  break
-#@         }  
-#@         if {[string match {old} $msg1] &&
-#@             [string match {technology} $msg2] } {
-#@ 	  set msg [lindex $line 6]
-#@ 	  set len [string length $msg]
-#@ 	  set path [string range $msg 1 [expr $len-2] ]
-#@ 	  set name1 [lindex [split $path {/}] end]
-#@ 	  regexp {(.+?).pdb} $name1 match lib_name
-#@ 	  break
-#@         }
-#@       }
-#@       if {$lib_name != ""} {
-#@         set subcmd [format {write_lib %s -output %s} $lib_name $pdb_file]
-#@         uplevel #0 $subcmd
-#@ 
-#@         echo "Command is : "
-#@         echo $cmd
-#@ 
-#@         set cmd [concat [concat $cmd " -plib " ] " $pdb_file "]
-#@ 
-#@         echo "Command is : "
-#@         echo $cmd
-#@ 
-#@       } else {
-#@         echo "Error: Can not compile $ra(-plib) to pdb successfully"
-#@         return 0;
-#@       }
-#@     }
-#@   }
 #@   if {[info exists ra(-alf)]} {
 #@ 
 #@     set cmd [format {update_mw_lib %s} 		     $ra() ]
@@ -779,7 +2496,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   return [uplevel #0 $cmd]
 #@ }
 #@ 
-#@ define_proc_attributes set_mw_technology_file -hide_body     -info " Set technology file for the library "     -define_args       {{-technology "Technology file name" "tech_file" string {optional}}       {-plib "Plib file name" "file_name" string  {optional}}      {-alf "alf file name" "file_name" string  {optional}}      {"" "Library name" "libName" string {required}}}
+#@ define_proc_attributes set_mw_technology_file -hide_body     -info " Set technology file for the library "     -define_args       {{-technology "Technology file name" "tech_file" string {optional}}       {-alf "alf file name" "file_name" string  {optional}}      {"" "Library name" "libName" string {required}}}
 #@ 
 #@ ##############################################################################
 #@ #
@@ -875,45 +2592,6 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@     set cmd [concat [concat [concat $cmd " -mw_reference_library {" ] " $ra(-mw_reference_library) "] "}"]
 #@   }
 #@   
-#@   if {[info exists ra(-plib)]} {
-#@ 	if {[string match -nocase {*.pdb} $ra(-plib) ] } {
-#@   	  set cmd [concat [concat $cmd " -plib " ] " $ra(-plib) "]
-#@ 	}  
-#@ 	if {[string match -nocase {*.plib} $ra(-plib) ] } {
-#@ 	  set subcmd [format {set lc_enable_legacy_library_compiler true; read_lib %s} $ra(-plib)]
-#@ 	  redirect -file log_file {uplevel #0 $subcmd}
-#@ 	  set f1 [open $log_file]
-#@ 	  while {[gets $f1 line] >= 0} {
-#@ 	  	set msg1 [lindex $line 3]
-#@ 		set msg2 [lindex $line 4]
-#@ 	    if {[string match {read} $msg1] &&
-#@ 		    [string match {successfully} $msg2] } {
-#@ 		  set msg [lindex $line 2]
-#@ 		  set len [string length $msg]
-#@ 		  set lib_name [string range $msg 1 [expr $len-2] ]
-#@ 		  break
-#@ 	    }  
-#@ 	    if {[string match {old} $msg1] &&
-#@ 		[string match {technology} $msg2] } {
-#@ 		  set msg [lindex $line 6]
-#@ 		  set len [string length $msg]
-#@ 		  set path [string range $msg 1 [expr $len-2] ]
-#@ 		  set name1 [lindex [split $path {/}] end]
-#@ 		  regexp {(.+?).pdb} $name1 match lib_name
-#@ 		  break
-#@ 	    }
-#@ 	  }
-#@ 	  if {$lib_name != ""} {
-#@ 	    set subcmd [format {write_lib %s -output %s} $lib_name $pdb_file]
-#@ 	    uplevel #0 $subcmd
-#@ 	    set cmd [concat [concat $cmd " -plib " ] " $pdb_file "]
-#@ 	  } else {
-#@ 	    echo "Error: Can not compile $ra(-plib) to pdb successfully"
-#@ 	    return 0;
-#@ 	  }
-#@ 	}
-#@   }
-#@ 
 #@   if { ![uplevel #0 $cmd] } {
 #@     return 0
 #@   }
@@ -928,7 +2606,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   return [uplevel #0 $cmd]
 #@ }
 #@ 
-#@ define_proc_attributes create_mw_lib -hide_body     -info " Create a milkyway library "     -define_args       {{-technology "Technology file name" "file_name" string {optional}}           {-ignore_tf_error "Ignore the error in technology file" "" boolean {hidden optional}} 	  {-plib "Plib file name" "file_name" string  {optional}}       {-hier_separator "Hierarchical separator, default is backslash / " "separator" string {hidden optional}}       {-bus_naming_style "Bus naming style" "bus_naming_style" string {optional}}       {-ignore_case "Make case insensitive" "" boolean {hidden optional}}       {-case_sensitive "Make case sensitive" "" boolean {hidden optional}}       {-mw_reference_library "List of reference libraries" "lib_list" list {optional}}       {-reference_control_file "Reference control file" "file_name" string {optional}}       {-open "Open the library after creation" "" boolean {optional}}       {"" "Library name to create" "libName" string {required}}}
+#@ define_proc_attributes create_mw_lib -hide_body     -info " Create a milkyway library "     -define_args       {{-technology "Technology file name" "file_name" string {optional}}           {-ignore_tf_error "Ignore the error in technology file" "" boolean {hidden optional}}       {-hier_separator "Hierarchical separator, default is backslash / " "separator" string {hidden optional}}       {-bus_naming_style "Bus naming style" "bus_naming_style" string {optional}}       {-ignore_case "Make case insensitive" "" boolean {hidden optional}}       {-case_sensitive "Make case sensitive" "" boolean {hidden optional}}       {-mw_reference_library "List of reference libraries" "lib_list" list {optional}}       {-reference_control_file "Reference control file" "file_name" string {optional}}       {-open "Open the library after creation" "" boolean {optional}}       {"" "Library name to create" "libName" string {required}}}
 #@ 
 #@ #
 #@ ##############################################################################
@@ -1080,19 +2758,6 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@      }
 #@   }
 #@ 
-#@   if {[info exists ra(-plib)]} {
-#@     if {[info exists ra(-stream_layer_map_file)]} {
-#@        echo "Error: Cannot specify '-plib' with '-stream_layer_map_file'.(CMD-001)"
-#@        return 0
-#@     } elseif {[info exists ra(-vt_cell_placement_properties)]} {
-#@        echo "Error: Cannot specify '-plib' with '-vt_cell_placement_properties'.(CMD-001)"
-#@        return 0
-#@     } else {
-#@ 	set cmd [format {write_plib -lib_name %s %s} 	$ra() 	$ra(-output) ]
-#@ 	return [uplevel #0 $cmd]
-#@     }
-#@   }
-#@ 
 #@   if {[info exists ra(-vt_cell_placement_properties)]} {
 #@     if {[info exists ra(-stream_layer_map_file)]} {
 #@        echo "Error: Cannot specify '-vt_cell_placement_properties' with '-stream_layer_map_file'.(CMD-001)"
@@ -1110,7 +2775,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   
 #@ }
 #@ 
-#@ define_proc_attributes write_mw_lib_files -hide_body     -info " Write technology or reference control file "     -define_args       {{-technology "Dump technology file" "" boolean {optional}} 	  {-plib "Dump plib file" "" boolean {optional}}       {-vt_cell_placement_properties "Dump multi-VT cells' implant layer information of library" "" boolean {optional hidden}}       {-reference_control_file "Dump reference control file" "" boolean {optional}}       {-stream_layer_map_file "Dump layer map file during stream in/out" "" string {optional}}       {-output "Output file" "file_name" string {required}}       {"" "Library to be reported" "libName" string {required}}}
+#@ define_proc_attributes write_mw_lib_files -hide_body     -info " Write technology or reference control file "     -define_args       {{-technology "Dump technology file" "" boolean {optional}}       {-vt_cell_placement_properties "Dump multi-VT cells' implant layer information of library" "" boolean {optional hidden}}       {-reference_control_file "Dump reference control file" "" boolean {optional}}       {-stream_layer_map_file "Dump layer map file during stream in/out" "" string {optional}}       {-output "Output file" "file_name" string {required}}       {"" "Library to be reported" "libName" string {required}}}
 #@ }
 #@ ##############################################################################
 #@ #
@@ -1458,6 +3123,9 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@     source $synopsys_root/auxx/syn/psyn/check_physical_design_flows.tbc
 #@     source $synopsys_root/auxx/syn/psyn/check_physical_design_reports.tbc
 #@     source $synopsys_root/auxx/syn/psyn/check_physical_design_ui.tbc
+#@     source $synopsys_root/auxx/syn/psyn/sanity_setup_opt.tbc
+#@     source $synopsys_root/auxx/syn/psyn/sanity_setup_cmd.tbc
+#@     source $synopsys_root/auxx/syn/psyn/sanity_setup_rpt.tbc
 #@     source $synopsys_root/auxx/syn/psyn/create_qor_snapshot.tbc
 #@     source $synopsys_root/auxx/syn/psyn/report_qor_snapshot.tbc
 #@     source $synopsys_root/auxx/syn/psyn/msgParser.tbc
@@ -1478,6 +3146,13 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@    set_app_var sh_source_logging $prev_sh_source_logging
 #@ 
 #@    source $synopsys_root/auxx/syn/psyn/mcmm_utils.tcl.e
+#@ }
+#@ 
+#@ if { [string match -nocase {*icc_shell*} $synopsys_program_name] || [string match -nocase {*dc_shell*} $synopsys_program_name] || [string match -nocase {*de_shell*} $synopsys_program_name] } {
+#@    source $synopsys_root/auxx/syn/psyn/write_timing_context.tcl.e;
+#@    if { [string match -nocase {*icc_shell*} $synopsys_program_name] } {
+#@      source $synopsys_root/auxx/syn/psyn/write_scenarios.tbc;
+#@    }
 #@ }
 #@ 
 #@ if { $synopsys_program_name == "de_shell" }  {
@@ -1576,7 +3251,72 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@     return $ret;
 #@ }
 #@ define_proc_attributes _snps_array_peek -hidden
-#@ # -- End source /opt/synopsys/J-2014.09-SP5/auxx/syn/.dc_procs.tcl
+#@ 
+#@ 
+#@ ##############################################################################
+#@ # Tcl Command: filter_collection
+#@ # Description: DC wrapper for filter_collection with fixes of direction filter
+#@ #
+#@ #              This is a fix for DC's filter using "direction" attribute. This
+#@ #              attribute is of integer type, but user wants a string format
+#@ ##############################################################################
+#@ if {[string match -nocase {*icc_shell*} $synopsys_program_name] == 0} {
+#@ rename -force -hidden filter_collection _real_filter_collection
+#@ proc filter_collection {args} {
+#@   parse_proc_arguments -args $args ra
+#@ 
+#@   set regexp ""
+#@   set nocase ""
+#@   if {[info exist ra(-regexp)]} {
+#@     set regexp "-regexp"
+#@   }
+#@   if {[info exist ra(-nocase)]} {
+#@     set nocase "-nocase"
+#@   }
+#@   set coll $ra(collection1)
+#@ 
+#@   # _real_filter_collection silently returns in this error condition
+#@   if {[catch {set coll_size [sizeof_collection $coll]}] || $coll_size <= 0} {
+#@     return [list]
+#@   }
+#@ 
+#@   if {$::sh_translate_direction_attribute == true} {
+#@     set filter_expr [replace_direction $coll $ra(expression)]
+#@   } else {
+#@     set filter_expr $ra(expression)
+#@   }
+#@ 
+#@   # if $ra(expression) is not empty but filter_expr is, collection is heterogrnous
+#@   # and expression has "direction" as substring.  We have to walk through all objects
+#@   if {[string length $filter_expr] == 0 && [string length $ra(expression)] != 0} {
+#@     set part1 [format {_real_filter_collection %s %s } $regexp $nocase]
+#@     set results ""
+#@     set subclxn ""
+#@     set subsize [expr [sizeof_collection $coll]/80 + 10]
+#@     set counter 0
+#@     foreach_in_collection obj $coll {
+#@       incr counter
+#@       set cmd [format {%s %s {%s}} $part1 $obj [replace_direction $obj $ra(expression)]]
+#@       append_to_collection subclxn [uplevel #0 $cmd]
+#@       if {[expr $counter % $subsize] == 0} {
+#@         append_to_collection results $subclxn
+#@         set subclxn ""
+#@       }
+#@     }
+#@     if {[sizeof_collection $subclxn] != 0} {
+#@       append_to_collection results $subclxn
+#@     }
+#@     return $results
+#@   } else {
+#@     set cmd [format {_real_filter_collection %s %s %s {%s}}                          $regexp $nocase $coll $filter_expr]
+#@     return [uplevel #0 $cmd]
+#@   }
+#@ }
+#@ define_proc_attributes filter_collection   -info " Filter a collection, resulting in new collection "   -permanent   -define_args {     {-regexp "Operators =~ and !~ use regular expressions" "" boolean {optional}}     {-nocase "Case insensitive string match" "" boolean {optional}}     {collection1 "Collection to filter" "collection1" string {required}}     {expression "Filter expression" "expression" string {required}}   }
+#@ 
+#@ }
+#@ 
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/.dc_procs.tcl
 
 #@ 
 #@ # Temporary fix for the LMC_HOME variable- set it to an empty string 
@@ -1700,7 +3440,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@     set_app_var sh_source_logging $prev_sh_source_logging
 #@   }
 #@ }
-#@ # -- Starting source /opt/synopsys/J-2014.09-SP5/auxx/syn/scripts/list_duplicate_designs.tcl
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/scripts/list_duplicate_designs.tcl
 
 #@ ####################################################################### 
 #@ #
@@ -1755,7 +3495,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ 
 #@ define_proc_attributes list_duplicate_designs     -info " List designs of same names"     -permanent     -define_args {
 #@     }
-#@ # -- End source /opt/synopsys/J-2014.09-SP5/auxx/syn/scripts/list_duplicate_designs.tcl
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/auxx/syn/scripts/list_duplicate_designs.tcl
 
 #@ 
 #@ 
@@ -1778,6 +3518,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ #
 #@ 
 #@ set bus_multiple_separator_style  ","
+#@ set bus_multiple_name_separator_style  ",,"
 #@ 
 #@ #
 #@ #       ILM Variable Group:
@@ -3454,7 +5195,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   #for read_lib -html	
 #@   source ${synopsys_root}/auxx/syn/lc/read_lib_html_msg_list.tcl
 #@ }
-#@ # -- Starting source /opt/synopsys/J-2014.09-SP5/admin/setup/.dc_name_rules
+#@ # -- Starting source /opt/synopsys/2016/core-synthesis-tools/admin/setup/.dc_name_rules
 
 #@ #
 #@ 
@@ -3504,7 +5245,7 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ define_name_rules vhdl -map { {{"__","_"},{"_$",""}} }
 #@ 
 #@ ####/* Name rule for VHDL */
-#@ # -- End source /opt/synopsys/J-2014.09-SP5/admin/setup/.dc_name_rules
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/admin/setup/.dc_name_rules
 
 #@ 
 #@ if { $synopsys_program_name == "psyn_gui"} {
@@ -3621,8 +5362,29 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   set exec_path "invalid"
 #@   if {[info exists ::env(SYNOPSYS_LC_ROOT)] && [file exists $::env(SYNOPSYS_LC_ROOT)/$::sh_arch/lc/bin/lc_shell_exec]} {
 #@     set exec_path $::env(SYNOPSYS_LC_ROOT)/$::sh_arch/lc/bin/lc_shell_exec
+#@   } else {
+#@      set path "$::synopsys_root/$::sh_arch/syn/bin/lc_shell_exec"
+#@      if {  [file exists $::synopsys_root/$::sh_arch/syn/bin/lc_shell_exec] } {
+#@       while { [catch {file readlink $path}] == 0 } {
+#@         if { [file pathtype [file readlink $path] ] == "relative" } {
+#@           # set path [file join [file dirname $path] [file readlink $path] ]
+#@           # when lc_shell_is a relative path, return the path directly,
+#@           # this is mostly for the case in build client.
+#@           break
+#@        } else {
+#@           set path [file readlink $path]
+#@        }
+#@         if { [file exists $path] } {
+#@           continue
+#@         } else {
+#@           break
+#@         }
+#@       }
+#@       if { [file exists $path] } {
+#@         set exec_path $path
+#@       }
+#@     }
 #@   }
-#@ 
 #@   return $exec_path
 #@ }
 #@ 
@@ -3639,12 +5401,18 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ set nglc_search_path [get_nglc_search_path]
 #@ set lc_run_from_legacy_library_compiler "true"
 #@ set nglc_is_none_tech_file "false"
+#@ set nglc_is_symbol_file "false"
 #@ set nglc_keep_nglc_temp_files "false"
 #@ set nglc_intermediate_db_files ""
 #@ set nglc_log_path ""
 #@ set lc_enable_legacy_library_compiler "false"
 #@ 
 #@ valias lc_enable_legacy_library_compiler lc_enable_common_shell_lc
+#@ 
+#@ proc make_hex s { 
+#@   binary scan $s H* hex
+#@   return $hex 
+#@ }
 #@ 
 #@ proc nglc_read_lib { args } {
 #@   common_shell_read_lib $args
@@ -3672,12 +5440,27 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ }
 #@ 
 #@ # export all the vars
+#@ # history
+#@ # 2016.03.09 Liping Zhao
+#@ # Fix STAR 9001014310. Under the hood mode will cause lc_shell overwrite the command.log for dc_shell.
+#@ # sh_command_log_file and command_log_file should not be exported to lc_shell.
 #@ proc export_tcl_var { fileName } {
+#@ # 2016.03.09 Liping Zhao
+#@ # Fix STAR 9001014310. 
+#@ # These vars should not be exported.
+#@ set filter_attrs [dict create ::errorInfo 1 ::sh_continue_on_error 1 ::sh_command_log_file 1 ::command_log_file 1 ] 
 #@   foreach var [info vars ::* ] {
 #@     if [array exists $var] {
 #@       continue;
 #@     }
-#@     puts $fileName "set $var \[list [set $var]\]"
+#@     if [ dict exists $filter_attrs $var ] {
+#@       continue;
+#@     }
+#@     if { [set $var] != "" } {
+#@       puts $fileName "catch \{ set $var \[list \[binary format H* [make_hex [set $var]]\]\] \}"
+#@     }  else {
+#@       puts $fileName "catch \{ set $var \"\" \}"
+#@     }
 #@  }
 #@ }
 #@ 
@@ -3706,12 +5489,12 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   puts $fileName "for {set i 0} {\$i < \[ sizeof \$librs \]} {incr i 1} {"
 #@   puts $fileName "  set lib \[index_collection \$librs \$i]"
 #@   puts $fileName "  redirect -var a \"query_object \$lib\" "
-#@   puts $fileName "  if \[regexp {{(\")?(gtech)(\")?}} \$a\] { "
-#@   puts $fileName "  } elseif \[regexp {{(\")?(standard.sldb)(\")?}} \$a] { "
-#@   puts $fileName "  } else {"
-#@   puts $fileName "    regexp {{(\")?(\[^\"\]*)(\")?}} \$a b c d e "
-#@   puts $fileName "    write_lib \$d -o \$nglc_result_path/\$nglc_log_path/\$d.db"
-#@   puts $fileName "  }"
+#@ # puts $fileName "  if \[regexp {{(\")?(gtech)(\")?}} \$a\] { "
+#@ #  puts $fileName "  } elseif \[regexp {{(\")?(standard.sldb)(\")?}} \$a] { "
+#@ #  puts $fileName "  } else {"
+#@   puts $fileName "  regexp {{(\")?(\[^\"\]*)(\")?}} \$a b c d e "
+#@   puts $fileName "  write_lib \$d -o \$nglc_result_path/\$nglc_log_path/\$d.db"
+#@ #  puts $fileName "  }"
 #@   puts $fileName "}"
 #@   puts $fileName "exit"
 #@ }
@@ -3719,13 +5502,17 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@ proc set_none_tech_file { } {
 #@   if { [file exists $::nglc_result_path/$::nglc_log_path/is_non_tech_file] } {
 #@     set ::nglc_is_none_tech_file true;
+#@     if { [file exists $::nglc_result_path/$::nglc_log_path/is_symbol_file] } {
+#@       set ::nglc_is_symbol_file true;
+#@     }
 #@   } else {
 #@     set ::nglc_is_none_tech_file false;
+#@     set ::nglc_is_symbol_file false;
 #@   }
 #@ }
 #@ 
 #@ proc run_libra_with_echo {tcl_file} {
-#@   set chan [open "|$::nglc_search_path -r [get_libra_synopsys_root] -f $tcl_file" r]
+#@   set chan [open "|$::nglc_search_path -shell dcxr -r [get_libra_synopsys_root] -f $tcl_file < /dev/null" r]
 #@ # things to do: In debug mode, we want copy the whole output (beginning to end) 
 #@ # to a file
 #@   if {$::nglc_keep_nglc_temp_files} {
@@ -3754,16 +5541,50 @@ source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
 #@   }
 #@ }
 #@ 
-#@ # -- End source /opt/synopsys/J-2014.09-SP5/admin/setup/.synopsys_dc.setup
+#@ proc nglc_report_lib { args } {
+#@   set tcl_file "$::nglc_result_path/$::nglc_log_path/$::nglc_replay_tcl_file"
+#@   common_shell_read_dbs
+#@   set chan [open $tcl_file a]
+#@   export_tcl_var $chan 
+#@   gen_nglc_report_lib_procedule $chan $args
+#@   close $chan
+#@   run_libra_with_echo $tcl_file
+#@   common_shell_clean_up
+#@ }
+#@ 
+#@ proc gen_nglc_report_lib_procedule {fileName args} {
+#@   foreach db $::nglc_intermediate_db_files {
+#@     puts $fileName "read_db $db"
+#@   }
+#@   puts $fileName "##@@@## gen_nglc_report_lib_procedue"
+#@   puts $fileName "[lindex [lindex $args 0] 0]"
+#@   puts $fileName "##@@@##"
+#@   puts $fileName "exit"
+#@ }
+#@ 
+#@ proc nglc_check_library { tcl_file0 } {
+#@   #set_folder_var
+#@   set tcl_file "$::nglc_result_path/$::nglc_log_path/$::nglc_replay_tcl_file"
+#@   set chan [open $tcl_file a]
+#@   #export all tcl variables to $tcl_file
+#@   export_tcl_var $chan 
+#@   puts $chan "##@@@## gen_nglc_check_lib_procedure"
+#@   puts $chan "source $tcl_file0"
+#@   puts $chan "##@@@##"
+#@   close $chan
+#@   run_libra_with_echo $tcl_file
+#@   common_shell_clean_up
+#@ }
+#@ # -- End source /opt/synopsys/2016/core-synthesis-tools/admin/setup/.synopsys_dc.setup
 
 source /home/DREXEL/ab3433/sparcProject/dc_compiler/.synopsys_dc.setup
 #@ # -- Starting source /home/DREXEL/ab3433/sparcProject/dc_compiler/.synopsys_dc.setup
 
 #@ set file_lib "/mnt/class_data/ecec574-f2016/SAED32nm/"
 #@ set os_path "../OpenSPARC/design"
-#@ set search_path "$search_path $file_lib/lib/stdcell_rvt/db_ccs/ $os_path/include $os_path/common $os_path/lib ./src ./scripts"
+#@ set search_path "$search_path $file_lib/lib/stdcell_lvt/db_ccs/ $os_path/include $os_path/common $os_path/lib ./src ./scripts"
 #@ set synthetic_library "dw_foundation.sldb"
-#@ set target_library "saed32rvt_ff1p16vn40c.db"
+#@ set target_library "saed32lvt_ff1p16vn40c.db"
 #@ set link_library "* $target_library $synthetic_library"
 #@ 
 #@ # -- End source /home/DREXEL/ab3433/sparcProject/dc_compiler/.synopsys_dc.setup
