@@ -4,7 +4,7 @@ Information: Updating graph... (UID-83)
 Report : cell
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Fri Mar  3 21:47:45 2017
+Date   : Sat Mar  4 16:16:32 2017
 ****************************************
 
 Attributes:
@@ -16,21 +16,22 @@ Attributes:
 
 Cell                      Reference       Library             Area  Attributes
 --------------------------------------------------------------------------------
-bw_r_rf16x160             bw_r_rf16x160                   24109.370626
-                                                                    b, h, n
-cluster_header            bw_clk_cl_fpu_cmp               79.038785 h, n
-fpu_add                   fpu_add                         24466.951746
-                                                                    b, h, n
-fpu_div                   fpu_div                         10305.539434
-                                                                    b, h, n
-fpu_in                    fpu_in                          5266.372134
-                                                                    b, h, n
-fpu_mul                   fpu_mul                         38305.346469
-                                                                    b, h, n
-fpu_out                   fpu_out                         1563.748073
+bw_r_rf16x160             bw_r_rf16x160                   103450.522141
+                                                                    h, n
+cluster_header            bw_clk_cl_fpu_cmp               320.716804
+                                                                    h, n
+fpu_add                   fpu_add                         103609.958304
+                                                                    h, n
+fpu_div                   fpu_div                         40949.452672
+                                                                    h, n
+fpu_in                    fpu_in                          20924.927833
+                                                                    h, n
+fpu_mul                   fpu_mul                         160392.499387
+                                                                    h, n
+fpu_out                   fpu_out                         6179.327997
                                                                     h, n
 fpu_rptr_groups           fpu_rptr_groups                 0.000000  h
-test_stub_scan            test_stub_scan                  9.403328  h
+test_stub_scan            test_stub_scan                  36.864000 h
 --------------------------------------------------------------------------------
-Total 9 cells                                             104105.770594
+Total 9 cells                                             435864.269137
 1

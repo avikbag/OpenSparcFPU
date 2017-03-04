@@ -7,69 +7,82 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Fri Mar  3 21:47:47 2017
+Date   : Sat Mar  4 16:16:34 2017
 ****************************************
 
-Operating Conditions: ff1p16vn40c   Library: saed32lvt_ff1p16vn40c
+Operating Conditions: TYPICAL   Library: saed90nm_typ
 Wire Load Model Mode: enclosed
 
-  Startpoint: fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]
+  Startpoint: fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[40]
               (rising edge-triggered flip-flop clocked by gclk)
-  Endpoint: fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg
-            (positive level-sensitive latch clocked by gclk')
+  Endpoint: fpu_add/fpu_add_exp_dp/i_add_exp_out2/q_reg[2]
+            (rising edge-triggered flip-flop clocked by gclk)
   Path Group: gclk
   Path Type: max
 
   Des/Clust/Port     Wire Load Model       Library
   ------------------------------------------------
-  dffre_SIZE3_2      ForQA                 saed32lvt_ff1p16vn40c
-  fpu_mul_ctl        8000                  saed32lvt_ff1p16vn40c
-  fpu_mul            70000                 saed32lvt_ff1p16vn40c
-  mul64              35000                 saed32lvt_ff1p16vn40c
-  clken_buf_6        ForQA                 saed32lvt_ff1p16vn40c
+  fpu_add_frac_dp    140000                saed90nm_typ
+  fpu_add            140000                saed90nm_typ
+  fpu_add_exp_dp     16000                 saed90nm_typ
+  dffe_SIZE11_7      8000                  saed90nm_typ
 
   Point                                                   Incr       Path
   --------------------------------------------------------------------------
   clock gclk (rise edge)                                  0.00       0.00
-  clock network delay (ideal)                             0.40       0.40
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/CLK (DFFX1_LVT)
-                                                          0.00       0.40 r
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/Q (DFFX1_LVT)
-                                                          0.05       0.45 r
-  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q[2] (dffre_SIZE3_2)
-                                                          0.00       0.45 r
-  fpu_mul/fpu_mul_ctl/U110/Y (AND2X1_LVT)                 0.03       0.47 r
-  fpu_mul/fpu_mul_ctl/U124/Y (INVX1_LVT)                  0.42       0.90 f
-  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       0.90 f
-  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       0.90 f
-  fpu_mul/i_m4stg_frac/U6/Y (INVX1_LVT)                   0.05       0.94 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       0.94 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.02       0.96 f
-  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/D (LATCHX1_LVT)
-                                                          0.00       0.96 f
-  data arrival time                                                  0.96
+  clock network delay (ideal)                             0.00       0.00
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[40]/CLK (DFFX1)
+                                                          0.00       0.00 r
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[40]/Q (DFFX1)
+                                                          0.19       0.19 f
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q[40] (dff_SIZE64_2)
+                                                          0.00       0.19 f
+  fpu_add/fpu_add_frac_dp/U761/Q (OR3X2)                  0.77       0.95 f
+  fpu_add/fpu_add_frac_dp/U323/Q (OR2X2)                  0.54       1.50 f
+  fpu_add/fpu_add_frac_dp/U318/Q (AND2X1)                 0.45       1.95 f
+  fpu_add/fpu_add_frac_dp/U317/Q (AND2X1)                 0.40       2.35 f
+  fpu_add/fpu_add_frac_dp/U132/Q (AND2X4)                 0.46       2.80 f
+  fpu_add/fpu_add_frac_dp/U322/Q (AO21X1)                 0.43       3.23 f
+  fpu_add/fpu_add_frac_dp/U320/Q (AND2X1)                 0.40       3.63 f
+  fpu_add/fpu_add_frac_dp/U778/C1 (HADDX2)                0.70       4.33 f
+  fpu_add/fpu_add_frac_dp/U780/C1 (HADDX2)                0.71       5.04 f
+  fpu_add/fpu_add_frac_dp/U779/C1 (HADDX2)                0.71       5.75 f
+  fpu_add/fpu_add_frac_dp/U781/C1 (HADDX2)                0.71       6.46 f
+  fpu_add/fpu_add_frac_dp/U784/C1 (HADDX2)                0.71       7.16 f
+  fpu_add/fpu_add_frac_dp/U783/C1 (HADDX2)                0.71       7.87 f
+  fpu_add/fpu_add_frac_dp/U786/C1 (HADDX2)                0.71       8.58 f
+  fpu_add/fpu_add_frac_dp/U785/C1 (HADDX2)                0.71       9.28 f
+  fpu_add/fpu_add_frac_dp/U774/C1 (HADDX2)                0.71       9.99 f
+  fpu_add/fpu_add_frac_dp/U775/C1 (HADDX2)                0.71      10.70 f
+  fpu_add/fpu_add_frac_dp/U777/C1 (HADDX2)                0.71      11.41 f
+  fpu_add/fpu_add_frac_dp/U782/C1 (HADDX2)                0.71      12.11 f
+  fpu_add/fpu_add_frac_dp/U787/C1 (HADDX2)                0.71      12.82 f
+  fpu_add/fpu_add_frac_dp/a4stg_rndadd_cout (fpu_add_frac_dp)
+                                                          0.00      12.82 f
+  fpu_add/fpu_add_exp_dp/a4stg_rndadd_cout (fpu_add_exp_dp)
+                                                          0.00      12.82 f
+  fpu_add/fpu_add_exp_dp/U87/Q (AND2X4)                   0.51      13.34 f
+  fpu_add/fpu_add_exp_dp/U416/QN (NAND3X0)                0.13      13.47 r
+  fpu_add/fpu_add_exp_dp/i_add_exp_out2/din[2] (dffe_SIZE11_7)
+                                                          0.00      13.47 r
+  fpu_add/fpu_add_exp_dp/i_add_exp_out2/U14/Q (AND2X1)
+                                                          0.09      13.56 r
+  fpu_add/fpu_add_exp_dp/i_add_exp_out2/q_reg[2]/D (DFFX1)
+                                                          0.04      13.60 r
+  data arrival time                                                 13.60
 
-  clock gclk' (rise edge)                                 2.00       2.00
-  clock network delay (ideal)                             0.40       2.40
-  clock uncertainty                                      -0.10       2.30
-  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/CLK (LATCHX1_LVT)
-                                                          0.00       2.30 r
-  time borrowed from endpoint                             0.00       2.30
-  data required time                                                 2.30
+  clock gclk (rise edge)                                  4.00       4.00
+  clock network delay (ideal)                             0.00       4.00
+  clock uncertainty                                      -0.10       3.90
+  fpu_add/fpu_add_exp_dp/i_add_exp_out2/q_reg[2]/CLK (DFFX1)
+                                                          0.00       3.90 r
+  library setup time                                     -0.05       3.85
+  data required time                                                 3.85
   --------------------------------------------------------------------------
-  data required time                                                 2.30
-  data arrival time                                                 -0.96
+  data required time                                                 3.85
+  data arrival time                                                -13.60
   --------------------------------------------------------------------------
-  slack (MET)                                                        1.34
-
-  Time Borrowing Information
-  --------------------------------------------------------------
-  gclk' nominal pulse width                               2.00   
-  library setup time                                     -0.03   
-  --------------------------------------------------------------
-  max time borrow                                         1.97   
-  actual time borrow                                      0.00   
-  --------------------------------------------------------------
+  slack (VIOLATED)                                                  -9.75
 
 
 1
