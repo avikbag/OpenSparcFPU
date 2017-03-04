@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version M-2016.12-SP1 for linux64 -- Jan 13, 2017
-#@ # Date:   Sat Mar  4 16:09:37 2017
+#@ # Date:   Sat Mar  4 18:10:42 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
@@ -5613,7 +5613,8 @@ source -echo -verbose /home/DREXEL/ab3433/sparcProject/dc_compiler/scripts/run.d
 #@ 
 #@ # Comile for optimization reports
 #@ 
-#@ compile_ultra -gate_clock -no_autoungroup
+#@ #compile_ultra -gate_clock -no_autoungroup
+#@ compile
 #@ write_sdc ./const/fpu.sdc
 #@ 
 #@ #Reports for different constraints 

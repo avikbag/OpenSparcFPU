@@ -61,7 +61,8 @@ set_clock_uncertainty 0.1 gclk
 
 # Comile for optimization reports
 
-compile_ultra -gate_clock -no_autoungroup
+#compile_ultra -gate_clock -no_autoungroup
+compile
 write_sdc ./const/fpu.sdc
 
 #Reports for different constraints 
