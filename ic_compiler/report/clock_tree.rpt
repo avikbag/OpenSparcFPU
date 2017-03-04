@@ -1,2 +1,14 @@
-Error: Current design is not defined. (UID-4)
-0
+ 
+****************************************
+Report : clock tree
+Design : fpu
+Version: L-2016.03-SP5-1
+Date   : Fri Mar  3 21:14:50 2017
+****************************************
+
+
+======================= Clock Tree Summary ========================
+Clock                Sinks     CTBuffers ClkCells  Skew      LongestPath TotalDRC   BufferArea
+-----------------------------------------------------------------------------------------------
+gclk                 4487      0         131       3.2042    3.2042      1970           0.0000
+1

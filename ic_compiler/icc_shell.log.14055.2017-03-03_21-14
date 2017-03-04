@@ -1,0 +1,445 @@
+Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
+## Author: Avik Bag
+## Course: ASIC I
+## ICC Lab Script
+## 11 - 30 - 2016
+## Prof. Taskin
+## Clear out any outstanding milkyway library with the same name
+#file delete -force $my_mw_lib
+## This is used to start the GUI for capturing 
+## the necessary maps for this project
+#start_gui
+## This creates a fresh copy of a milkyway library based 
+## on the designated technology files and reference libraries
+## all of which are defined in the setup file
+create_mw_lib -technology $tech_file   -mw_reference_library $ref_file   "tester" -open 
+Start to load technology file /mnt/class_data/ecec574-f2016/SAED32nm/tech/milkyway/saed32nm_1p9m_mw.tf.
+Warning: Layer 'M1' attribute 'uShapeDepthThreshold' has a value of 0. (TFCHK-064)
+Warning: LayerExt 'M1' is missing the attribute 'denseWireMinWidth'. (line 646) (TFCHK-014)
+Warning: LayerExt 'M1' is missing the attribute 'denseWireMinLength'. (line 646) (TFCHK-014)
+Warning: Layer 'VIA1' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 675) (TFCHK-033)
+Warning: Layer 'VIA1' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 676) (TFCHK-033)
+Warning: Layer 'VIA2' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 760) (TFCHK-033)
+Warning: Layer 'VIA2' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 761) (TFCHK-033)
+Warning: Layer 'VIA2' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 762) (TFCHK-033)
+Warning: Layer 'VIA3' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 842) (TFCHK-033)
+Warning: Layer 'VIA3' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 843) (TFCHK-033)
+Warning: Layer 'VIA3' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 844) (TFCHK-033)
+Warning: Layer 'VIA4' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 921) (TFCHK-033)
+Warning: Layer 'VIA4' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 922) (TFCHK-033)
+Warning: Layer 'VIA4' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 923) (TFCHK-033)
+Warning: Layer 'VIA5' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 999) (TFCHK-033)
+Warning: Layer 'VIA5' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 1000) (TFCHK-033)
+Warning: Layer 'VIA5' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 1001) (TFCHK-033)
+Warning: Layer 'VIA6' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 1077) (TFCHK-033)
+Warning: Layer 'VIA6' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 1078) (TFCHK-033)
+Warning: Layer 'VIA6' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 1079) (TFCHK-033)
+Warning: Layer 'VIA7' attribute 'cutNameTbl' is assigned a list with an incorrect number of elements. (line 1156) (TFCHK-033)
+Warning: Layer 'VIA7' attribute 'cutWidthTbl' is assigned a list with an incorrect number of elements. (line 1157) (TFCHK-033)
+Warning: Layer 'VIA7' attribute 'cutHeightTbl' is assigned a list with an incorrect number of elements. (line 1158) (TFCHK-033)
+Warning: Layer 'M1' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.13 or 0.105. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.164 or 0.139. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.179 or 0.164. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 2.432 that does not match the recommended wire-to-via pitch 1.74. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the recommended wire-to-via pitch 4.5. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the doubled pitch 2.432 or tripled pitch 3.648. (TFCHK-050)
+Warning: CapModel sections are missing. Capacitance models should be loaded with a TLU+ file later. (TFCHK-084)
+Technology file /mnt/class_data/ecec574-f2016/SAED32nm/tech/milkyway/saed32nm_1p9m_mw.tf has been loaded successfully.
+{tester}
+## This imports the s15850 compiled ddc file that was generated
+## in the previous dc_shell lab, and will be used for this lab
+import_designs $ddc_file -format ddc -top $top_design
+Loading db file '/mnt/class_data/ecec574-f2016/SAED32nm/lib/stdcell_lvt/db_ccs/saed32lvt_ff1p16vn40c.db'
+Information: Using CCS timing libraries. (TIM-024)
+Warning: Unit conflict found: Milkyway technology file resistance unit is kOhm; main library resistance unit is MOhm. (IFS-007)
+Loading db file '/opt/synopsys/2016/icc/libraries/syn/gtech.db'
+Loading db file '/opt/synopsys/2016/icc/libraries/syn/standard.sldb'
+Information: linking reference library : /mnt/class_data/ecec574-f2016/SAED32nm/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+  Loading link library 'saed32lvt_ff1p16vn40c'
+  Loading link library 'gtech'
+Reading ddc file '/home/DREXEL/ab3433/sparcProject/dc_compiler/unmapped/fpu.ddc'.
+Loaded 3406 designs.
+Current design is 'fpu'.
+Current design is 'fpu'.
+
+  Linking design 'fpu'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (3406 designs)            /home/DREXEL/ab3433/sparcProject/dc_compiler/unmapped/fpu.ddc, etc
+  saed32lvt_ff1p16vn40c (library) /mnt/class_data/ecec574-f2016/SAED32nm/lib/stdcell_lvt/db_ccs/saed32lvt_ff1p16vn40c.db
+
+Info: Creating auto CEL.
+Information: Performing CEL netlist consistency check. (MWDC-118)
+Information: CEL consistency check PASSED. (MWDC-119)
+Information: Saved design named fpu. (UIG-5)
+1
+## Assign the required TLU plus files 
+set_tlu_plus_files   -max_tluplus $tlup_max   -min_tluplus $tlup_min   -tech2itf_map $tlup_map
+1
+## Setting clock constraint
+create_clock gclk -period 2
+1
+## Sanity check for the libraries used and the TLU plus 
+## files assigned
+check_library
+Error: The check_library command failed to run. Check the installation of Library Compiler. (LCSH-3)
+0
+check_tlu_plus_files
+
+Sanity check for TLU+ vs MW-Tech files:
+ max_tlu+: /mnt/class_data/ecec574-f2016/SAED32nm/tech/star_rcxt/saed32nm_1p9m_Cmax.tluplus
+ min_tlu+: /mnt/class_data/ecec574-f2016/SAED32nm/tech/star_rcxt/saed32nm_1p9m_Cmin.tluplus
+ mapping_file: /mnt/class_data/ecec574-f2016/SAED32nm/tech/milkyway/saed32nm_tf_itf_tluplus.map
+ max_emul_tlu+: **NONE**
+ min_emul_tlu+: **NONE**
+ MW design lib: tester
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+1
+## Setting up Power and Ground pins and nets for floorplanning
+#derive_pg_connection #  -power_net VDD #  -power_pin VDD #  -ground_net VSS #  -ground_pin VSS #  -create_ports top
+## Floorplanning
+#create_floorplan   -control_type aspect_ratio   -core_aspect_ratio 1   -core_utilization 0.7   -start_first_row   -left_io2core 5.0   -right_io2core 5.0   -top_io2core 5.0   -bottom_io2core 5.0 
+## Create floorplan placements
+#create_fp_placement
+## Generate the floorplan power rails
+#synthesize_fp_rail   -power_budget 1000   -voltage_supply 1.16   -target_voltage_drop 250   -nets "VDD VSS"   -output_dir "./power.pna"   -create_virtual_rails M1   -synthesize_power_plan   -synthesize_power_pads   -use_strap_ends_as_pads
+## Committing the design options chosen in the above commands
+#commit_fp_rail
+## Runnning clock tree synthesis with power optimizations
+#clock_opt   -only_cts   -no_clock_route #  -power
+#route_zrt_group   -all_clock_nets   -reuse_existing_global_route true
+## Routing with power optimization
+#route_opt -initial_route_only 
+#route_opt   -skip_initial_route   -effort low   -power
+## Reports for the various parameters
+report_timing > report/timing.rpt
+report_power > report/power.rpt
+report_clock_tree -summary > report/clock_tree.rpt
+#exit
+icc_shell> check_library
+Error: The check_library command failed to run. Check the installation of Library Compiler. (LCSH-3)
+0
+icc_shell> man check_library
+2.  Synopsys Commands                                        Command Reference
+                                 check_library
+
+NAME
+       check_library
+              Performs   consistency   checks   between   logic  and  physical
+              libraries,  across  logic   libraries,   and   within   physical
+              libraries.
+
+SYNTAX
+       status check_library
+               [-mw_library_name phys_library_name_list]
+               [-logic_library_name logic_library_name_list]
+               [-cells cell_list]
+
+   Data Types
+       phys_library_name_list      list
+       logic_library_name_list     list
+       cell_list                   list
+
+ARGUMENTS
+       -mw_library_name phys_library_name_list
+              Specifies the Milkyway reference libraries to be checked.
+
+              If  you  do not specify this option, the command uses the refer-
+              ence libraries from the open Milkyway design library.  If  there
+              is  no open Milkyway design library, the command uses the refer-
+              ence libraries specified in the mw_reference_library variable.
+
+       -logic_library_name logic_library_name_list
+              Specifies the logic libraries (.db) to be checked.  Other  types
+              of libraries such as .ILM are not supported.
+
+              For  logic  versus  logic  library checking, specify two or more
+              libraries, such as the minimum and maximum  libraries.   If  you
+              have   set   the   -compare   or   -validate   options   of  the
+              set_check_library_options command, specify only two libraries.
+
+              If you do not specify this option, the  command  determines  the
+              logic libraries in the following order:
+              o  The  minimum  and  maximum  libraries  that were set with the
+                set_min_library command.
+
+              o   If   you   have   set   the   -scaling   option    of    the
+                set_check_library_options  command, the scaling libraries that
+                were set with the define_scaling_lib_group command.
+
+              o The link libraries that were set  with  the  link_library  and
+                search_path variables.
+                For  logic  versus  logic  library checking, the command first
+                groups the link libraries by cell set, and within  each  group
+                or   family   the  command  checks  consistencies  across  all
+                libraries in the same group. The grouping is  by  majority  (>
+                50%)  of same name cells. For example, if lib1 has 9 cells and
+                lib2 has 6, and 5 of them are the same, then they are  grouped
+                together.
+
+              This option is ignored for physical library checking.
+
+       -cells cell_list
+              Specifies a list of cell names to be checked.  If not specified,
+              all cells in the libraries are checked.
+
+DESCRIPTION
+       The check_library command checks and reports the items described below,
+       based on the settings of the set_check_library_options command.
+
+       If  you  do  not  run  the set_check_library_options command and do not
+       specify any options with the check_library command,  the  check_library
+       command  checks  logic  versus  physical  library  consistency  for the
+       libraries that are set up for the  current  design.  If  there  are  no
+       libraries  set  up for the current design, the command does not perform
+       any checks.
+
+       During logic library checking, to report the delay,  power,  and  noise
+       characterization  values  in the libraries, the Liberty-format descrip-
+       tion of the libraries must have the library_features attribute  set  to
+       the  respective values: report_delay_calculation, report_power_calcula-
+       tion, and report_noise_calculation.
+
+       Use the check_library command to verify the libraries before reading in
+       a design.
+
+       This command checks library qualities in three main areas:
+
+       o Physical library quality
+
+       o Logic versus physical library consistency
+
+       o Logic versus logic library consistency
+
+   Physical Library Quality Checking
+       Physical library qualities are checked as follows:
+
+       o  Technology  data  consistency between the specified main library and
+         each linked reference library
+
+       o CEL view versus FRAM view in the library for missing views  and  mis-
+         matched views
+
+       o  Cells  with identical names in different reference libraries and the
+         specified main library
+
+       o Signal electromigration rules
+
+       o Antenna rules and missing antenna properties
+
+       o Rectilinear cells
+
+       o Physical-only cells
+
+       o Physical properties for place and route including unit tiles for  the
+         libraries
+
+       o Pin routability
+
+       o Technology data quality
+
+       o DRC for each cell in the library
+
+   Logic Versus Physical Library Consistency Checking
+       The command performs the following consistency checks between logic and
+       physical libraries:
+
+       o Missing cells in the logic or physical library
+         If you specify multiple logic libraries and no cells are found in any
+         of  the  libraries  that  match  the  physical library, the cells are
+         counted as missing in the logic library unless they are physical-only
+         cells.   Otherwise,  if  the  cells  are  found  in  any of the logic
+         libraries, such as the first library, they are counted as  consistent
+         in cell names.
+
+       o  Missing or mismatched pins (pin names, directions, and types) in the
+         logic and physical library.
+         Note that the input pin direction keyword in a logic cell versus  the
+         Input keyword in a physical cell is not a mismatch.
+
+       o  Area  values  of  each standard cell between the logic (.lib or .db)
+         model and FRAM view (PRBoundary and CellBoundary)
+
+       o Cell footprint (cell_footprint attribute)
+
+       o Bus character naming style in logic and physical libraries.
+
+       By default, missing cells and pins and mismatched pins are checked.
+
+       For logic versus physical library checking, at the end of checking  the
+       command  reports  a  cross-check  summary  that  includes the following
+       information:
+
+       o Number of cells missing in the logic library (excluding physical-only
+         cells)
+
+       o Number of cells missing in the physical library
+
+       o Number of cells with missing or mismatched pins in libraries, if any
+
+       o  The  logic  versus  physical  library quality checking PASSED or the
+         logic library is INCONSISTENT with the physical library
+
+   Logic Versus Logic Library Consistency Checking
+       Logic versus logic library consistency checks include:
+
+       o General checking at library, cell, pin, and timing group  levels  for
+         missing  cells,  missing  and  mismatched pins or pg_pins, and timing
+         arcs.
+
+       o Special checking for timing, noise, and power scaling
+
+       o Special checking for the UPF or multivoltage flow, such  as  pg_pins,
+         power management cells, and power data
+
+       o  Special checking for the multicorner-multimode flow, such as operat-
+         ing conditions and power-down functions
+
+       o Library characterization and validation
+
+       For logic versus logic library checking, at the  end  of  checking  the
+       command  reports a summary for each specified option.  For example, for
+       the -mcmm option, it reports:
+
+         Logic library consistency check FAILED for MCMM.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       In the following example, the lib1.db and lib2.db logic  libraries  are
+       checked  against  the phys_lib physical libraries for missing cells and
+       pins, mismatched pins, the cell footprint, and the bus delimiter:
+
+         prompt> set_check_library_options -cell_footprint -bus_delimiter
+         1
+
+         prompt> check_library -mw_library_name {phys_lib} \
+            -logic_library_name {lib1.db lib2.db}
+
+         #BEGIN_XCHECK_LIBRARY
+
+         Logic Library:    lib1
+                           lib2
+         Physical Library: phys_lib
+         check_library options:  -cell_footprint -bus_delimiter
+         Version:                E-2010.12
+         Check date and time:    Tue Sep 28 20:34:26 2010
+
+                   List of logic library and file names
+
+         --------------------------------------------------------------------
+         Logic library name           Logic library file name
+         --------------------------------------------------------------------
+         lib1                         /usr/lib/lib1.db
+         lib2                         /usr/lib/lib2.db
+         --------------------------------------------------------------------
+
+         #BEGIN_XCHECK_LOGICCELLS
+
+         Number of cells missing in logic library:       3 (out of 3348)
+
+         Information: List of cells missing in logic library (LIBCHK-210)
+         --------------------------------------------------------------------
+         Cell name                  Cell type             Physical library
+         --------------------------------------------------------------------
+         AND2                       Core                  phys_lib
+         NOR1                       Core                  phys_lib
+         XOR3                       Core                  phys_lib
+         --------------------------------------------------------------------
+
+                   List of physical only cells
+         --------------------------------------------------------------------
+         Cell name                  Cell type             Physical library
+         --------------------------------------------------------------------
+         GFILL                      Filler                phys_lib
+         GFILL10                    Filler                phys_lib
+         FILL8                      Filler                phys_lib
+         --------------------------------------------------------------------
+
+         #END_XCHECK_LOGICCELLS
+
+         #BEGIN_XCHECK_PHYSICALCELLS
+
+         Number of cells missing in physical library:    0 (out of 846)
+
+         #END_XCHECK_PHYSICALCELLS
+
+         #BEGIN_XCHECK_PINS
+
+         Number of cells with missing or mismatched pins in libraries:   1
+
+         Error: List of pins mismatched in logic and physical libraries (LIBCHK-213)
+         Logic library:    lib1
+         Physical library: phys_lib
+         -------------------------------------------------------------------
+                                         Pin direction          Pin type
+         Cell name          Pin name    Logic   Physical    Logic   Physical
+         -------------------------------------------------------------------
+         pnl123             VSSO        output  Output      signal  ground
+                            SGND        input   Input       signal  ground
+         -------------------------------------------------------------------
+
+         #END_XCHECK_PINS
+
+         #BEGIN_XCHECK_BUS
+
+         Information: List of bus naming styles (LIBCHK-214)
+         -----------------------------------------------------------------
+         Library name                 Library type        Bus naming style
+         -----------------------------------------------------------------
+         phys_lib                     Physical library    _<%d>
+         lib1                         Logic library
+         -----------------------------------------------------------------
+
+         #END_XCHECK_BUS
+
+         #BEGIN_XCHECK_FOOTPRINT
+
+         Number of footprints:   1
+
+         Warning: List of cells with cell_footprint attribute (LIBCHK-215)
+         -------------------------------------------------------------------
+         Footprint  Logic library name   Cell name           PR boundary
+         -------------------------------------------------------------------
+         TIEH       lib1                 GTIEH               (0,0)(0.8,1.8)
+                    lib1                 TIEH                (0,0)(0.6,1.8)
+         -------------------------------------------------------------------
+
+         #END_XCHECK_FOOTPRINT
+
+         Logic vs. physical library check summary:
+         Number of cells missing in logic library:       3
+         Number of cells with missing or mismatched pins in libraries:   1
+         Information: Logic library is INCONSISTENT with physical library. (LIBCHK-220)
+
+         #END_XCHECK_LIBRARY
+
+         0
+
+SEE ALSO
+       open_mw_lib(2)
+       report_check_library_options(2)
+       set_check_library_options(2)
+       link_library(3)
+       mw_reference_library(3)
+
+                         Version L-2016.03-SP5-1
+            Copyright (c) 2016 Synopsys, Inc. All rights reserved.
+icc_shell> 
+
+Thank you...
+Exit IC Compiler!

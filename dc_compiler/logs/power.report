@@ -4,7 +4,7 @@ Report : power
         -analysis_effort low
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Fri Mar  3 15:02:49 2017
+Date   : Fri Mar  3 21:47:47 2017
 ****************************************
 
 
@@ -3558,11 +3558,11 @@ Power-specific unit information :
 
 
   Cell Internal Power  =   0.0000 uW    (0%)
-  Net Switching Power  =   1.2504 mW  (100%)
+  Net Switching Power  = 624.9551 uW  (100%)
                          ---------
-Total Dynamic Power    =   1.2504 mW  (100%)
+Total Dynamic Power    = 624.9551 uW  (100%)
 
-Cell Leakage Power     =   2.9583 mW
+Cell Leakage Power     =   2.9282 mW
 
 
                  Internal         Switching           Leakage            Total
@@ -3571,10 +3571,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network      0.0000        1.0620e+03        2.0914e+07        1.0829e+03  (  25.73%)
-register           0.0000           31.0412        6.3227e+08          663.3082  (  15.76%)
-sequential         0.0000            0.0000        3.8036e+08          380.3559  (   9.04%)
-combinational      0.0000          157.3770        1.9247e+09        2.0821e+03  (  49.47%)
+clock_network      0.0000          531.0005        2.0914e+07          551.9149  (  15.53%)
+register           0.0000           15.5649        6.3220e+08          647.7605  (  18.23%)
+sequential         0.0000            0.0000        3.8036e+08          380.3559  (  10.70%)
+combinational      0.0000           78.3889        1.8947e+09        1.9731e+03  (  55.53%)
 --------------------------------------------------------------------------------------------------
-Total              0.0000 uW     1.2504e+03 uW     2.9583e+09 pW     4.2087e+03 uW
+Total              0.0000 uW       624.9543 uW     2.9282e+09 pW     3.5531e+03 uW
 1

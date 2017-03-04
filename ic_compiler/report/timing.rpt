@@ -1,2 +1,70 @@
-Error: Current design is not defined. (UID-4)
-0
+Information: Updating graph... (UID-83)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : fpu
+Version: L-2016.03-SP5-1
+Date   : Fri Mar  3 21:14:45 2017
+****************************************
+
+Operating Conditions: ff1p16vn40c   Library: saed32lvt_ff1p16vn40c
+
+  Startpoint: fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]
+              (rising edge-triggered flip-flop clocked by gclk)
+  Endpoint: fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg
+            (positive level-sensitive latch clocked by gclk')
+  Path Group: gclk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock gclk (rise edge)                                  0.00       0.00
+  clock network delay (ideal)                             0.40       0.40
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/CLK (DFFX1_LVT)
+                                                          0.00       0.40 r
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q_reg[2]/Q (DFFX1_LVT)
+                                                          0.05       0.45 r
+  fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q[2] (dffre_SIZE3_2)
+                                                          0.00       0.45 r
+  fpu_mul/fpu_mul_ctl/U119/Y (NAND2X0_LVT)                0.86       1.31 f
+  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       1.31 f
+  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       1.31 f
+  fpu_mul/i_m4stg_frac/U501/Y (INVX1_LVT)                 0.11       1.42 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       1.42 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.03       1.45 f
+  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/D (LATCHX1_LVT)
+                                                          0.00       1.45 f
+  data arrival time                                                  1.45
+
+  clock gclk' (rise edge)                                 1.00       1.00
+  clock network delay (ideal)                             0.40       1.40
+  clock uncertainty                                      -0.10       1.30
+  fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/CLK (LATCHX1_LVT)
+                                                          0.00       1.30 r
+  time borrowed from endpoint                             0.15       1.45
+  data required time                                                 1.45
+  --------------------------------------------------------------------------
+  data required time                                                 1.45
+  data arrival time                                                 -1.45
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+  Time Borrowing Information
+  --------------------------------------------------------------
+  gclk' nominal pulse width                               1.00   
+  library setup time                                     -0.03   
+  --------------------------------------------------------------
+  max time borrow                                         0.97   
+  --------------------------------------------------------------
+  actual time borrow                                      0.15   
+  clock uncertainty                                      -0.10   
+  --------------------------------------------------------------
+  time given to startpoint                                0.05   
+  --------------------------------------------------------------
+
+
+1

@@ -1,0 +1,1040 @@
+Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
+icc_shell> man set_route_zrt_detail_options
+2.  Synopsys Commands                                        Command Reference
+                         set_route_zrt_detail_options
+
+NAME
+       set_route_zrt_detail_options
+              Sets the options for Zroute detail routing.
+
+SYNTAX
+       status set_route_zrt_detail_options
+               [-antenna true | false]
+               [-antenna_fixing_preference hop_layers | use_diodes]
+               [-antenna_on_iteration num]
+               [-antenna_verbose_level num]
+               [-check_antenna_on_pg true | false]
+               [-check_patchable_drc_from_fixed_shapes true | false]
+               [-check_pin_min_area_min_length true | false]
+               [-check_port_min_area_min_length true | false]
+               [-continue_after_large_design_rule_value_error true | false]
+               [-default true | false]
+               [-default_diode_protection real]
+               [-default_gate_size real]
+               [-default_port_external_antenna_area real]
+               [-default_port_external_gate_size real]
+               [-detail_route_special_design_rule_fixing_stage none | early_routing | late_routing]
+               [-diagonal_min_width true | false]
+               [-diode_insertion_mode new_and_spare | spare | new]
+               [-diode_libcell_names lib_cells]
+               [-diode_preference none | spare | new]
+               [-drc_convergence_effort_level low | medium | high]
+               [-eco_route_use_soft_spacing_for_timing_optimization true | false]
+               [-eco_route_special_design_rule_fixing_stage  none | early_routing | late_routing]
+               [-elapsed_time_limit limit]
+               [-force_max_number_iterations true | false]
+               [-generate_extra_off_grid_pin_tracks true | false]
+               [-generate_off_grid_feed_through_tracks off | low | medium | high]
+               [-group_route_special_design_rule_fixing_stage none | early_routing | late_routing]
+               [-hop_layers_to_fix_antenna true | false]
+               [-ignore_drc {{drc_name true | false}...}]
+               [-incremental_detail_route_special_design_rule_fixing_stage none | early_routing | late_routing]
+               [-insert_diodes_during_routing true | false]
+               [-macro_pin_antenna_mode normal | jump | top_layer]
+               [-max_antenna_pin_count int]
+               [-merge_gates_for_antenna true | false]
+               [-optimize_tie_off_effort_level off | low | high]
+               [-optimize_wire_via_effort_level off | low | medium | high]
+               [-pin_taper_mode default_width | pin_width | off]
+               [-port_antenna_mode float | jump | top_layer]
+               [-post_process_special_design_rule_fixing_stage none | early_routing | late_routing]
+               [-repair_shorts_over_macros_effort_level off | low | medium | high]
+               [-report_ignore_drc {list_of_drc_names}]
+               [-reuse_filler_locations_for_diodes true | false]
+               [-save_after_iterations iter_list]
+               [-save_cell_prefix prefix]
+               [-skip_antenna_fixing_for_nets nets]
+               [-timing_driven true | false]
+               [-top_layer_antenna_fix_threshold int]
+               [-use_default_width_for_min_area_min_len_stub true | false]
+               [-use_lower_hierarchy_for_port_diodes true | false]
+               [-use_wide_wire_to_input_pin true | false]
+               [-use_wide_wire_to_macro_pin true | false]
+               [-use_wide_wire_to_output_pin true | false]
+               [-use_wide_wire_to_pad_pin same_as_macro_pin | true | false]
+               [-use_wide_wire_to_port same_as_macro_pin | true | false]
+               [-use_wide_wire_effort_level off | low | high]
+               [-user_defined_partition {llx lly urx ury}]
+               [-var_spacing_to_same_net true | false]
+
+   Data Types
+       num                   integer
+       real                  float
+       lib_cells             collection
+       limit                 integer
+       int                   integer
+       list_of_drc_names     list
+       iter_list             collection
+       prefix                string
+       nets                  collection
+       llx                   float
+       lly                   float
+       urx                   float
+       ury                   float
+
+ARGUMENTS
+       -antenna true | false
+              Enables (true) or disables (false) antenna analysis.
+
+              The default is true.
+
+       -antenna_fixing_preference hop_layers | use_diodes
+              Specifies  the  preferred  technique  used to fix antenna viola-
+              tions: layer hopping or diode insertion.
+
+              The default is hop_layers.
+
+       -antenna_on_iteration num
+              Specifies the detail routing iteration at which antenna analysis
+              and optimization is turned on.
+
+              The  range  is from 1 to 19 (the routing iteration number starts
+              at 0).
+
+              The default is 1.
+
+       -antenna_verbose_level num
+              Specifies the verbosity level to  print  extra  information  for
+              antenna  analysis  and optimization. This option does not affect
+              the actual analysis or optimization.
+
+              The range is from 0 to 2.
+
+              The default is 1.
+
+       -check_antenna_on_pg true | false
+              Enables (true) or disables (false) analysis and optimization  of
+              antennas on power and ground nets.
+
+              The default is false.
+
+              For designs with high-fanout power or ground nets, enabling this
+              option typically increases the runtime for routing commands.
+
+       -check_patchable_drc_from_fixed_shapes true | false
+              Enables (true) or disables (false) checking  of  patchable  DRCs
+              for fixed routes.
+
+              When this option is enabled, patchable DRCs (minimum area, mini-
+              mum length, and end-of-line spacing) are checked  between  fixed
+              routes.  Violations  are Violations are resolved by metal patch-
+              ing.
+
+              The default is false.
+
+       -check_pin_min_area_min_length true | false
+              Enables (true) or disables (false) checking for minimum area and
+              minimum length rules on pins.
+
+              The default is true.
+
+       -check_port_min_area_min_length true | false
+              Enables (true) or disables (false) checking for minimum area and
+              minimum length rules on physical ports (terminals).
+
+              The default is true.
+
+       -continue_after_large_design_rule_value_error true | false
+              Controls whether to continue on large design rule values.
+
+              The tool has an internal threshold for the fatTblExtensionRange,
+              fatTblXExtensionRange,  fatTblYExtensionRange,  and  protrusion-
+              LengthLimitTbl attributes in the DesignRule section of the tech-
+              nology file.
+
+              By  default (false), the detail router fails if the value speci-
+              fied for any of these attributes exceeds the internal threshold.
+
+              When this option is enabled, the detail router continues even if
+              the internal threshold is exceeded.  Enabling  this  option  can
+              cause  excessive  runtime  and memory overhead and is not recom-
+              mended.
+
+       -default true | false
+              If true, this option resets all options to their default values.
+
+              The default is false.
+
+       -default_diode_protection real
+              Specifies  the  diode  protection  value  used  for  pins during
+              antenna analysis if the value is not specified in the FRAM  view
+              of the cell. This option has no effect when the FRAM view speci-
+              fies a diode protection value.
+
+              The range is from 0.0 to 1,000,000.00.  There  is  no  unit  for
+              diode  protection.   Depending on the diode mode, it can be used
+              to calculate antenna ratio requirements, equivalent metal  area,
+              or equivalent gate area.
+
+              The default is 0.0.
+
+       -default_gate_size real
+              Specifies the gate size used for pins during antenna analysis if
+              the gate size is not specified in the FRAM view of the cell.
+
+              The range is from -1.0 to 1,000,000.00. The unit is  the  square
+              of the unitLengthName specified in the technology file.
+
+              The tool uses this option only when you set it to a value of 0.0
+              or greater and the FRAM view does not specify the gate size  for
+              the  pin. This option has no effect when the FRAM view specifies
+              a gate size value.
+
+              The default is -1.0.
+
+       -default_port_external_antenna_area real
+              Specifies the antenna area value used for ports (top-level pins)
+              during  antenna analysis if the antenna area is not specified in
+              the FRAM view of the cell. The antenna area is  the  metal  area
+              from the gate input pin to the external port.
+
+              The range is from 0.0 to 1,000,000.00. The unit is the square of
+              the unitLengthName specified in the technology file.
+
+              The default is 0.0.
+
+       -default_port_external_gate_size real
+              Specifies the gate size used for ports (top-level  pins)  during
+              antenna  analysis  if the gate size is not specified in the FRAM
+              view of the cell.
+
+              The range is from -1.0 to 1,000,000.00. The unit  is  square  of
+              unitLengthName specified in the technology file.
+
+              The tool uses this option only when you set it to a value of 0.0
+              or greater and the FRAM view does not specify the gate size  for
+              the port. This option has no effect when the FRAM view specifies
+              a gate size value.
+
+              If the gate size is not set for a port, Zroute issues a  ZRT-311
+              message and does not perform antenna analysis on the port.
+
+              The default is -1.0.
+
+       -detail_route_special_design_rule_fixing_stage  none  | early_routing |
+       late_routing
+              Selects the stage at which to fix special design rules when run-
+              ning the route_zrt_detail, route_zrt_auto,  and  route_opt  com-
+              mands.
+
+              The  special  design  rules  include the iso-dense via enclosure
+              rule. Fixing the special design rules requires significant rout-
+              ing  resources, so you might not want to fix them at all stages.
+
+              You can fix these rules at the following stages:
+              o late_routing (the default) Check and fix these  rules  in  the
+                postroute stage, after the other DRC rules.
+
+              o early_routing
+                Check and fix these rules along with the other DRC rules.
+
+              o none
+                Never check and fix these rules.
+
+       -diagonal_min_width true | false
+              Specifies  whether  to  use  diagonal distance for minimum width
+              violations.
+
+              If true (the default), diagonal distance is used.
+              If false, manhattan distance is used.
+
+       -diode_insertion_mode new_and_spare | spare | new
+              Specifies whether to fix antenna violations by  using  both  new
+              and  spare diodes (new_and_spare), spare diodes only (spare), or
+              new diodes only (new).
+
+              If you do not specify this option,  Zroute  uses  both  new  and
+              spare diodes.
+
+       -diode_libcell_names lib_cells
+              Specifies the diode library cells to use for antenna fixing.
+
+              The  default is an empty list, in which case diodes are detected
+              automatically.
+
+       -diode_preference none | spare | new
+              Specifies  the  preference  for  fixing  antenna  violations  by
+              inserting a new diode or using an existing spare diode.
+
+              The  default  is none. In this case, the tool selects the method
+              to use based on whether an empty location for a new diode or  an
+              existing spare diode is closer to the required location.
+
+       -drc_convergence_effort_level low | medium | high
+              Specifies  the  effort  level to use before early termination of
+              detail routing when design rule checking  (DRC)  does  not  con-
+              verge.
+
+              Set  the  effort level to high to run more detail routing itera-
+              tions when DRC does not converge. Set the effort level to low to
+              run fewer detail route iterations when DRC does not converge.
+
+              The default is medium.
+
+              This  option  is  ignored  if  the  -force_max_number_iterations
+              option is set to true.
+
+       -eco_route_use_soft_spacing_for_timing_optimization true | false
+              Enables (true) or disables (false) soft-rule-based timing  opti-
+              mization during ECO routing.
+
+              This  option  works  only if the -timing_driven option is set to
+              true.
+
+              The default is true.
+
+       -eco_route_special_design_rule_fixing_stage  none  |  early_routing   |
+       late_routing
+              Selects the stage at which to fix special design rules when run-
+              ning the route_zrt_eco command.
+
+              The  special  design  rules  include the iso-dense via enclosure
+              rule. Fixing the special design rules requires significant rout-
+              ing  resources, so you might not want to fix them at all stages.
+
+              You can fix these rules at the following stages:
+              o late_routing (the default) Check and fix these  rules  in  the
+                postroute stage, after the other DRC rules.
+
+              o early_routing
+                Check and fix these rules along with the other DRC rules.
+
+              o none
+                Never check and fix these rules.
+
+       -elapsed_time_limit limit
+              Specifies the limit for elapsed wall-clock time in minutes.
+
+              The range is from -1 to MAX_INT.
+              The default is -1, which means no limit.
+
+       -force_max_number_iterations true | false
+              Controls  whether  the  maximum number of iterations must be run
+              when DRCs do not converge.
+
+              The default is false.
+
+       -generate_extra_off_grid_pin_tracks true | false
+              Specifies whether to generate extra off-grid routing tracks  for
+              pin connections.
+
+              The default is false.
+
+       -generate_off_grid_feed_through_tracks off | low | medium | high
+              Specifies the effort level used to generate extra off-grid rout-
+              ing tracks for feedthrough nets between blockages.
+
+              The default is low.
+
+       -group_route_special_design_rule_fixing_stage none  |  early_routing  |
+       late_routing
+              Selects the stage at which to fix special design rules when run-
+              ning the route_zrt_group command.
+
+              The  special  design  rules  include the iso-dense via enclosure
+              rule. Fixing the special design rules requires significant rout-
+              ing  resources, so you might not want to fix them at all stages.
+
+              You can fix these rules at the following stages:
+              o late_routing (the default) Check and fix these  rules  in  the
+                postroute stage, after the other DRC rules.
+
+              o early_routing
+                Check and fix these rules along with the other DRC rules.
+
+              o none
+                Never check and fix these rules.
+
+       -hop_layers_to_fix_antenna true | false
+              Controls  whether  Zroute  performs layer hopping to fix antenna
+              violations.
+
+              The default is true.
+
+       -ignore_drc {{drc_name true | false}...}
+              Controls whether Zroute ignores  specific  routing  design  rule
+              checks  (DRCs).   When a DRC is ignored, Zroute neither analyzes
+              nor fixes those violations.
+
+              The valid DRC keywords are
+
+              o same_net_metal_space
+                Ignore all same net metal spacing violations.
+
+              o same_net_enclosed_cut_space
+                Ignore same net enclosed cut spacing violations.
+
+              o all_same_net_drc_for_frozen_net
+                Ignore all same net violations on frozen nets.
+
+              The default is false for all DRC types, which means that none of
+              them are ignored.
+
+       -incremental_detail_route_special_design_rule_fixing_stage    none    |
+       early_routing | late_routing
+              Selects  the  stage  at which to fix special design rules during
+              incremental detail routing  (the  route_zrt_detail  -incremental
+              true command).
+
+              The  special  design  rules  include the iso-dense via enclosure
+              rule. Fixing the special design rules requires significant rout-
+              ing  resources, so you might not want to fix them at all stages.
+
+              You can fix these rules at the following stages:
+              o late_routing (the default) Check and fix these  rules  in  the
+                postroute stage, after the other DRC rules.
+
+              o early_routing
+                Check and fix these rules along with the other DRC rules.
+
+              o none
+                Never check and fix these rules.
+
+       -insert_diodes_during_routing true | false
+              Specifies  whether Zroute can use diode insertion to fix antenna
+              violations.
+
+              The default is false.
+
+       -macro_pin_antenna_mode normal | jump | top_layer
+              Specifies how macro cell pins are treated for antenna considera-
+              tions.
+
+              The valid modes are
+
+              o normal (the default)
+                Treat macro cell pins as normal standard cell output pins.
+
+              o jump
+                Treat  macro  cell  output  pins as if they are connected to a
+                huge antenna and break the antenna, which requires a jumper at
+                the top metal layer.
+
+              o top_layer
+                Connect  all input pins to macro cell output pins only through
+                the highest routing layer of the net.
+
+       -max_antenna_pin_count int
+              Specifies the maximum number of pins on a net on  which  antenna
+              checking is performed. If a net has more than the specified num-
+              ber of pins, antenna checking  is  skipped;  otherwise,  antenna
+              checking is performed.
+
+              The range is from -1 to 1,000,000.
+              The default is -1 (which means no limit).
+
+       -merge_gates_for_antenna true | false
+              Enables  (true)  or  disables  (false) merging gates for antenna
+              analysis.
+
+              The default is true.
+
+       -optimize_tie_off_effort_level off | low | high
+              Specifies the effort level used to optimize wire length and  via
+              counts for tie-off nets.
+
+              The valid values are
+
+              o off
+                No  extra  effort  to  optimize wire length and via counts for
+                tie-off nets.
+
+              o low (the default)
+                Low effort to optimize wire length and via counts for  tie-off
+                nets.
+
+              o high
+                High effort to optimize wire length and via counts for tie-off
+                nets.
+
+       -optimize_wire_via_effort_level off | low | medium | high
+              Specifies the effort level used to optimize wire length and  via
+              counts.
+
+              The valid values are
+
+              o off
+                No extra effort to optimize wire length and via counts.
+
+              o low (the default)
+                Low effort to optimize wire length and via counts.
+
+              o medium
+                Medium effort to optimize wire length and via counts.
+
+              o high
+                High effort to optimize wire length and via counts.
+
+       -pin_taper_mode default_width | pin_width | off
+              Specifies the pin tapering mode.
+
+              The valid values are
+
+              o default_width (the default)
+                Variable  rule  connections to pins are tapered to the default
+                rule width.
+
+              o pin_width
+                Variable rule connections to  pins  are  tapered  to  the  pin
+                width.
+
+              o off
+                Pin tapering is not performed.
+
+       -port_antenna_mode float | jump | top_layer
+              Specifies how the ports (top-level pins) are treated for antenna
+              considerations.
+
+              The valid values are
+
+              o float (the default)
+                Treat ports as floating wires.
+
+              o jump
+                Treat ports as if they are connected to  a  huge  antenna  and
+                break  the  antenna,  which requires a jumper at the top metal
+                layer.
+
+              o top_layer
+                Connect all input pins to ports only through the highest rout-
+                ing layer of the net.
+
+       -post_process_special_design_rule_fixing_stage  none  | early_routing |
+       late_routing
+              Selects  the  stage  at which to fix special design rules during
+              post-processing  commands  such  as   insert_zrt_redundant_vias,
+              spread_zrt_wires, and widen_zrt_wires.
+
+              The  special  design  rules  include the iso-dense via enclosure
+              rule. Fixing the special design rules requires significant rout-
+              ing  resources, so you might not want to fix them at all stages.
+
+              You can fix these rules at the following stages:
+              o late_routing (the default) Check and fix these  rules  in  the
+                postroute stage, after the other DRC rules.
+
+              o early_routing
+                Check and fix these rules along with the other DRC rules.
+
+              o none
+                Never check and fix these rules.
+
+       -repair_shorts_over_macros_effort_level off | low | medium | high
+              Controls  the effort level applied to the automatic repairing of
+              shorts over macros.  If enabled, any  shorts  over  macros  that
+              remain  after  detail  routing  can  trigger the deletion of the
+              involved wires and a full ECO rerouting  of  the  involved  nets
+              (global  routing,  track assignment, and detail routing). Higher
+              effort levels can increase the number of ECO repair  iterations,
+              which  might decrease the final DRC count at the expense of run-
+              time.
+
+              The default is off.
+
+       -report_ignore_drc {list_of_drc_names}
+              Enables an additional DRC report and specifies the DRC types  to
+              be suppressed from this report. The additional report is printed
+              after the DRC summary and includes all  DRC  violations,  except
+              internal-only types and those specified in the list.
+
+              The valid DRC name values are
+                "Diff net spacing"
+                "End of line spacing"
+                "Diff net var rule spacing"
+                "Same net spacing"
+                "U shape spacing"
+                "Special notch spacing"
+                "Dog bone spacing"
+                "h-shape"
+                "Diff net via-cut spacing"
+                "Same net via-cut spacing"
+                "Diff net via-cut to metal spacing"
+                "Asymmetric via-cut to metal spacing"
+                "Less than minimum width"
+                "Less than minimum length"
+                "Protrusion length"
+                "Less than minimum area"
+                "Less than minimum enclosed area"
+                "Less than minimum edge length"
+                "Line-end to short-edge (minEdgeLengthTbl)"
+                "Needs fat contact"
+                "Needs fat contact on extension"
+                "Over max stack level"
+                "Minimum extension"
+                "Enclosed via spacing"
+                "Enclosed unaligned via center spacing"
+                "Via-cut to metal spacing"
+                "Crossing top-cell boundary"
+                "Min-max layer"
+                "Frozen layer"
+                "Forbidden metal"
+                "Diff net fat extension spacing"
+                "Same net fat extension spacing"
+                "Small jog"
+                "Joint wire via enclosure"
+                "Convex metal cut keepout"
+                "Convex metal cut enclosure"
+                "Jog Wire via Enclosure"
+                "End of line wire via enclosure"
+                "T shape wire via enclosure"
+                "Jog wire via keepout area"
+                "Fat wire via keepout area"
+                "Fat wire via keepout enclosure"
+                "T junction"
+                "Connection not within pin"
+                "Short"
+                "Needs redundant via"
+                "Off-grid"
+                "Via-Metal Concave corner rule"
+                "Non-preferred direction route"
+                "Illegal width route"
+                "Greater than maximum width"
+                "Edge-line via spacing"
+                "Dense end of line enclosure"
+                "End of line enclosure"
+                "Two sided end/joint spacing"
+                "Illegal Bridge"
+                "Less than NDR width"
+                "NDR contact code mismatch"
+                "Less than taper width"
+                "Macro pin connection by offset"
+                "Self aligned via cluster"
+                "Self aligned via cut spacing"
+                "Self aligned via invalid enclosure"
+                "Self aligned via with neighbor cut spacing"
+                "Self aligned zig-zag via with neighbor cut spacing"
+                "Self aligned zig-zag via cut spacing"
+                "Self aligned diagonal via cut spacing"
+                "MisAligned via wire"
+                "Wide Metal Jog"
+                "Fat metal via asymmetric enclosure"
+                "End of line to concave corner distance"
+                "Forbidden Pitch"
+                "Antenna"
+                "Multiple pin connections"
+                "Tie to rail"
+                "Tie to rail directly"
+                "Secondary pg pin direct connection"
+                "Secondary pg pin maximum connections"
+                "Comb routing direct connection"
+                "Comb routing maximum connections"
+                "Comb routing daisy-chain distance"
+                "Minimum utilization"
+                "Maximum utilization"
+                "Voltage area"
+                "Redundant via"
+                "Soft spacing"
+                "Fat shape"
+                "Shielding unintended overlap"
+                "Compute all drcs"
+                "Dangling wire"
+                "Offset via"
+                "One grid jog in non-preferred direction"
+                "Access preference area"
+                "Dense short metal spacing"
+                "Cluster bbox"
+              Note  that  the double quotation marks are required for each DRC
+              name that includes spaces.
+
+              By default, the additional report is not generated.
+
+       -reuse_filler_locations_for_diodes true | false
+              Specifies whether to reuse filler cell locations  for  inserting
+              diodes.
+
+              The default is true.
+
+       -save_after_iterations iter_list
+              Saves the intermediate cell after the specified iterations.
+
+              The default is an empty list.
+
+       -save_cell_prefix prefix
+              Specifies the prefix to be used in the saved cell name.
+
+              The default is "DR".
+
+       -skip_antenna_fixing_for_nets nets
+              Specifies  the  nets  to be skipped for antenna fixing. You must
+              specify the nets as a Tcl list; this option does not take a  Tcl
+              collection as input.
+
+              By  default,  Zroute fixes the antenna violations for all signal
+              and clock nets.
+
+       -timing_driven true | false
+              Specifies whether timing-driven routing is enabled.
+
+              The default is false.
+
+       -top_layer_antenna_fix_threshold int
+              Specifies the threshold for fixing antenna violations on the top
+              routing  layer.  Antenna violations on the top routing layer are
+              fixed   if   they   are   within   ((safe_ratio)    *    (1    +
+              top_layer_antenna_fix_threshold * 0.1)).
+
+              The range is from -1 to 10.
+
+              The default is -1 (which means no limit).
+
+       -use_default_width_for_min_area_min_len_stub true | false
+              Specifies whether to use default width stubs to fix minimum area
+              and minimum length violations.
+
+              When false (the default), stubs are the same width  as  the  via
+              surround.  When true, stubs are the default width.
+
+       -use_lower_hierarchy_for_port_diodes true | false
+              Controls the logic hierarchy in which diodes are inserted to fix
+              antenna violations of physical ports (terminals).
+
+              By default (false), the diodes are inserted at the top level.
+
+              If set to true and the port  belongs  to  a  voltage  area,  the
+              diodes  are  inserted in the logic hierarchy associated with the
+              voltage area. If the port does not belong to a voltage area, the
+              diodes  are  inserted at the top level regardless of the setting
+              of this option.
+
+              Note that the diodes are inserted in the same physical block  as
+              the boundary pin regardless of the setting of this option.
+
+       -use_wide_wire_to_input_pin true | false
+              Specifies whether pin tapering to input pins is disallowed.
+
+              The default is false.
+
+       -use_wide_wire_to_macro_pin true | false
+              Specifies whether pin tapering to macro pins is disallowed.
+
+              The default is false.
+
+       -use_wide_wire_to_output_pin true | false
+              Specifies whether pin tapering to output pins is disallowed.
+
+              The default is false.
+
+       -use_wide_wire_to_pad_pin same_as_macro_pin | true | false
+              Controls pin tapering to pad pins.
+
+              The valid values are
+
+              o same_as_macro_pin (the default)
+                The  setting  is  taken  from  the -use_wide_wire_to_macro_pin
+                option.
+
+              o true
+                Disallow pin tapering to pad pins.
+
+              o false
+                Allow pin tapering to pad pins.
+
+       -use_wide_wire_to_port same_as_macro_pin | true | false
+              Controls pin tapering to ports.
+
+              The valid values are
+
+              o same_as_macro_pin (the default)
+                The setting  is  taken  from  the  -use_wide_wire_to_macro_pin
+                option.
+
+              o true
+                Disallow pin tapering to ports.
+
+              o false
+                Allow pin tapering to ports.
+
+       -use_wide_wire_effort_level off | low | high
+              Specifies  the effort level to use NDR vias and wires as much as
+              possible within taper limit. The pin tapering is defined by  the
+              NDR  rule  and  by  the  option "-use_wire_wire_to_xx_pin". This
+              effort level works only on the pin connection where tapering  is
+              allowed.  Once  this option is set to low or high, we should see
+              less tapering but longer runtime. This is because that we  would
+              spend more time to optimize the NDR pin connection to use bigger
+              NDR vias and wires. The higher the effort, the longer  the  run-
+              time and the higher the NDR wire and via usage.
+
+              The default value is off.
+
+       -user_defined_partition {llx lly urx ury}
+              Specifies  the  coordinates, in database units, of a rectangular
+              partition {llx lly urx ury} to be added for routing. In general,
+              the  detail router automatically generates partitions to fix the
+              DRCs in the design. In some situations, it  might  not  generate
+              the  right-sized  partitions to fix the DRCs.  In this case, you
+              can assist Zroute by adding  the  right-sized  partitions.  This
+              option  is intended only for advanced users. There is a limit on
+              the size of the partition as it can cause huge memory  and  run-
+              time  overhead.   As  a  rough  guide, the area of the partition
+              should be less than 600 pitches  by  600  pitches  on   metal  1
+              (i.e., 600 tracks by 600 tracks).
+
+       -var_spacing_to_same_net true | false
+              Specifies  if  variable routing rule spacing is to be applied to
+              shapes of the same net.
+
+              The default is false.
+
+DESCRIPTION
+       The set_route_zrt_detail_options command sets the  options  for  detail
+       routing.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The  following  example  sets the -elapsed_time_limit option to 60 min-
+       utes.
+
+         prompt> set_route_zrt_detail_options -elapsed_time_limit 60
+
+       The following example sets the -antenna option to false.
+
+         prompt> set_route_zrt_detail_options -antenna false
+
+       The following example shows how you can use the -ignore_drc  option  to
+       allow  Zroute  to  ignore the same net metal spacing violations but not
+       the same net enclosed cut spacing violations.
+
+         prompt> set_route_zrt_detail_options \
+            -ignore_drc { {same_net_metal_space true} \
+                          {same_net_enclosed_cut_space false} \
+                        }
+
+       The following example uses the -macro_pin_antenna_mode  option  to  set
+       the macro pin antenna mode to jump.
+
+         prompt> set_route_zrt_detail_options -macro_pin_antenna_mode jump
+
+       The  following  example  adds  a  user-defined partition for routing by
+       using the -user_defined_partition option.
+
+         prompt> set_route_zrt_detail_options \
+         -user_defined_partition {100 200 500 3000}
+
+SEE ALSO
+       get_route_zrt_detail_options(2)
+       report_route_zrt_detail_options(2)
+       route_opt(2)
+       route_zrt_auto(2)
+       route_zrt_detail(2)
+
+                         Version L-2016.03-SP5-1
+            Copyright (c) 2016 Synopsys, Inc. All rights reserved.
+icc_shell> man set_route_zrt_global_options
+2.  Synopsys Commands                                        Command Reference
+                         set_route_zrt_global_options
+
+NAME
+       set_route_zrt_global_options
+              Sets the options for Zroute global routing.
+
+SYNTAX
+       status set_route_zrt_global_options
+               [-exclude_blocked_gcells_from_congestion_report true | false]
+               [-layer_based_congestion_map true | false]
+               [-timing_driven true | false]
+               [-timing_driven_effort_level low | medium | high]
+               [-crosstalk_driven true | false]
+               [-double_pattern_utilization_by_layer_name {{layer int}...}]
+               [-effort minimum | low | medium | high | ultra]
+               [-force_full_effort true | false]
+               [-extra_blocked_layer_utilization_reduction int]
+               [-macro_boundary_track_utilization int]
+               [-macro_boundary_width int]
+               [-macro_corner_track_utilization int]
+               [-voltage_area_corner_track_utilization int]
+               [-default true | false]
+
+   Data Types
+       int       integer
+
+ARGUMENTS
+       -exclude_blocked_gcells_from_congestion_report true | false
+              Controls  whether  blocked  global  routing  cells  (gcells) are
+              included in the overflow percentage calculation.
+
+              By default (false), the total number of global routing cells  is
+              used  to  calculate  the  overflow percentages in the congestion
+              report.
+
+              If the option is set to true, the overflow  percentage  calcula-
+              tion  excludes  the  global  routing  cells that are blocked for
+              routing. In cases where the global router has to  route  through
+              blocked  global  routing  cells to find a solution, those global
+              routing cells are counted in the overflow number, but not in the
+              total number.
+
+       -layer_based_congestion_map true | false
+              Controls whether layer-based congestion maps are created.
+
+              By  default  (true),  both  layer-based and aggregate congestion
+              maps are created.
+
+              If the option is set to false, only an aggregate congestion  map
+              is created to reduce the storage requirements.
+
+       -timing_driven true | false
+              Enables (true) or disables (false) timing-driven global routing.
+
+              The default is false.
+
+       -timing_driven_effort_level low | medium | high
+              Specifies the effort  level  for  the  timing-driven  flow.  The
+              effort  levels trade off between timing QoR and DRC convergence,
+              with the high effort level emphasizing timing QoR  and  the  low
+              effort level emphasizing DRC convergence.
+
+              This  option  takes  effect only if the -timing_driven option is
+              set to true.
+
+              The default is high.
+
+       -crosstalk_driven true | false
+              Enables (true) or disables (false) crosstalk-driven global rout-
+              ing.
+
+              The default is false.
+
+       -double_pattern_utilization_by_layer_name {{layer int}...}
+              Specifies  the  double  pattern (DPT) utilization percentage for
+              each layer.  Specify the layers by using the  layer  names  from
+              the technology file.
+
+              The range for the utilization percentage is from 0 to 100.
+
+              The  default  is  80  for  M1  and M2, 85 for M3, and 90 for any
+              higher DPT layers.  The value is 100 for non-DPT layers.
+
+       -effort minimum | low | medium | high | ultra
+              Specifies the global routing effort.
+
+              Valid values are
+              o minimum
+                Very fast run time. Runs a maximum of two phases.
+
+              o low
+                Fast run time. Runs a maximum of three phases.
+
+              o medium (default)
+                Medium run time. Runs a maximum of four phases.
+
+              o high
+                Slow run time, but better quality of results. Runs  a  maximum
+                of five phases.
+
+              o ultra
+                Slower run time. Use on really congested designs. Runs a maxi-
+                mum of seven phases.
+
+       -force_full_effort true | false
+              Forces the maximum number of phases  specified  by  the  -effort
+              option to try to achieve better results with longer runtime.
+
+              By default (false), the global router might stop before the max-
+              imum number of iterations, based on the  incremental  congestion
+              reduction.
+
+              If  set  to  true, the global router always performs the maximum
+              number of routing phases, based on the specified  effort  level.
+              For  example,  if  this  option  is  set to true and the -effort
+              option is set to high, the global router always runs five  rout-
+              ing phases.
+
+       -extra_blocked_layer_utilization_reduction int
+              Specifies the percentage of additional utilization to be reduced
+              for areas where either the upper or lower layer is  blocked  and
+              switching  to  the opposite layer would take more than one track
+              resource.
+              The range is from 0 to 100.
+
+              The default is 0.
+
+       -macro_boundary_track_utilization int
+              Specifies the percentage of tracks to be used along macro bound-
+              aries.
+              The range is from 0 to 100.
+
+              The default is 100.
+
+       -macro_boundary_width int
+              Specifies  the  width  of  the macro boundary in terms of global
+              route cells.
+              The range is from 0 to 10.
+
+              The default is 5.
+
+       -macro_corner_track_utilization int
+              Specifies the percentage of tracks to be used along  macro  cor-
+              ners.
+              The range is from 0 to 100.
+
+              The default is 100.
+
+       -voltage_area_corner_track_utilization int
+              Specifies  the  percentage  of  tracks  to be used in the region
+              within five global routing cells of a voltage area corner.
+
+              A smaller utilization reduces the number of global  routes  that
+              can go through a global routing cell by artificially setting the
+              congestion in that area higher. If the neighboring global  rout-
+              ing  cells have lower congestion, the routing might be pushed to
+              them; however, this is a function of many other metrics  in  the
+              global router.
+
+              This option has an effect only if the enforce_voltage_areas com-
+              mon route option is set to strict.
+
+              The range is from 0 to 100.
+
+              The default is 100.
+
+       -default true | false
+              Resets all options to their default values when set to true.
+
+              The default is false.
+
+DESCRIPTION
+       The set_route_zrt_global_options command sets the  options  for  Zroute
+       global  routing. These settings affect all commands that perform Zroute
+       global routing.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example sets the -timing_driven option to true.
+
+         prompt> set_route_zrt_global_options -timing_driven true
+
+       The    following    example    sets    the     -double_pattern_utiliza-
+       tion_by_layer_name option on M1, M2, and M5.
+
+         prompt> set_route_zrt_global_options \
+            -double_pattern_utilization_by_layer_name { {M1 85} {M2 85} {M5 70} }
+
+SEE ALSO
+       report_route_zrt_global_options(2)
+       route_opt(2)
+       route_zrt_global(2)
+       route_zrt_auto(2)
+       route_zrt_clock_tree(2)
+       route_zrt_eco(2)
+       route_zrt_group(2)
+
+                         Version L-2016.03-SP5-1
+            Copyright (c) 2016 Synopsys, Inc. All rights reserved.
+icc_shell> 
+
+Thank you...

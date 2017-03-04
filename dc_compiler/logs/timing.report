@@ -7,7 +7,7 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Fri Mar  3 15:02:49 2017
+Date   : Fri Mar  3 21:47:47 2017
 ****************************************
 
 Operating Conditions: ff1p16vn40c   Library: saed32lvt_ff1p16vn40c
@@ -38,40 +38,37 @@ Wire Load Model Mode: enclosed
                                                           0.05       0.45 r
   fpu_mul/fpu_mul_ctl/i_m6stg_opdec/q[2] (dffre_SIZE3_2)
                                                           0.00       0.45 r
-  fpu_mul/fpu_mul_ctl/U119/Y (NAND2X0_LVT)                0.86       1.31 f
-  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       1.31 f
-  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       1.31 f
-  fpu_mul/i_m4stg_frac/U501/Y (INVX1_LVT)                 0.11       1.42 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       1.42 r
-  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.03       1.45 f
+  fpu_mul/fpu_mul_ctl/U110/Y (AND2X1_LVT)                 0.03       0.47 r
+  fpu_mul/fpu_mul_ctl/U124/Y (INVX1_LVT)                  0.42       0.90 f
+  fpu_mul/fpu_mul_ctl/m6stg_step (fpu_mul_ctl)            0.00       0.90 f
+  fpu_mul/i_m4stg_frac/mul_step (mul64)                   0.00       0.90 f
+  fpu_mul/i_m4stg_frac/U6/Y (INVX1_LVT)                   0.05       0.94 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/enb_l (clken_buf_6)        0.00       0.94 r
+  fpu_mul/i_m4stg_frac/ckbuf_0/U3/Y (NAND2X0_LVT)         0.02       0.96 f
   fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/D (LATCHX1_LVT)
-                                                          0.00       1.45 f
-  data arrival time                                                  1.45
+                                                          0.00       0.96 f
+  data arrival time                                                  0.96
 
-  clock gclk' (rise edge)                                 1.00       1.00
-  clock network delay (ideal)                             0.40       1.40
-  clock uncertainty                                      -0.10       1.30
+  clock gclk' (rise edge)                                 2.00       2.00
+  clock network delay (ideal)                             0.40       2.40
+  clock uncertainty                                      -0.10       2.30
   fpu_mul/i_m4stg_frac/ckbuf_0/clken_reg/CLK (LATCHX1_LVT)
-                                                          0.00       1.30 r
-  time borrowed from endpoint                             0.15       1.45
-  data required time                                                 1.45
+                                                          0.00       2.30 r
+  time borrowed from endpoint                             0.00       2.30
+  data required time                                                 2.30
   --------------------------------------------------------------------------
-  data required time                                                 1.45
-  data arrival time                                                 -1.45
+  data required time                                                 2.30
+  data arrival time                                                 -0.96
   --------------------------------------------------------------------------
-  slack (MET)                                                        0.00
+  slack (MET)                                                        1.34
 
   Time Borrowing Information
   --------------------------------------------------------------
-  gclk' nominal pulse width                               1.00   
+  gclk' nominal pulse width                               2.00   
   library setup time                                     -0.03   
   --------------------------------------------------------------
-  max time borrow                                         0.97   
-  --------------------------------------------------------------
-  actual time borrow                                      0.15   
-  clock uncertainty                                      -0.10   
-  --------------------------------------------------------------
-  time given to startpoint                                0.05   
+  max time borrow                                         1.97   
+  actual time borrow                                      0.00   
   --------------------------------------------------------------
 
 

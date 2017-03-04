@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version M-2016.12-SP1 for linux64 -- Jan 13, 2017
-#@ # Date:   Fri Mar  3 14:51:15 2017
+#@ # Date:   Fri Mar  3 21:42:24 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
@@ -5606,7 +5606,7 @@ source -echo -verbose /home/DREXEL/ab3433/sparcProject/dc_compiler/scripts/run.d
 #@ 
 #@ # Set the clock consraints
 #@ 
-#@ create_clock gclk -period 2
+#@ create_clock gclk -period 4
 #@ set_clock_transition 0.04 gclk
 #@ set_clock_uncertainty 0.1 gclk
 #@ set_clock_latency -max 0.4 gclk

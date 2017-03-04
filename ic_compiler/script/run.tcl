@@ -5,7 +5,7 @@
 ## Prof. Taskin
 
 ## Clear out any outstanding milkyway library with the same name
-file delete -force $my_mw_lib
+file delete -force "fpu2"
 
 ## This is used to start the GUI for capturing 
 ## the necessary maps for this project
@@ -17,7 +17,7 @@ file delete -force $my_mw_lib
 ## all of which are defined in the setup file
 create_mw_lib -technology $tech_file \
   -mw_reference_library $ref_file \
-  $my_mw_lib -open 
+  "fpu2" -open 
 
 ## This imports the s15850 compiled ddc file that was generated
 ## in the previous dc_shell lab, and will be used for this lab
@@ -29,9 +29,13 @@ set_tlu_plus_files \
   -min_tluplus $tlup_min \
   -tech2itf_map $tlup_map
 
+
+## Setting clock constraint
+  create_clock gclk -period 4
+
 ## Sanity check for the libraries used and the TLU plus 
 ## files assigned
-check_library
+#check_library
 check_tlu_plus_files
 
 ## Setting up Power and Ground pins and nets for floorplanning
@@ -74,24 +78,25 @@ commit_fp_rail
 ## Runnning clock tree synthesis with power optimizations
 clock_opt \
   -only_cts \
-  -no_clock_route \
-  -power
+  -no_clock_route
 
-route_zrt_group \
-  -all_clock_nets \
-  -reuse_existing_global_route true
+#  -power
+
+#route_zrt_group \
+#  -all_clock_nets \
+#  -reuse_existing_global_route true
 
 ## Routing with power optimization
 route_opt -initial_route_only 
 
 route_opt \
   -skip_initial_route \
-  -effort low \
-  -power
+  -effort low
+#  -power
 
 ## Reports for the various parameters
 report_timing > report/timing.rpt
 report_power > report/power.rpt
 report_clock_tree -summary > report/clock_tree.rpt
 
-#exit
+exit
