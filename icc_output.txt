@@ -1,4 +1,222 @@
 Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
+icc_shell> man report_area
+2.  Synopsys Commands                                        Command Reference
+                                  report_area
 
-Thank you...
-Exit IC Compiler!
+NAME
+       report_area
+              Displays area information for the current design or instance.
+
+SYNTAX
+       status report_area
+               [-nosplit]
+               [-physical]
+               [-hierarchy]
+               [-designware]
+
+ARGUMENTS
+       -nosplit
+              Prevents  line  splitting.   Most  of  the design information is
+              listed in fixed-width columns.  If the information for  a  given
+              field  exceeds  the column width, the next field begins on a new
+              line, starting in the correct column.
+
+       -physical
+              Reports the size of the core area and the aspect  ratio  of  the
+              design.
+
+       -hierarchy
+              Reports  the  area  used  by  cells across the design hierarchy.
+              Reports the absolute value and the percentage of  area  consumed
+              by  each  of  the  cells across the hierarchy.  This option also
+              reports the details of area contribution by combinational,  non-
+              combinational,  and  macro or black box cells. The "black boxes"
+              column includes macro area.
+
+       -designware
+              Reports the area of synthetic cells.  There  are  two  types  of
+              synthetic cells:
+              o Datapath cells
+                The datapath cells are extracted complex datapath cells.
+
+              o DesignWare singleton cells
+                The  DesignWare  singleton  cells are instantiated or inferred
+                synthetic component cells.
+
+              The report shows the total synthetic cell  area  and  the  total
+              datapath  cell area. If the synthetic cells are ungrouped during
+              compile, the report shows the estimated area  of  the  ungrouped
+              synthetic cells.
+
+DESCRIPTION
+       The  report_area  command  lists  the  area  statistics for the current
+       instance or the current design. The report includes combinational, non-
+       combinational,  and  total  area  information.   If  you  set  the cur-
+       rent_instance command, the report is generated for the design  of  that
+       instance.  Otherwise the report is generated for the current design.
+
+       The  number of combinational cells, number of sequential cells, and the
+       number of macros/black boxes only include leaf cells.
+
+       Note that the number of macros reported by the report_area  command  is
+       based  on information from the logic libraries.  This number can differ
+       from what is returned by the all_macro_cells command, which is based on
+       information  from  the  physical  libraries.  For  the  purposes of the
+       report_area command, macros and leaf-level black box cells are reported
+       together.  Hierarchical black-box cells are not counted because no area
+       is associated with them.
+
+       Also note that the core area numbers reported by the  report_area  com-
+       mand is the bounding box of the core area rather than the defined rect-
+       linear shape.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example generates an area report:
+
+         prompt> report_area
+
+         ****************************************
+         Report : area
+         Design : top
+         Version: H-2013.03-SP1
+         Date   : Wed Apr 17 18:44:40 2013
+         ****************************************
+
+         Library(s) Used:
+
+             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
+
+         Number of ports:                          108
+         Number of nets:                           385
+         Number of cells:                          256
+         Number of combinational cells:            254
+         Number of sequential cells:                 0
+         Number of macros/black boxes:               0
+         Number of buf/inv:                         31
+         Number of references:                      23
+
+         Combinational area:             228294.400621
+         Buv/Inv area:                    21384.014281
+         Noncombinational area:               0.000000
+         Macro/Black Box area:                0.000000
+         Net Interconnect area:      undefined  (Wire load has zero net area)
+
+         Total cell area:                228294.400621
+         Total area:                 undefined
+         1
+
+       The following example generates  an  area  report  for  a  hierarchical
+       design using the -hierarchy option:
+
+         prompt> report_area -hierarchy
+
+         ****************************************
+         Report : area
+         Design : top
+         Version: H-2013.03-SP1
+         Date   : Wed Apr 17 18:45:01 2013
+         ****************************************
+
+         Library(s) Used:
+
+             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
+
+         Number of ports:                          108
+         Number of nets:                           385
+         Number of cells:                          256
+         Number of combinational cells:            254
+         Number of sequential cells:                 0
+         Number of macros/black boxes:               0
+         Number of buf/inv:                         31
+         Number of references:                      23
+
+         Combinational area:             228294.400621
+         Buv/Inv area:                    21384.014281
+         Noncombinational area:               0.000000
+         Macro/Black Box area:                0.000000
+         Net Interconnect area:      undefined  (Wire load has zero net area)
+
+         Total cell area:                228294.400621
+         Total area:                 undefined
+
+         Hierarchical area distribution
+         ------------------------------
+
+                                 Global cell area             Local cell area
+                                 --------------------  ------------------------------
+         Hierarchical cell       Absolute     Percent  Combi-       Noncombi-  Black-
+                                 Total        Total    national     national   boxes   Design
+         ----------------------  -----------  -------  -----------  ---------  ------  -------------------------------
+         top                     228294.5469    100.0   12633.5693     0.0000  0.0000  top
+         U1                      123539.4844     54.1    3967.9995     0.0000  0.0000  test_sel_1
+         U1/add_x_16_1             4550.4004      2.0    4550.4004     0.0000  0.0000  test_sel_1_DW01_add_30
+         U1/add_x_18_1             4998.3999      2.2    4998.3999     0.0000  0.0000  test_sel_1_DW01_add_29
+         U1/add_x_25_1             6054.4004      2.7    6054.4004     0.0000  0.0000  test_sel_1_DW01_add_22
+         U1/add_x_25_2             4390.4004      1.9    4390.4004     0.0000  0.0000  test_sel_1
+         U1/add_x_16_1             4550.4004      2.0    4550.4004     0.0000  0.0000  test_sel_1_DW01_add_30
+         U1/add_x_18_1             4998.3999      2.2    4998.3999     0.0000  0.0000  test_sel_1_DW01_add_29
+         U1/add_x_25_1             6054.4004      2.7    6054.4004     0.0000  0.0000  test_sel_1_DW01_add_22
+         U1/add_x_25_2             4390.4004      1.9    4390.4004     0.0000  0.0000  test_sel_1_DW01_add_12
+         U1/mult_x_10_1           21939.1992      9.6   21939.1992     0.0000  0.0000  test_sel_1_DW02_mult_J1_3
+         U1/mult_x_11_1           22195.1973      9.7   22195.1973     0.0000  0.0000  test_sel_1_DW02_mult_J1_2
+         U1/mult_x_12_1           21913.5898      9.6   21913.5898     0.0000  0.0000  test_sel_1_DW02_mult_J1_1
+         U1/mult_x_13_1           22732.8008     10.0   22732.8008     0.0000  0.0000  test_sel_1_DW02_mult_J1_0
+         U1/sub_x_17_1             5216.0000      2.3    5216.0000     0.0000  0.0000  test_sel_1_DW01_sub_6
+         U1/sub_x_19_1             5580.8008      2.4    5580.8008     0.0000  0.0000  test_sel_1_DW01_sub_7
+         U2                       92121.9531     40.4    3276.7986     0.0000  0.0000  test_sel_0
+         U2/DP_OP_15J1_64_71      40691.3789     17.8   40691.3789     0.0000  0.0000  test_sel_0_DP_OP_15J1_64_71_0
+         U2/DP_OP_16J1_65_71      39392.1328     17.3   39392.1328     0.0000  0.0000  test_sel_0_DP_OP_16J1_65_71_0
+         U2/DP_OP_17J1_66_1425     8761.5996      3.8    8761.5996     0.0000  0.0000  test_sel_0_DP_OP_17J1_66_1425_1
+         ----------------------  -----------  -------  -----------  ---------  ------  -------------------------------
+         Total                                         228294.6562     0.0000  0.0000
+         1
+
+       The  following  example uses the -designware option to generate an area
+       report for a design that contains synthetic cells:
+
+         prompt> report_area -designware
+
+         ****************************************
+         Report : area
+         Design : top
+         Version: H-2013.03-SP1
+         Date   : Wed Apr 17 18:45:20 2013
+         ****************************************
+
+         Library(s) Used:
+
+             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
+
+         Number of ports:                          108
+         Number of nets:                           385
+         Number of cells:                          256
+         Number of combinational cells:            254
+         Number of sequential cells:                 0
+         Number of macros/black boxes:               0
+         Number of buf/inv:                         31
+icc_shell> man report_qor
+2.  Synopsys Commands                                        Command Reference
+                                  report_qor
+
+NAME
+       report_qor
+              Displays  QoR information and statistics for the current design.
+
+SYNTAX
+       status report_qor
+               [-significant_digits digits]
+               [-physical]
+               [-scenarios scenario_list]
+               [-summary]
+
+   Data Types
+       digits            integer
+       scenario_list     list
+
+ARGUMENTS
+       -significant_digits digits
+              Specifies the number of digits to the right of the decimal point
+icc_shell> 

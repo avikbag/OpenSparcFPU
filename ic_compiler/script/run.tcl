@@ -98,5 +98,8 @@ route_opt \
 report_timing > report/timing.rpt
 report_power > report/power.rpt
 report_clock_tree -summary > report/clock_tree.rpt
+report_area > report/area.rpt
+report_qor > report/qor.rpt
+
 
 exit
