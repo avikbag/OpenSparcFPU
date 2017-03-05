@@ -1,20 +1,20 @@
 
 Name of design : fpu
-Number of cell instance masters in the library : 69
-Number of cell instances in the design : 42418
+Number of cell instance masters in the library : 63
+Number of cell instances in the design : 40915
 Processing net VDD ...
 Average power dissipation in fpu :  1000.00 mW
 Power supply voltage :     1.16 V
 Average current in fpu :   862.07 mA
 Number of power pad nodes reaching to the power ports of the leaf cells or blocks : 124
-Maximum IR drop in fpu : 115.91 mV
-Maximum current in fpu : 14.230 mA
+Maximum IR drop in fpu : 115.22 mV
+Maximum current in fpu : 13.877 mA
 Processing net VSS ...
 Average power dissipation in fpu :  1000.00 mW
 Power supply voltage :     1.16 V
 Average current in fpu :   862.07 mA
 Number of power pad nodes reaching to the power ports of the leaf cells or blocks : 124
-Maximum IR drop in fpu : 115.53 mV
-Maximum current in fpu : 14.273 mA
-Memory usage for design data :      58327.040 Kbytes
-Overall takes     4.68 seconds
+Maximum IR drop in fpu : 115.05 mV
+Maximum current in fpu : 13.829 mA
+Memory usage for design data :      57548.800 Kbytes
+Overall takes     5.26 seconds

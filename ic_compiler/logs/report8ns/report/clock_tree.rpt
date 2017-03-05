@@ -1,0 +1,15 @@
+ 
+****************************************
+Report : clock tree
+Design : fpu
+Version: L-2016.03-SP5-1
+Date   : Sun Mar  5 17:28:21 2017
+****************************************
+
+Information: Float pin scale factor for the 'max' operating condition of scenario 'default' is set to 1.000 (CTS-375)
+
+======================= Clock Tree Summary ========================
+Clock                Sinks     CTBuffers ClkCells  Skew      LongestPath TotalDRC   BufferArea
+-----------------------------------------------------------------------------------------------
+gclk                 4834      229       257       0.0721    0.6068      9           3361.0769
+1

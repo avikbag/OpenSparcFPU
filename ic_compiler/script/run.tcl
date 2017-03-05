@@ -94,6 +94,14 @@ route_opt \
   -effort low
 #  -power
 
+## Generate resulting netlist
+  write_verilog "./output/res.v"
+
+## Generate rc parasitics
+  extract_rc
+  write_parasitics -format sbpf -output "./output/res_parasitics.sbpf"
+
+
 ## Reports for the various parameters
 report_timing > report/timing.rpt
 report_power > report/power.rpt
@@ -101,5 +109,5 @@ report_clock_tree -summary > report/clock_tree.rpt
 report_area > report/area.rpt
 report_qor > report/qor.rpt
 
-
+close_mw_lib -save
 exit

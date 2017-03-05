@@ -7,7 +7,7 @@ Report : power
         -analysis_effort low
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Sat Mar  4 18:25:12 2017
+Date   : Sun Mar  5 17:28:20 2017
 ****************************************
 
 
@@ -122,7 +122,7 @@ dff_SIZE2_1            ForQA             saed90nm_typ
 dff_SIZE8_2            8000              saed90nm_typ
 dffre_SIZE1_1          ForQA             saed90nm_typ
 dffrl_async_SIZE1_1    ForQA             saed90nm_typ
-fpu_div_frac_dp_DW01_add_1
+fpu_div_frac_dp_DW01_add_0
                        8000              saed90nm_typ
 dffe_SIZE55_1          8000              saed90nm_typ
 dffe_SIZE55_2          8000              saed90nm_typ
@@ -221,8 +221,8 @@ dffe_SIZE1_28          ForQA             saed90nm_typ
 dffe_SIZE1_29          ForQA             saed90nm_typ
 dffe_SIZE1_30          ForQA             saed90nm_typ
 dffrl_async_SIZE1_2    ForQA             saed90nm_typ
-mul64_DW01_add_4       8000              saed90nm_typ
 mul64_DW01_add_3       8000              saed90nm_typ
+mul64_DW01_add_4       8000              saed90nm_typ
 dff_SIZE32_0           8000              saed90nm_typ
 dff_SIZE104            8000              saed90nm_typ
 dff_SIZE1_29           ForQA             saed90nm_typ
@@ -249,7 +249,7 @@ dffr_SIZE1_7           ForQA             saed90nm_typ
 dffr_SIZE1_8           ForQA             saed90nm_typ
 dffr_SIZE1_9           ForQA             saed90nm_typ
 clken_buf_7            ForQA             saed90nm_typ
-fpu_mul_frac_dp_DW01_add_1
+fpu_mul_frac_dp_DW01_add_0
                        8000              saed90nm_typ
 dffe_SIZE52            8000              saed90nm_typ
 dff_SIZE55_1           8000              saed90nm_typ
@@ -373,11 +373,11 @@ dffe_SIZE1_85          ForQA             saed90nm_typ
 dffe_SIZE1_86          ForQA             saed90nm_typ
 dffe_SIZE1_87          ForQA             saed90nm_typ
 dffrl_async_SIZE1_3    ForQA             saed90nm_typ
-fpu_add_frac_dp_DW01_add_5
+fpu_add_frac_dp_DW01_add_2
                        8000              saed90nm_typ
-fpu_add_frac_dp_DW01_add_4
+fpu_add_frac_dp_DW01_add_1
                        8000              saed90nm_typ
-fpu_add_frac_dp_DW01_add_3
+fpu_add_frac_dp_DW01_add_0
                        8000              saed90nm_typ
 dffe_SIZE64_1          8000              saed90nm_typ
 dffe_SIZE64_2          8000              saed90nm_typ
@@ -3635,12 +3635,12 @@ Power-specific unit information :
     Leakage Power Units = 1pW
 
 
-  Cell Internal Power  =   2.9742 mW   (45%)
-  Net Switching Power  =   3.6142 mW   (55%)
+  Cell Internal Power  =   2.8871 mW   (44%)
+  Net Switching Power  =   3.6658 mW   (56%)
                          ---------
-Total Dynamic Power    =   6.5884 mW  (100%)
+Total Dynamic Power    =   6.5529 mW  (100%)
 
-Cell Leakage Power     =   2.4933 mW
+Cell Leakage Power     =   2.4576 mW
 
 
                  Internal         Switching           Leakage            Total
@@ -3649,10 +3649,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network  1.3737e+03        2.5298e+03        1.0977e+07        3.9145e+03  (  43.10%)
-register         523.6561          108.9860        6.4920e+08        1.2818e+03  (  14.11%)
-sequential     -1.9245e-01        2.2514e-03        2.7313e+08          272.9405 (   3.01%)
-combinational  1.0770e+03          975.3988        1.5600e+09        3.6124e+03  (  39.78%)
+clock_network  1.3396e+03        2.5648e+03        1.1417e+07        3.9158e+03  (  43.46%)
+register         528.4098          117.4679        6.4861e+08        1.2945e+03  (  14.37%)
+sequential     -1.9192e-01            0.0000        2.7253e+08          272.3370 (   3.02%)
+combinational  1.0193e+03          983.6322        1.5251e+09        3.5280e+03  (  39.15%)
 --------------------------------------------------------------------------------------------------
-Total          2.9742e+03 uW     3.6142e+03 uW     2.4933e+09 pW     9.0817e+03 uW
+Total          2.8871e+03 uW     3.6659e+03 uW     2.4576e+09 pW     9.0106e+03 uW
 1
