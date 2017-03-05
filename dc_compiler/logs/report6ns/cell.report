@@ -1,0 +1,38 @@
+Information: Updating graph... (UID-83)
+Warning: Design 'fpu' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : cell
+Design : fpu
+Version: M-2016.12-SP1
+Date   : Sun Mar  5 17:45:35 2017
+****************************************
+
+Attributes:
+    b - black box (unknown)
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    u - contains unmapped logic
+
+Cell                      Reference       Library             Area  Attributes
+--------------------------------------------------------------------------------
+bw_r_rf16x160             bw_r_rf16x160                   110719.181823
+                                                                    h, n
+cluster_header            bw_clk_cl_fpu_cmp               388.915207
+                                                                    h, n
+fpu_add                   fpu_add                         119757.311265
+                                                                    h, n
+fpu_div                   fpu_div                         46951.833347
+                                                                    h, n
+fpu_in                    fpu_in                          23016.959702
+                                                                    h, n
+fpu_mul                   fpu_mul                         220237.517747
+                                                                    h, n
+fpu_out                   fpu_out                         7205.068758
+                                                                    h, n
+fpu_rptr_groups           fpu_rptr_groups                 10.137600 h
+test_stub_scan            test_stub_scan                  91.238400 h
+--------------------------------------------------------------------------------
+Total 9 cells                                             528378.163849
+1
