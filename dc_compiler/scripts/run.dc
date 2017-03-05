@@ -54,7 +54,7 @@ link
 
 # Set the clock consraints
 
-create_clock gclk -period 4
+create_clock gclk -period 2
 set_clock_transition 0.04 gclk
 set_clock_uncertainty 0.1 gclk
 #set_clock_latency -max 0.4 gclk

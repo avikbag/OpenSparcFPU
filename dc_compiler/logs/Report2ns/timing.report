@@ -1,0 +1,81 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'fpu' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : fpu
+Version: M-2016.12-SP1
+Date   : Sun Mar  5 17:04:16 2017
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: TYPICAL   Library: saed90nm_typ
+Wire Load Model Mode: enclosed
+
+  Startpoint: fpu_mul/fpu_mul_frac_dp/i_mstg_xtra_regs/q_reg[38]
+              (rising edge-triggered flip-flop clocked by gclk)
+  Endpoint: fpu_mul/fpu_mul_frac_dp/i_m5stg_frac_pre4/q_reg[1]
+            (rising edge-triggered flip-flop clocked by gclk)
+  Path Group: gclk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  fpu_mul_frac_dp    70000                 saed90nm_typ
+  dffe_SIZE56        8000                  saed90nm_typ
+  dff_SIZE55_1       8000                  saed90nm_typ
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock gclk (rise edge)                                  0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  fpu_mul/fpu_mul_frac_dp/i_mstg_xtra_regs/q_reg[38]/CLK (DFFSSRX1)
+                                                          0.00       0.00 r
+  fpu_mul/fpu_mul_frac_dp/i_mstg_xtra_regs/q_reg[38]/QN (DFFSSRX1)
+                                                          0.14       0.14 r
+  fpu_mul/fpu_mul_frac_dp/i_mstg_xtra_regs/U63/ZN (INVX0)
+                                                          0.09       0.22 f
+  fpu_mul/fpu_mul_frac_dp/i_mstg_xtra_regs/so[38] (dffe_SIZE56)
+                                                          0.00       0.22 f
+  fpu_mul/fpu_mul_frac_dp/U870/Z (DELLN1X2)               0.54       0.76 f
+  fpu_mul/fpu_mul_frac_dp/U881/Z (DELLN1X2)               0.64       1.40 f
+  fpu_mul/fpu_mul_frac_dp/U6/Q (MUX21X1)                  1.03       2.44 r
+  fpu_mul/fpu_mul_frac_dp/U577/Q (MUX21X2)                0.59       3.03 r
+  fpu_mul/fpu_mul_frac_dp/U37/Q (MUX21X2)                 0.61       3.64 r
+  fpu_mul/fpu_mul_frac_dp/U1753/ZN (INVX0)                0.38       4.02 f
+  fpu_mul/fpu_mul_frac_dp/U540/Q (MUX21X2)                0.48       4.50 f
+  fpu_mul/fpu_mul_frac_dp/U1799/Q (MUX21X1)               0.46       4.96 f
+  fpu_mul/fpu_mul_frac_dp/U501/Q (MUX21X1)                0.46       5.42 f
+  fpu_mul/fpu_mul_frac_dp/U1710/ZN (INVX0)                0.37       5.78 r
+  fpu_mul/fpu_mul_frac_dp/U376/Q (OR4X1)                  0.65       6.43 r
+  fpu_mul/fpu_mul_frac_dp/U774/QN (NOR4X1)                0.53       6.96 f
+  fpu_mul/fpu_mul_frac_dp/U535/Q (AND4X1)                 0.31       7.27 f
+  fpu_mul/fpu_mul_frac_dp/U568/QN (NAND4X0)               0.47       7.75 r
+  fpu_mul/fpu_mul_frac_dp/U1917/QN (NAND2X0)              0.37       8.12 f
+  fpu_mul/fpu_mul_frac_dp/i_m5stg_frac_pre4/din[1] (dff_SIZE55_1)
+                                                          0.00       8.12 f
+  fpu_mul/fpu_mul_frac_dp/i_m5stg_frac_pre4/U3/Q (AO22X2)
+                                                          0.39       8.51 f
+  fpu_mul/fpu_mul_frac_dp/i_m5stg_frac_pre4/q_reg[1]/D (DFFX1)
+                                                          0.04       8.54 f
+  data arrival time                                                  8.54
+
+  clock gclk (rise edge)                                  2.00       2.00
+  clock network delay (ideal)                             0.00       2.00
+  clock uncertainty                                      -0.10       1.90
+  fpu_mul/fpu_mul_frac_dp/i_m5stg_frac_pre4/q_reg[1]/CLK (DFFX1)
+                                                          0.00       1.90 r
+  library setup time                                     -0.03       1.87
+  data required time                                                 1.87
+  --------------------------------------------------------------------------
+  data required time                                                 1.87
+  data arrival time                                                 -8.54
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -6.67
+
+
+1
