@@ -5,7 +5,7 @@
 ## Prof. Taskin
 
 ## Clear out any outstanding milkyway library with the same name
-file delete -force "fpu2"
+file delete -force $my_mw_lib
 
 ## This is used to start the GUI for capturing 
 ## the necessary maps for this project
@@ -17,7 +17,7 @@ file delete -force "fpu2"
 ## all of which are defined in the setup file
 create_mw_lib -technology $tech_file \
   -mw_reference_library $ref_file \
-  "fpu2" -open 
+  $my_mw_lib -open 
 
 ## This imports the s15850 compiled ddc file that was generated
 ## in the previous dc_shell lab, and will be used for this lab
@@ -114,11 +114,6 @@ report_power > report/power.rpt
 report_clock_tree -summary > report/clock_tree.rpt
 report_area > report/area.rpt
 report_qor > report/qor.rpt
-<<<<<<< HEAD
 
 close_mw_lib -save
-=======
-close_mw_lib
-
->>>>>>> primetime
 exit

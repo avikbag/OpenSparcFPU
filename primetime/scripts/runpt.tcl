@@ -7,7 +7,7 @@ source ./.synopsys_dc.setup
 #current_design fpu
 #link_design
 
-read_milkyway -library ../ic_compiler/fpu2 fpu
+read_milkyway -library ../ic_compiler/fpu.mw fpu
 read_parasitics -format PARA
 
 create_clock gclk -period 6

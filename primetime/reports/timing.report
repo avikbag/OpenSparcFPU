@@ -6,150 +6,150 @@ Report : timing
 	-sort_by slack
 Design : fpu
 Version: L-2016.06-SP3-1
-Date   : Mon Mar  6 00:17:45 2017
+Date   : Mon Mar  6 00:46:24 2017
 ****************************************
 
 
-  Startpoint: fpu_mul/i_m4stg_frac/a2sum_dff/q_reg[32]
+  Startpoint: fpu_mul/i_m4stg_frac/a2cot_dff/q_reg[31]
                (rising edge-triggered flip-flop clocked by gclk)
   Endpoint: fpu_mul/i_m4stg_frac/out_dff/q_reg[103]
                (rising edge-triggered flip-flop clocked by gclk)
-  Last common pin: fpu_mul/i_m4stg_frac/NBUFFX8_G3B2I4/Z
+  Last common pin: fpu_mul/i_m4stg_frac/ckbuf_0/U4/Q
   Path Group: gclk
   Path Type: max
 
   Point                                                   Incr       Path
   ------------------------------------------------------------------------------
   clock gclk (rise edge)                                  0.00       0.00
-  clock network delay (propagated)                        0.55       0.55
-  fpu_mul/i_m4stg_frac/a2sum_dff/q_reg[32]/CLK (DFFX1)
-                                                          0.00       0.55 r
-  fpu_mul/i_m4stg_frac/a2sum_dff/q_reg[32]/Q (DFFX1)      0.19 +     0.74 r
+  clock network delay (propagated)                        0.58       0.58
+  fpu_mul/i_m4stg_frac/a2cot_dff/q_reg[31]/CLK (DFFX1)
+                                                          0.00       0.58 r
+  fpu_mul/i_m4stg_frac/a2cot_dff/q_reg[31]/Q (DFFX1)      0.19 +     0.77 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U610/QN (NAND2X0)
-                                                          0.06 +     0.80 f
+                                                          0.06 +     0.83 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U442/QN (OAI21X1)
-                                                          0.11 +     0.91 r
+                                                          0.11 +     0.95 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U426/QN (AOI21X1)
-                                                          0.09 +     1.00 f
+                                                          0.10 +     1.04 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U391/QN (OAI21X1)
-                                                          0.10 +     1.10 r
+                                                          0.10 +     1.15 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U323/QN (AOI21X1)
-                                                          0.10 +     1.20 f
+                                                          0.10 +     1.25 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U268/QN (OAI21X1)
-                                                          0.10 +     1.30 r
+                                                          0.10 +     1.35 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U258/QN (AOI21X1)
-                                                          0.10 +     1.40 f
+                                                          0.09 +     1.44 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U248/QN (OAI21X1)
-                                                          0.10 +     1.49 r
+                                                          0.10 +     1.54 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U238/QN (AOI21X1)
-                                                          0.09 +     1.59 f
+                                                          0.10 +     1.63 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U228/QN (OAI21X1)
-                                                          0.10 +     1.69 r
+                                                          0.10 +     1.73 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U218/QN (AOI21X1)
-                                                          0.09 +     1.78 f
+                                                          0.10 +     1.83 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U208/QN (OAI21X1)
-                                                          0.10 +     1.88 r
+                                                          0.10 +     1.93 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U198/QN (AOI21X1)
-                                                          0.09 +     1.97 f
+                                                          0.09 +     2.02 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U188/QN (OAI21X1)
-                                                          0.10 +     2.07 r
+                                                          0.10 +     2.12 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U178/QN (AOI21X1)
-                                                          0.09 +     2.16 f
+                                                          0.10 +     2.22 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U168/QN (OAI21X1)
-                                                          0.10 +     2.26 r
+                                                          0.10 +     2.32 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U158/QN (AOI21X1)
-                                                          0.09 +     2.35 f
+                                                          0.09 +     2.41 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U148/QN (OAI21X1)
-                                                          0.10 +     2.45 r
+                                                          0.10 +     2.51 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U138/QN (AOI21X1)
-                                                          0.10 +     2.54 f
+                                                          0.10 +     2.60 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U128/QN (OAI21X1)
-                                                          0.10 +     2.64 r
+                                                          0.10 +     2.70 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U118/QN (AOI21X1)
-                                                          0.09 +     2.74 f
+                                                          0.09 +     2.79 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U108/QN (OAI21X1)
-                                                          0.10 +     2.83 r
+                                                          0.10 +     2.89 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U98/QN (AOI21X1)
-                                                          0.09 +     2.93 f
+                                                          0.09 +     2.99 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U88/QN (OAI21X1)
-                                                          0.10 +     3.02 r
+                                                          0.10 +     3.08 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U78/QN (AOI21X1)
-                                                          0.09 +     3.12 f
+                                                          0.10 +     3.18 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U68/QN (OAI21X1)
-                                                          0.10 +     3.22 r
+                                                          0.11 +     3.29 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U58/QN (AOI21X1)
-                                                          0.09 +     3.31 f
+                                                          0.10 +     3.39 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U48/QN (OAI21X1)
-                                                          0.10 +     3.41 r
+                                                          0.10 +     3.49 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U38/QN (AOI21X1)
-                                                          0.09 +     3.50 f
+                                                          0.10 +     3.59 f
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U28/QN (OAI21X1)
-                                                          0.09 +     3.60 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U594/Q (AO21X1)
-                                                          0.07 +     3.66 r
+                                                          0.09 +     3.68 r
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U574/Q (AO21X1)
+                                                          0.07 +     3.75 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U23/CO (FADDX1)
-                                                          0.10 +     3.76 r
+                                                          0.10 +     3.85 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U22/CO (FADDX1)
-                                                          0.10 +     3.86 r
+                                                          0.10 +     3.95 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U21/CO (FADDX1)
-                                                          0.10 +     3.96 r
+                                                          0.10 +     4.05 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U20/CO (FADDX1)
-                                                          0.10 +     4.06 r
+                                                          0.10 +     4.15 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U19/CO (FADDX1)
-                                                          0.10 +     4.16 r
+                                                          0.10 +     4.25 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U18/CO (FADDX1)
-                                                          0.10 +     4.26 r
+                                                          0.10 +     4.35 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U17/CO (FADDX1)
-                                                          0.10 +     4.36 r
+                                                          0.10 +     4.45 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U16/CO (FADDX1)
-                                                          0.10 +     4.46 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U15/CO (FADDX1)
                                                           0.10 +     4.56 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U14/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U15/CO (FADDX1)
                                                           0.10 +     4.66 r
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U14/CO (FADDX1)
+                                                          0.10 +     4.76 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U13/CO (FADDX1)
-                                                          0.10 +     4.77 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U12/CO (FADDX1)
                                                           0.10 +     4.87 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U11/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U12/CO (FADDX1)
                                                           0.10 +     4.97 r
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U11/CO (FADDX1)
+                                                          0.10 +     5.07 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U10/CO (FADDX1)
-                                                          0.10 +     5.08 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U9/CO (FADDX1)
                                                           0.10 +     5.18 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U8/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U9/CO (FADDX1)
                                                           0.10 +     5.28 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U7/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U8/CO (FADDX1)
                                                           0.10 +     5.38 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U6/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U7/CO (FADDX1)
                                                           0.10 +     5.48 r
-  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U5/CO (FADDX1)
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U6/CO (FADDX1)
                                                           0.10 +     5.58 r
+  fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U5/CO (FADDX1)
+                                                          0.09 +     5.67 r
   fpu_mul/i_m4stg_frac/add_1_root_add_293_2/U459/Q (XOR2X2)
-                                                          0.09 +     5.67 f
-  fpu_mul/i_m4stg_frac/U2/Z (DELLN2X2)                    0.44 +     6.11 f
-  fpu_mul/i_m4stg_frac/U225/Q (AND3X1)                    0.10 +     6.21 f
-  fpu_mul/i_m4stg_frac/U238/Q (AND2X1)                    0.07 +     6.27 f
-  fpu_mul/i_m4stg_frac/U236/Q (AND2X1)                    0.06 +     6.33 f
-  fpu_mul/i_m4stg_frac/U234/Q (AND2X1)                    0.06 +     6.39 f
-  fpu_mul/i_m4stg_frac/U232/Q (AND2X1)                    0.06 +     6.45 f
-  fpu_mul/i_m4stg_frac/U231/Q (XOR2X1)                    0.06 +     6.51 r
-  fpu_mul/i_m4stg_frac/out_dff/U100/Q (AO22X1)            0.06 +     6.58 r
-  fpu_mul/i_m4stg_frac/out_dff/q_reg[103]/D (DFFX1)       0.00 +     6.58 r
-  data arrival time                                                  6.58
+                                                          0.09 +     5.76 f
+  fpu_mul/i_m4stg_frac/U2/Z (DELLN2X2)                    0.44 +     6.20 f
+  fpu_mul/i_m4stg_frac/U225/Q (AND3X1)                    0.10 +     6.30 f
+  fpu_mul/i_m4stg_frac/U238/Q (AND2X1)                    0.07 +     6.37 f
+  fpu_mul/i_m4stg_frac/U236/Q (AND2X1)                    0.06 +     6.43 f
+  fpu_mul/i_m4stg_frac/U234/Q (AND2X1)                    0.06 +     6.49 f
+  fpu_mul/i_m4stg_frac/U232/Q (AND2X1)                    0.06 +     6.55 f
+  fpu_mul/i_m4stg_frac/U231/Q (XOR2X1)                    0.07 +     6.62 r
+  fpu_mul/i_m4stg_frac/out_dff/U100/Q (AO22X1)            0.07 +     6.69 r
+  fpu_mul/i_m4stg_frac/out_dff/q_reg[103]/D (DFFX1)       0.00 +     6.69 r
+  data arrival time                                                  6.69
 
   clock gclk (rise edge)                                  6.00       6.00
-  clock network delay (propagated)                        0.53       6.53
-  clock reconvergence pessimism                           0.02       6.56
+  clock network delay (propagated)                        0.55       6.55
+  clock reconvergence pessimism                           0.01       6.56
   clock uncertainty                                      -0.10       6.46
   fpu_mul/i_m4stg_frac/out_dff/q_reg[103]/CLK (DFFX1)                6.46 r
   library setup time                                     -0.05       6.41
   data required time                                                 6.41
   ------------------------------------------------------------------------------
   data required time                                                 6.41
-  data arrival time                                                 -6.58
+  data arrival time                                                 -6.69
   ------------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -0.17
+  slack (VIOLATED)                                                  -0.28
 
 
 1

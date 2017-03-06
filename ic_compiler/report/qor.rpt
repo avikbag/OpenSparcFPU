@@ -3,23 +3,16 @@
 Report : qor
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Sun Mar  5 18:00:59 2017
+Date   : Mon Mar  6 00:42:39 2017
 ****************************************
 
 
   Timing Path Group 'gclk'
   -----------------------------------
-<<<<<<< HEAD
-  Levels of Logic:              98.00
-  Critical Path Length:          5.80
+  Levels of Logic:              93.00
+  Critical Path Length:          5.84
   Critical Path Slack:           0.04
   Critical Path Clk Period:      6.00
-=======
-  Levels of Logic:              61.00
-  Critical Path Length:          3.81
-  Critical Path Slack:           0.00
-  Critical Path Clk Period:      4.00
->>>>>>> primetime
   Total Negative Slack:          0.00
   No. of Violating Paths:        0.00
   Worst Hold Violation:          0.00
@@ -31,22 +24,13 @@ Date   : Sun Mar  5 18:00:59 2017
   Cell Count
   -----------------------------------
   Hierarchical Cell Count:       3567
-  Hierarchical Port Count:      65838
-<<<<<<< HEAD
-  Leaf Cell Count:              41738
-  Buf/Inv Cell Count:            7937
-  Buf Cell Count:                2570
-  Inv Cell Count:                5367
-  CT Buf/Inv Cell Count:          258
-  Combinational Cell Count:     34184
-=======
-  Leaf Cell Count:              42663
-  Buf/Inv Cell Count:            8550
-  Buf Cell Count:                2539
-  Inv Cell Count:                6011
-  CT Buf/Inv Cell Count:          260
-  Combinational Cell Count:     35109
->>>>>>> primetime
+  Hierarchical Port Count:      65829
+  Leaf Cell Count:              41828
+  Buf/Inv Cell Count:            7978
+  Buf Cell Count:                2590
+  Inv Cell Count:                5388
+  CT Buf/Inv Cell Count:          254
+  Combinational Cell Count:     34274
   Sequential Cell Count:         7554
   Macro Count:                      0
   -----------------------------------
@@ -54,52 +38,28 @@ Date   : Sun Mar  5 18:00:59 2017
 
   Area
   -----------------------------------
-<<<<<<< HEAD
-  Combinational Area:   352242.893392
+  Combinational Area:   352518.451806
   Noncombinational Area:
-                        181096.243212
-  Buf/Inv Area:          50241.024965
-  Total Buffer Area:         20336.95
-  Total Inverter Area:       29904.08
+                        181087.948811
+  Buf/Inv Area:          50300.007364
+  Total Buffer Area:         20411.60
+  Total Inverter Area:       29888.41
   Macro/Black Box Area:      0.000000
-  Net Area:              72147.437069
-  Net XLength        :      901267.38
-  Net YLength        :     1036045.06
+  Net Area:              72362.663562
+  Net XLength        :      904390.31
+  Net YLength        :     1047119.44
   -----------------------------------
-  Cell Area:            533339.136604
-  Design Area:          605486.573673
-  Net Length        :      1937312.50
-=======
-  Combinational Area:   358996.378406
-  Noncombinational Area:
-                        181096.243212
-  Buf/Inv Area:          54908.007439
-  Total Buffer Area:         21522.12
-  Total Inverter Area:       33385.88
-  Macro/Black Box Area:      0.000000
-  Net Area:              81915.654730
-  Net XLength        :      931258.88
-  Net YLength        :     1069678.38
-  -----------------------------------
-  Cell Area:            540092.621617
-  Design Area:          622008.276348
-  Net Length        :      2000937.25
->>>>>>> primetime
+  Cell Area:            533606.400616
+  Design Area:          605969.064178
+  Net Length        :      1951509.75
 
 
   Design Rules
   -----------------------------------
-<<<<<<< HEAD
-  Total Number of Nets:         46868
-  Nets With Violations:             9
-  Max Trans Violations:             4
-  Max Cap Violations:               8
-=======
-  Total Number of Nets:         47800
-  Nets With Violations:             9
+  Total Number of Nets:         46943
+  Nets With Violations:             1
   Max Trans Violations:             0
-  Max Cap Violations:               9
->>>>>>> primetime
+  Max Cap Violations:               1
   -----------------------------------
 
 
@@ -107,21 +67,12 @@ Date   : Sun Mar  5 18:00:59 2017
 
   Compile CPU Statistics
   -----------------------------------------
-<<<<<<< HEAD
-  Resource Sharing:                   24.96
-  Logic Optimization:                 45.52
-  Mapping Optimization:              121.17
+  Resource Sharing:                   25.95
+  Logic Optimization:                 46.52
+  Mapping Optimization:              133.87
   -----------------------------------------
-  Overall Compile Time:              224.09
-  Overall Compile Wall Clock Time:   226.17
-=======
-  Resource Sharing:                   23.83
-  Logic Optimization:                 45.91
-  Mapping Optimization:              120.82
-  -----------------------------------------
-  Overall Compile Time:              220.87
-  Overall Compile Wall Clock Time:   223.19
->>>>>>> primetime
+  Overall Compile Time:              239.23
+  Overall Compile Wall Clock Time:   241.74
 
   --------------------------------------------------------------------
 
