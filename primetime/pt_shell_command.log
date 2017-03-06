@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running pt_shell Version L-2016.06-SP3-1 for linux64 -- Jan 12, 2017
-#@ # Date:   Sun Mar  5 22:22:01 2017
-#@ # Run by: ajh359@xunil-03.coe.drexel.edu
+#@ # Date:   Mon Mar  6 00:08:23 2017
+#@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
 source /opt/synopsys/2016/primetime/admin/setup/.synopsys_pt.setup
@@ -875,45 +875,41 @@ source /opt/synopsys/2016/primetime/admin/setup/.synopsys_pt.setup
 source -echo -verbose scripts/runpt.tcl
 #@ # -- Starting source scripts/runpt.tcl
 
-#@ # To set up the working directory and analyze 
-#@ # to test the verilog files for lab2 
-#@ 
-#@ #define_design_lib WORK –path ./work
-#@ 
-#@ #analyze -f verilog -library WORK [list $os_path/common/cluster_header.v $os_path/common/swrvr_clib.v $os_path/common/swrvr_dlib.v $os_path/common/synchronizer_asr.v $os_path/rtl/bw_clk_cl_fpu_cmp.v $os_path/rtl/fpu_add_ctl.v $os_path/rtl/fpu_add_exp_dp.v $os_path/rtl/fpu_add_frac_dp.v $os_path/rtl/fpu_add.v $os_path/rtl/fpu_cnt_lead0_53b.v $os_path/rtl/fpu_cnt_lead0_64b.v $os_path/rtl/fpu_cnt_lead0_lvl1.v $os_path/rtl/fpu_cnt_lead0_lvl2.v $os_path/rtl/fpu_cnt_lead0_lvl3.v $os_path/rtl/fpu_cnt_lead0_lvl4.v $os_path/rtl/fpu_denorm_3b.v $os_path/rtl/fpu_denorm_3to1.v $os_path/rtl/fpu_denorm_frac.v $os_path/rtl/fpu_div_ctl.v $os_path/rtl/fpu_div_exp_dp.v $os_path/rtl/fpu_div_frac_dp.v $os_path/rtl/fpu_div.v $os_path/rtl/fpu_in2_gt_in1_2b.v $os_path/rtl/fpu_in2_gt_in1_3b.v $os_path/rtl/fpu_in2_gt_in1_3to1.v $os_path/rtl/fpu_in2_gt_in1_frac.v $os_path/rtl/fpu_in_ctl.v $os_path/rtl/fpu_in_dp.v $os_path/rtl/fpu_in.v $os_path/rtl/fpu_mul_ctl.v $os_path/rtl/fpu_mul_exp_dp.v $os_path/rtl/fpu_mul_frac_dp.v $os_path/rtl/fpu_mul.v $os_path/rtl/fpu_out_ctl.v $os_path/rtl/fpu_out_dp.v $os_path/rtl/fpu_out.v $os_path/rtl/fpu_rptr_groups.v $os_path/rtl/fpu_rptr_macros.v $os_path/rtl/fpu_rptr_min_global.v $os_path/pr_macro/mul64.v $os_path/common/test_stub_scan.v $os_path/srams/bw_r_rf16x160.v $os_path/rtl/fpu.v]
-#@ 
-#@ # Now moving onto s15850 sample benchmark. 
-#@ 
-#@ #elaborate fpu
-#@ #link
-#@ 
-#@ # Set the clock consraints
-#@ 
-#@ create_clock gclk -period 4
-#@ set_clock_transition 0.04 gclk
-#@ set_clock_uncertainty 0.1 gclk
-#@ set_clock_latency -max 0.4 gclk
-#@ 
-#@ #read in the verilog file
-#@ read_verilog ../../dc_compiler/unmapped/fpu.v
-#@ 
-#@ #set top module name
-#@ current_design fpu
-#@ 
-#@ #read in the sdc
-#@ source ../../dc_compiler/const/fpu.sdc
-#@ # -- End source scripts/runpt.tcl
-
-source .synopsys_dc.setup
-#@ # -- Starting source .synopsys_dc.setup
+#@ source ./.synopsys_dc.setup
+#@ # -- Starting source ./.synopsys_dc.setup
 
 #@ set file_lib "/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library"
 #@ set os_path "../OpenSPARC/design"
 #@ set search_path "$search_path $file_lib/synopsys/models $os_path/include $os_path/common $os_path/lib ./src ./scripts"
-#@ set synthetic_library "dw_foundation.sldb"
+#@ #set synthetic_library "dw_foundation.sldb"
 #@ set target_library "saed90nm_typ.db"
-#@ set link_library "* $target_library $synthetic_library"
-#@ 
-#@ # -- End source .synopsys_dc.setup
+#@ set link_library "* $target_library"
+#@ set power_enable_analysis true
+#@ # -- End source ./.synopsys_dc.setup
 
-exit
+#@ 
+#@ #read in the verilog file
+#@ #read_verilog "../dc_compiler/unmapped/fpu.v"
+#@ 
+#@ #set top module name
+#@ #current_design fpu
+#@ #link_design
+#@ 
+#@ read_milkyway -library ../ic_compiler/fpu2 fpu
+#@ read_parasitics -format PARA
+#@ 
+#@ create_clock gclk -period 6
+#@ set_clock_transition 0.04 gclk
+#@ set_clock_uncertainty 0.1 gclk
+#@ set_clock_latency -max 0.4 gclk
+#@ 
+#@ #read_parasitics -format sbpf "../ic_compiler/output/res_parasitics.sbpf.max"
+#@ 
+#@ update_power
+#@ 
+#@ #perform timing reports
+#@ report_timing > ./reports/timing.report
+#@ report_power -nosplit > ./reports/power.report
+#@ report_analysis_coverage > ./reports/analysis.report
+#@ 
+#@ quit
