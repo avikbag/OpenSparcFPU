@@ -7,7 +7,7 @@ Report : power
         -analysis_effort low
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Mon Mar  6 00:42:37 2017
+Date   : Mon Mar  6 10:26:12 2017
 ****************************************
 
 
@@ -3635,12 +3635,12 @@ Power-specific unit information :
     Leakage Power Units = 1pW
 
 
-  Cell Internal Power  =   1.7049 mW   (42%)
-  Net Switching Power  =   2.3713 mW   (58%)
+  Cell Internal Power  =   1.7956 mW   (44%)
+  Net Switching Power  =   2.3004 mW   (56%)
                          ---------
-Total Dynamic Power    =   4.0762 mW  (100%)
+Total Dynamic Power    =   4.0959 mW  (100%)
 
-Cell Leakage Power     =   2.4653 mW
+Cell Leakage Power     =   2.4683 mW
 
 
                  Internal         Switching           Leakage            Total
@@ -3649,10 +3649,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network    642.5887        1.6505e+03        8.9852e+06        2.3020e+03  (  35.19%)
-register         352.7353           77.6292        6.4855e+08        1.0789e+03  (  16.49%)
-sequential     -1.2776e-01            0.0000        2.7253e+08          272.4012 (   4.16%)
-combinational    709.7106          643.2432        1.5353e+09        2.8881e+03  (  44.15%)
+clock_network    726.9669        1.5927e+03        9.4012e+06        2.3291e+03  (  35.48%)
+register         347.3315           67.8849        6.4855e+08        1.0638e+03  (  16.21%)
+sequential     -1.2473e-01            0.0000        2.7253e+08          272.4042 (   4.15%)
+combinational    721.4222          639.7296        1.5378e+09        2.8989e+03  (  44.16%)
 --------------------------------------------------------------------------------------------------
-Total          1.7049e+03 uW     2.3713e+03 uW     2.4653e+09 pW     6.5415e+03 uW
+Total          1.7956e+03 uW     2.3003e+03 uW     2.4683e+09 pW     6.5641e+03 uW
 1

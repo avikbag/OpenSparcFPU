@@ -1,0 +1,5 @@
+set_object_boundary -boundary {  { 393.8000 769.6400 } { 771.7200 769.6400 } { 771.7200 447.0800 } { 393.8000 447.0800 } } [get_plan_groups { bw_r_rf16x160 } ]
+set_object_boundary -boundary {  { 393.8000 360.6800 } { 771.7200 360.6800 } { 771.7200 17.9600 } { 393.8000 17.9600 } } [get_plan_groups { fpu_add } ]
+set_object_boundary -boundary {  { 5.0000 769.6400 } { 393.8000 769.6400 } { 393.8000 141.8000 } { 5.0000 141.8000 } } [get_plan_groups { fpu_mul } ]
+set_object_boundary -boundary {  { 5.0000 141.8000 } { 393.8000 141.8000 } { 393.8000 6.4400 } { 5.0000 6.4400 } } [get_plan_groups { fpu_div } ]
+

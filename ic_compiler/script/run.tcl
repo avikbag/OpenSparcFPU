@@ -50,7 +50,7 @@ derive_pg_connection \
 create_floorplan \
   -control_type aspect_ratio \
   -core_aspect_ratio 1 \
-  -core_utilization 0.7 \
+  -core_utilization 0.9  \
   -start_first_row \
   -left_io2core 5.0 \
   -right_io2core 5.0 \
