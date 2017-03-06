@@ -6,7 +6,11 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: L-2016.03-SP5-1
+<<<<<<< HEAD
 Date   : Sun Mar  5 18:00:52 2017
+=======
+Date   : Sun Mar  5 18:00:53 2017
+>>>>>>> primetime
 ****************************************
 
  * Some/all delay information is back-annotated.

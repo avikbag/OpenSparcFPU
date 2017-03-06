@@ -9,10 +9,17 @@ Date   : Sun Mar  5 18:00:59 2017
 
   Timing Path Group 'gclk'
   -----------------------------------
+<<<<<<< HEAD
   Levels of Logic:              98.00
   Critical Path Length:          5.80
   Critical Path Slack:           0.04
   Critical Path Clk Period:      6.00
+=======
+  Levels of Logic:              61.00
+  Critical Path Length:          3.81
+  Critical Path Slack:           0.00
+  Critical Path Clk Period:      4.00
+>>>>>>> primetime
   Total Negative Slack:          0.00
   No. of Violating Paths:        0.00
   Worst Hold Violation:          0.00
@@ -25,12 +32,21 @@ Date   : Sun Mar  5 18:00:59 2017
   -----------------------------------
   Hierarchical Cell Count:       3567
   Hierarchical Port Count:      65838
+<<<<<<< HEAD
   Leaf Cell Count:              41738
   Buf/Inv Cell Count:            7937
   Buf Cell Count:                2570
   Inv Cell Count:                5367
   CT Buf/Inv Cell Count:          258
   Combinational Cell Count:     34184
+=======
+  Leaf Cell Count:              42663
+  Buf/Inv Cell Count:            8550
+  Buf Cell Count:                2539
+  Inv Cell Count:                6011
+  CT Buf/Inv Cell Count:          260
+  Combinational Cell Count:     35109
+>>>>>>> primetime
   Sequential Cell Count:         7554
   Macro Count:                      0
   -----------------------------------
@@ -38,6 +54,7 @@ Date   : Sun Mar  5 18:00:59 2017
 
   Area
   -----------------------------------
+<<<<<<< HEAD
   Combinational Area:   352242.893392
   Noncombinational Area:
                         181096.243212
@@ -52,14 +69,37 @@ Date   : Sun Mar  5 18:00:59 2017
   Cell Area:            533339.136604
   Design Area:          605486.573673
   Net Length        :      1937312.50
+=======
+  Combinational Area:   358996.378406
+  Noncombinational Area:
+                        181096.243212
+  Buf/Inv Area:          54908.007439
+  Total Buffer Area:         21522.12
+  Total Inverter Area:       33385.88
+  Macro/Black Box Area:      0.000000
+  Net Area:              81915.654730
+  Net XLength        :      931258.88
+  Net YLength        :     1069678.38
+  -----------------------------------
+  Cell Area:            540092.621617
+  Design Area:          622008.276348
+  Net Length        :      2000937.25
+>>>>>>> primetime
 
 
   Design Rules
   -----------------------------------
+<<<<<<< HEAD
   Total Number of Nets:         46868
   Nets With Violations:             9
   Max Trans Violations:             4
   Max Cap Violations:               8
+=======
+  Total Number of Nets:         47800
+  Nets With Violations:             9
+  Max Trans Violations:             0
+  Max Cap Violations:               9
+>>>>>>> primetime
   -----------------------------------
 
 
@@ -67,12 +107,21 @@ Date   : Sun Mar  5 18:00:59 2017
 
   Compile CPU Statistics
   -----------------------------------------
+<<<<<<< HEAD
   Resource Sharing:                   24.96
   Logic Optimization:                 45.52
   Mapping Optimization:              121.17
   -----------------------------------------
   Overall Compile Time:              224.09
   Overall Compile Wall Clock Time:   226.17
+=======
+  Resource Sharing:                   23.83
+  Logic Optimization:                 45.91
+  Mapping Optimization:              120.82
+  -----------------------------------------
+  Overall Compile Time:              220.87
+  Overall Compile Wall Clock Time:   223.19
+>>>>>>> primetime
 
   --------------------------------------------------------------------
 

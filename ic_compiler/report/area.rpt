@@ -11,6 +11,7 @@ Library(s) Used:
     saed90nm_typ (File: /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db)
 
 Number of ports:                          292
+<<<<<<< HEAD
 Number of nets:                          1941
 Number of cells:                           34
 Number of combinational cells:             25
@@ -27,4 +28,22 @@ Net Interconnect area:           72147.437069
 
 Total cell area:                533339.136604
 Total area:                     605486.573673
+=======
+Number of nets:                          1943
+Number of cells:                           36
+Number of combinational cells:             27
+Number of sequential cells:                 0
+Number of macros/black boxes:               0
+Number of buf/inv:                         27
+Number of references:                      14
+
+Combinational area:             358996.378406
+Buf/Inv area:                    54908.007439
+Noncombinational area:          181096.243212
+Macro/Black Box area:                0.000000
+Net Interconnect area:           81915.654730
+
+Total cell area:                540092.621617
+Total area:                     622008.276348
+>>>>>>> primetime
 1
