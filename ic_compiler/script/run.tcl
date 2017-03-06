@@ -31,7 +31,7 @@ set_tlu_plus_files \
 
 
 ## Setting clock constraint
-  create_clock gclk -period 6
+  create_clock gclk -period 8
 
 ## Sanity check for the libraries used and the TLU plus 
 ## files assigned
