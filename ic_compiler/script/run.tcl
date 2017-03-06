@@ -93,7 +93,6 @@ route_opt \
   -skip_initial_route \
   -effort low
 #  -power
-<<<<<<< HEAD
 
 ## Generate resulting netlist
   write_verilog "./output/res.v"
@@ -103,11 +102,6 @@ route_opt \
   write_parasitics -format sbpf -output "./output/res_parasitics.sbpf"
 
 
-=======
-write_verilog "./output/res.v"
-extract_rc
-write_parasitics -format sbpf -output "./output/res_parasitics.sbpf"
->>>>>>> primetime
 ## Reports for the various parameters
 report_timing > report/timing.rpt
 report_power > report/power.rpt
