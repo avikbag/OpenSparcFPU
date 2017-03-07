@@ -9,7 +9,9 @@
 * Cell Name : fpu
 * PG Net    : VDD
 *
-* Threshold: 246.853
+* Threshold: 241.484
 *
 * Format: [left bottom right top] on Layer is voltage
 *
+[255880 180600 257640 180760] on M1 is 241.484
+[253960 180600 255880 180760] on M1 is 241.484

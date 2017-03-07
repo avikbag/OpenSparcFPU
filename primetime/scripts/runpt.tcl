@@ -1,11 +1,6 @@
 source ./.synopsys_dc.setup
 
-#read in the verilog file
-#read_verilog "../dc_compiler/unmapped/fpu.v"
-
-#set top module name
-#current_design fpu
-#link_design
+start_gui
 
 read_milkyway -library ../ic_compiler/fpu.mw fpu
 read_parasitics -format PARA
@@ -19,9 +14,10 @@ set_clock_latency -max 0.4 gclk
 
 update_power
 
+
 #perform timing reports
 report_timing > ./reports/timing.report
 report_power -nosplit > ./reports/power.report
 report_analysis_coverage > ./reports/analysis.report
 
-quit
+#quit

@@ -7,7 +7,7 @@ Report : power
         -analysis_effort low
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Mon Mar  6 11:04:32 2017
+Date   : Mon Mar  6 14:53:17 2017
 ****************************************
 
 
@@ -122,7 +122,7 @@ dff_SIZE2_1            ForQA             saed90nm_typ
 dff_SIZE8_2            8000              saed90nm_typ
 dffre_SIZE1_1          ForQA             saed90nm_typ
 dffrl_async_SIZE1_1    ForQA             saed90nm_typ
-fpu_div_frac_dp_DW01_add_0
+fpu_div_frac_dp_DW01_add_1
                        8000              saed90nm_typ
 dffe_SIZE55_1          8000              saed90nm_typ
 dffe_SIZE55_2          8000              saed90nm_typ
@@ -221,8 +221,8 @@ dffe_SIZE1_28          ForQA             saed90nm_typ
 dffe_SIZE1_29          ForQA             saed90nm_typ
 dffe_SIZE1_30          ForQA             saed90nm_typ
 dffrl_async_SIZE1_2    ForQA             saed90nm_typ
-mul64_DW01_add_3       8000              saed90nm_typ
 mul64_DW01_add_4       8000              saed90nm_typ
+mul64_DW01_add_3       8000              saed90nm_typ
 dff_SIZE32_0           8000              saed90nm_typ
 dff_SIZE104            8000              saed90nm_typ
 dff_SIZE1_29           ForQA             saed90nm_typ
@@ -373,9 +373,9 @@ dffe_SIZE1_85          ForQA             saed90nm_typ
 dffe_SIZE1_86          ForQA             saed90nm_typ
 dffe_SIZE1_87          ForQA             saed90nm_typ
 dffrl_async_SIZE1_3    ForQA             saed90nm_typ
-fpu_add_frac_dp_DW01_add_2
+fpu_add_frac_dp_DW01_add_4
                        8000              saed90nm_typ
-fpu_add_frac_dp_DW01_add_1
+fpu_add_frac_dp_DW01_add_3
                        8000              saed90nm_typ
 fpu_add_frac_dp_DW01_add_0
                        8000              saed90nm_typ
@@ -3635,12 +3635,12 @@ Power-specific unit information :
     Leakage Power Units = 1pW
 
 
-  Cell Internal Power  =   1.3068 mW   (42%)
-  Net Switching Power  =   1.7873 mW   (58%)
+  Cell Internal Power  =   1.7796 mW   (43%)
+  Net Switching Power  =   2.3300 mW   (57%)
                          ---------
-Total Dynamic Power    =   3.0941 mW  (100%)
+Total Dynamic Power    =   4.1096 mW  (100%)
 
-Cell Leakage Power     =   2.4651 mW
+Cell Leakage Power     =   2.4666 mW
 
 
                  Internal         Switching           Leakage            Total
@@ -3649,10 +3649,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network    525.8660        1.2430e+03        9.1621e+06        1.7781e+03  (  31.98%)
-register         266.2972           59.1276        6.4868e+08          974.0992  (  17.52%)
-sequential     -9.4951e-02            0.0000        2.7253e+08          272.4340 (   4.90%)
-combinational    514.7433          485.1008        1.5347e+09        2.5346e+03  (  45.59%)
+clock_network    712.0662        1.6020e+03        9.1102e+06        2.3231e+03  (  35.33%)
+register         354.0218           76.9724        6.4855e+08        1.0795e+03  (  16.42%)
+sequential     -1.2763e-01            0.0000        2.7253e+08          272.4013 (   4.14%)
+combinational    713.6564          651.0784        1.5364e+09        2.9011e+03  (  44.11%)
 --------------------------------------------------------------------------------------------------
-Total          1.3068e+03 uW     1.7873e+03 uW     2.4651e+09 pW     5.5592e+03 uW
+Total          1.7796e+03 uW     2.3300e+03 uW     2.4666e+09 pW     6.5761e+03 uW
 1

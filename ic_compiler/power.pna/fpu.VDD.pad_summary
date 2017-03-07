@@ -12,26 +12,25 @@ B. Report Pad Synthesis Results
 #iter.  ir-drop         pad-current     #synthesized_pads improvement(%)
         max/(x y)       max/(x y)       current/total     ir-drop/pad-current
 -----------------------------------------------------------------
-1 393.14/(439.000 434.280) 126.77/(0.000 593.354) 8/16  0.00/0.00
-1 321.03/(443.480 221.160) 105.25/(877.200 593.354) 10/20  18.34/16.98
-2 290.46/(607.240 445.800) 101.52/(877.200 593.354) 12/24  9.52/3.54
-2 246.85/(273.320 186.600) 75.86/(0.000 301.061) 14/28  15.01/25.28
-3 246.85/(273.320 186.600) 75.86/(0.000 301.061) 14/29  0.00/0.00
-3 246.85/(273.320 186.600) 75.86/(0.000 301.061) 14/31  0.00/0.00
+1 384.42/(412.840 405.480) 124.20/(0.000 556.327) 8/16  0.00/0.00
+1 311.66/(435.560 203.880) 105.51/(823.120 282.274) 10/20  18.93/15.05
+2 286.04/(545.480 417.000) 99.90/(823.120 556.327) 12/24  8.22/5.31
+2 241.48/(256.760 180.840) 77.57/(0.000 282.274) 14/28  15.58/22.35
+3 241.48/(256.760 180.840) 77.57/(0.000 282.274) 14/29  0.00/0.00
 
 C. Report Pad Current Results
-Virtual Pad at (0.000 301.061) Supplies   75.86 mA Current (8.80%)
-Virtual Pad at (0.000 593.354) Supplies   70.16 mA Current (8.14%)
-Virtual Pad at (301.168 876.880) Supplies   53.57 mA Current (6.21%)
-Virtual Pad at (593.568 876.880) Supplies   53.32 mA Current (6.19%)
-Virtual Pad at (877.200 301.061) Supplies   56.11 mA Current (6.51%)
-Virtual Pad at (877.200 593.354) Supplies   69.85 mA Current (8.10%)
-Virtual Pad at (301.168 0.000) Supplies   61.40 mA Current (7.12%)
-Virtual Pad at (593.568 0.000) Supplies   56.10 mA Current (6.51%)
-Virtual Pad at (0.000 735.117) Supplies   56.22 mA Current (6.52%)
-Virtual Pad at (0.000 447.207) Supplies   72.66 mA Current (8.43%)
-Virtual Pad at (452.248 0.000) Supplies   39.80 mA Current (4.62%)
-Virtual Pad at (877.200 229.928) Supplies   70.52 mA Current (8.18%)
-Virtual Pad at (877.200 735.117) Supplies   55.71 mA Current (6.46%)
-Virtual Pad at (877.200 447.207) Supplies   70.80 mA Current (8.21%)
+Virtual Pad at (0.000 282.274) Supplies   77.57 mA Current (9.00%)
+Virtual Pad at (0.000 556.327) Supplies   69.36 mA Current (8.05%)
+Virtual Pad at (282.594 822.160) Supplies   53.90 mA Current (6.25%)
+Virtual Pad at (556.967 822.160) Supplies   53.59 mA Current (6.22%)
+Virtual Pad at (823.120 282.274) Supplies   59.44 mA Current (6.89%)
+Virtual Pad at (823.120 556.327) Supplies   69.13 mA Current (8.02%)
+Virtual Pad at (282.594 0.000) Supplies   63.75 mA Current (7.39%)
+Virtual Pad at (556.967 0.000) Supplies   54.29 mA Current (6.30%)
+Virtual Pad at (0.000 689.243) Supplies   56.78 mA Current (6.59%)
+Virtual Pad at (0.000 419.300) Supplies   71.06 mA Current (8.24%)
+Virtual Pad at (443.781 0.000) Supplies   39.28 mA Current (4.56%)
+Virtual Pad at (823.120 212.101) Supplies   68.14 mA Current (7.90%)
+Virtual Pad at (823.120 689.243) Supplies   56.26 mA Current (6.53%)
+Virtual Pad at (823.120 419.300) Supplies   69.51 mA Current (8.06%)
 

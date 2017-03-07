@@ -5,7 +5,7 @@ Warning: Design 'fpu' contains 1 high-fanout nets. A fanout number of 1000 will 
 Report : cell
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Mon Mar  6 10:39:49 2017
+Date   : Mon Mar  6 14:35:17 2017
 ****************************************
 
 Attributes:
@@ -21,18 +21,18 @@ bw_r_rf16x160             bw_r_rf16x160                   110719.181823
                                                                     h, n
 cluster_header            bw_clk_cl_fpu_cmp               388.915207
                                                                     h, n
-fpu_add                   fpu_add                         119286.373580
+fpu_add                   fpu_add                         120415.333679
                                                                     h, n
-fpu_div                   fpu_div                         46272.614125
+fpu_div                   fpu_div                         47026.482947
                                                                     h, n
 fpu_in                    fpu_in                          23016.959702
                                                                     h, n
-fpu_mul                   fpu_mul                         219620.045699
+fpu_mul                   fpu_mul                         220240.282546
                                                                     h, n
 fpu_out                   fpu_out                         7205.068758
                                                                     h, n
 fpu_rptr_groups           fpu_rptr_groups                 10.137600 h
 test_stub_scan            test_stub_scan                  91.238400 h
 --------------------------------------------------------------------------------
-Total 9 cells                                             526610.534894
+Total 9 cells                                             529113.600661
 1

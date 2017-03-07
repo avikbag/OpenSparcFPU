@@ -1,7 +1,7 @@
-## Author: Avik Bag
-## Course: ASIC I
+## Author: Avik Bag, Austen Hall
+## Course: ASIC II
 ## ICC Lab Script
-## 11 - 30 - 2016
+## 03 - 06 - 2017
 ## Prof. Taskin
 
 ## Clear out any outstanding milkyway library with the same name
@@ -31,7 +31,10 @@ set_tlu_plus_files \
 
 
 ## Setting clock constraint
-  create_clock gclk -period 8
+  create_clock gclk -period 6
+  set_clock_transition 0.04 gclk
+  set_clock_uncertainty 0.1 gclk
+  set_clock_latency -max 0.4 gclk
 
 ## Sanity check for the libraries used and the TLU plus 
 ## files assigned
@@ -50,7 +53,7 @@ derive_pg_connection \
 create_floorplan \
   -control_type aspect_ratio \
   -core_aspect_ratio 1 \
-  -core_utilization 0.7 \
+  -core_utilization 0.8 \
   -start_first_row \
   -left_io2core 5.0 \
   -right_io2core 5.0 \
@@ -87,7 +90,7 @@ clock_opt \
 #  -reuse_existing_global_route true
 
 ## Routing with power optimization
-route_opt -initial_route_only 
+#route_opt -initial_route_only 
 
 route_opt \
   -skip_initial_route \
