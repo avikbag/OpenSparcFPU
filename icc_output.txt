@@ -1,222 +1,802 @@
 Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
-icc_shell> man report_area
+icc_shell> man route_zrt_global
 2.  Synopsys Commands                                        Command Reference
-                                  report_area
+                               route_zrt_global
 
 NAME
-       report_area
-              Displays area information for the current design or instance.
+       route_zrt_global
+              Performs global routing on the design using Zroute.
 
 SYNTAX
-       status report_area
-               [-nosplit]
-               [-physical]
-               [-hierarchy]
-               [-designware]
+       status route_zrt_global
+               [-effort minimum | low | medium | high | ultra]
+               [-congestion_map_only true | false]
+               [-reuse_existing_global_route true | false]
+               [-exploration true | false]
 
 ARGUMENTS
-       -nosplit
-              Prevents  line  splitting.   Most  of  the design information is
-              listed in fixed-width columns.  If the information for  a  given
-              field  exceeds  the column width, the next field begins on a new
-              line, starting in the correct column.
+       -effort minimum | low | medium | high | ultra
+              Specifies the effort used to perform global routing.
 
-       -physical
-              Reports the size of the core area and the aspect  ratio  of  the
-              design.
+              By  default,  the global router uses the effort specified by the
+              global   route   effort   option,   which   is   set   by    the
+              set_route_zrt_global_options command. The default value for this
+              option is medium.  Please note that the command line option  has
+              precedence      if      it     is     different     from     the
+              set_route_zrt_global_options effort value.
 
-       -hierarchy
-              Reports  the  area  used  by  cells across the design hierarchy.
-              Reports the absolute value and the percentage of  area  consumed
-              by  each  of  the  cells across the hierarchy.  This option also
-              reports the details of area contribution by combinational,  non-
-              combinational,  and  macro or black box cells. The "black boxes"
-              column includes macro area.
+       -congestion_map_only true | false
+              Creates the congestion map without creating glinks.
 
-       -designware
-              Reports the area of synthetic cells.  There  are  two  types  of
-              synthetic cells:
-              o Datapath cells
-                The datapath cells are extracted complex datapath cells.
+              The default value is false.
 
-              o DesignWare singleton cells
-                The  DesignWare  singleton  cells are instantiated or inferred
-                synthetic component cells.
+       -reuse_existing_global_route true | false
+              Enables (true) or disables (false) incremental global routing.
 
-              The report shows the total synthetic cell  area  and  the  total
-              datapath  cell area. If the synthetic cells are ungrouped during
-              compile, the report shows the estimated area  of  the  ungrouped
-              synthetic cells.
+              By default (false),  the  global  router  ignores  all  existing
+              global routes from the design for initial routing.
+
+              If  you set this option to true, the global router considers and
+              reuses existing global routes.
+
+       -exploration true | false
+              Specifies what routing quality the router should use for  global
+              routing.
+
+              By  default (false), the router routes the design in normal mode
+              and uses higher effort to reduce congestion.
+
+              If you set this option to true, the global  router  ignores  the
+              blockages  on  blocked  pins  when  routing the design and makes
+              other simplifying assumptions in order to complete global  rout-
+              ing quickly. Designs can be unlegalized in exploration mode. The
+              resulting congestion map shows the location  of  congestion  hot
+              spots  in  the floorplan. Exploration mode also disables timing-
+              driven or crosstalk-driven routing. Exploration mode makes  spe-
+              cial  internal settings that override the -effort option, so the
+              -effort option is ignored  when  exploration  mode  is  enabled.
+              Absolute  congestion  statistics  might  differ  from the normal
+              global router, especially if the design is  not  clean.   Explo-
+              ration mode is intended to be used only in floorplan exploration
+              or design planning. Its purpose is to give a  quick  picture  of
+              floorplan  routing  problems  as  a guide for placement improve-
+              ments. You should not run track  assignment  or  detail  routing
+              based on exploration mode global routing.
 
 DESCRIPTION
-       The  report_area  command  lists  the  area  statistics for the current
-       instance or the current design. The report includes combinational, non-
-       combinational,  and  total  area  information.   If  you  set  the cur-
-       rent_instance command, the report is generated for the design  of  that
-       instance.  Otherwise the report is generated for the current design.
+       The  route_zrt_global  command maps general pathways through the design
+       for each unrouted signal or clock net. The global router uses a  three-
+       dimensional  array  of  global  routing  cells  to model the demand and
+       capacity of global routing. The average height of the standard cells is
+       used to create the height and width of each global routing cell. During
+       global routing, the tool assigns  nets  to  the  global  routing  cells
+       through which they pass. For each global routing cell, routing capacity
+       is calculated according to the  blockages,  pins,  and  routing  tracks
+       inside  the  cell.  Although global routing does not assign the nets to
+       the actual wire tracks, it notes the number of nets  assigned  to  each
+       global  routing cell. The tool calculates the demand for wire tracks in
+       each global routing cell and reports the overflows, which are the  num-
+       ber  of  wire  tracks  still  needed after the tool assigns nets to the
+       available wire tracks in a global routing cell. The tool  might  reduce
+       overflows  by  detouring nets around congested areas and increasing the
+       wire length.  When a wire is prerouted, the tool checks to see  whether
+       it  is  completely  connected.  If the net is completely connected, the
+       tool treats the net as a blockage; if the net is  partially  connected,
+       the tool connects all parts of the net.
 
-       The  number of combinational cells, number of sequential cells, and the
-       number of macros/black boxes only include leaf cells.
-
-       Note that the number of macros reported by the report_area  command  is
-       based  on information from the logic libraries.  This number can differ
-       from what is returned by the all_macro_cells command, which is based on
-       information  from  the  physical  libraries.  For  the  purposes of the
-       report_area command, macros and leaf-level black box cells are reported
-       together.  Hierarchical black-box cells are not counted because no area
-       is associated with them.
-
-       Also note that the core area numbers reported by the  report_area  com-
-       mand is the bounding box of the core area rather than the defined rect-
-       linear shape.
+       o The global router treats power and ground nets as blockages.
+         o  The  global  router treats prerouted meshes and trunks as a single
+         connection. Make sure that you examine the  routing  to  see  whether
+         they are connected properly.
 
    Multicorner-Multimode Support
-       This command has no dependency on scenario-specific information.
+       This command uses information from all active scenarios.
 
 EXAMPLES
-       The following example generates an area report:
+       The following command performs global routing using high effort:
 
-         prompt> report_area
+         prompt> route_zrt_global -effort high
 
-         ****************************************
-         Report : area
-         Design : top
-         Version: H-2013.03-SP1
-         Date   : Wed Apr 17 18:44:40 2013
-         ****************************************
+SEE ALSO
+       set_route_zrt_global_options(2)
+       route_zrt_auto(2)
 
-         Library(s) Used:
-
-             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
-
-         Number of ports:                          108
-         Number of nets:                           385
-         Number of cells:                          256
-         Number of combinational cells:            254
-         Number of sequential cells:                 0
-         Number of macros/black boxes:               0
-         Number of buf/inv:                         31
-         Number of references:                      23
-
-         Combinational area:             228294.400621
-         Buv/Inv area:                    21384.014281
-         Noncombinational area:               0.000000
-         Macro/Black Box area:                0.000000
-         Net Interconnect area:      undefined  (Wire load has zero net area)
-
-         Total cell area:                228294.400621
-         Total area:                 undefined
-         1
-
-       The following example generates  an  area  report  for  a  hierarchical
-       design using the -hierarchy option:
-
-         prompt> report_area -hierarchy
-
-         ****************************************
-         Report : area
-         Design : top
-         Version: H-2013.03-SP1
-         Date   : Wed Apr 17 18:45:01 2013
-         ****************************************
-
-         Library(s) Used:
-
-             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
-
-         Number of ports:                          108
-         Number of nets:                           385
-         Number of cells:                          256
-         Number of combinational cells:            254
-         Number of sequential cells:                 0
-         Number of macros/black boxes:               0
-         Number of buf/inv:                         31
-         Number of references:                      23
-
-         Combinational area:             228294.400621
-         Buv/Inv area:                    21384.014281
-         Noncombinational area:               0.000000
-         Macro/Black Box area:                0.000000
-         Net Interconnect area:      undefined  (Wire load has zero net area)
-
-         Total cell area:                228294.400621
-         Total area:                 undefined
-
-         Hierarchical area distribution
-         ------------------------------
-
-                                 Global cell area             Local cell area
-                                 --------------------  ------------------------------
-         Hierarchical cell       Absolute     Percent  Combi-       Noncombi-  Black-
-                                 Total        Total    national     national   boxes   Design
-         ----------------------  -----------  -------  -----------  ---------  ------  -------------------------------
-         top                     228294.5469    100.0   12633.5693     0.0000  0.0000  top
-         U1                      123539.4844     54.1    3967.9995     0.0000  0.0000  test_sel_1
-         U1/add_x_16_1             4550.4004      2.0    4550.4004     0.0000  0.0000  test_sel_1_DW01_add_30
-         U1/add_x_18_1             4998.3999      2.2    4998.3999     0.0000  0.0000  test_sel_1_DW01_add_29
-         U1/add_x_25_1             6054.4004      2.7    6054.4004     0.0000  0.0000  test_sel_1_DW01_add_22
-         U1/add_x_25_2             4390.4004      1.9    4390.4004     0.0000  0.0000  test_sel_1
-         U1/add_x_16_1             4550.4004      2.0    4550.4004     0.0000  0.0000  test_sel_1_DW01_add_30
-         U1/add_x_18_1             4998.3999      2.2    4998.3999     0.0000  0.0000  test_sel_1_DW01_add_29
-         U1/add_x_25_1             6054.4004      2.7    6054.4004     0.0000  0.0000  test_sel_1_DW01_add_22
-         U1/add_x_25_2             4390.4004      1.9    4390.4004     0.0000  0.0000  test_sel_1_DW01_add_12
-         U1/mult_x_10_1           21939.1992      9.6   21939.1992     0.0000  0.0000  test_sel_1_DW02_mult_J1_3
-         U1/mult_x_11_1           22195.1973      9.7   22195.1973     0.0000  0.0000  test_sel_1_DW02_mult_J1_2
-         U1/mult_x_12_1           21913.5898      9.6   21913.5898     0.0000  0.0000  test_sel_1_DW02_mult_J1_1
-         U1/mult_x_13_1           22732.8008     10.0   22732.8008     0.0000  0.0000  test_sel_1_DW02_mult_J1_0
-         U1/sub_x_17_1             5216.0000      2.3    5216.0000     0.0000  0.0000  test_sel_1_DW01_sub_6
-         U1/sub_x_19_1             5580.8008      2.4    5580.8008     0.0000  0.0000  test_sel_1_DW01_sub_7
-         U2                       92121.9531     40.4    3276.7986     0.0000  0.0000  test_sel_0
-         U2/DP_OP_15J1_64_71      40691.3789     17.8   40691.3789     0.0000  0.0000  test_sel_0_DP_OP_15J1_64_71_0
-         U2/DP_OP_16J1_65_71      39392.1328     17.3   39392.1328     0.0000  0.0000  test_sel_0_DP_OP_16J1_65_71_0
-         U2/DP_OP_17J1_66_1425     8761.5996      3.8    8761.5996     0.0000  0.0000  test_sel_0_DP_OP_17J1_66_1425_1
-         ----------------------  -----------  -------  -----------  ---------  ------  -------------------------------
-         Total                                         228294.6562     0.0000  0.0000
-         1
-
-       The  following  example uses the -designware option to generate an area
-       report for a design that contains synthetic cells:
-
-         prompt> report_area -designware
-
-         ****************************************
-         Report : area
-         Design : top
-         Version: H-2013.03-SP1
-         Date   : Wed Apr 17 18:45:20 2013
-         ****************************************
-
-         Library(s) Used:
-
-             slow (File: /remote/dtdata1/testdata/libraries/syn/slow.db)
-
-         Number of ports:                          108
-         Number of nets:                           385
-         Number of cells:                          256
-         Number of combinational cells:            254
-         Number of sequential cells:                 0
-         Number of macros/black boxes:               0
-         Number of buf/inv:                         31
-icc_shell> man report_qor
+                         Version L-2016.03-SP5-1
+            Copyright (c) 2016 Synopsys, Inc. All rights reserved.
+icc_shell> man route_zrt_group
 2.  Synopsys Commands                                        Command Reference
-                                  report_qor
+                                route_zrt_group
 
 NAME
-       report_qor
-              Displays  QoR information and statistics for the current design.
+       route_zrt_group
+              Performs  routing on a group of nets in the design using Zroute.
+              You should use this command before signal routing to route crit-
+              ical nets such as clock nets or timing-critical nets. Do not use
+              this command to connect  nets  after  signal  routing  (use  the
+              route_zrt_eco command instead).
 
 SYNTAX
-       status report_qor
-               [-significant_digits digits]
-               [-physical]
-               [-scenarios scenario_list]
-               [-summary]
+       status route_zrt_group
+               [-max_detail_route_iterations num]
+               [-nets nets | -all_clock_nets]
+               [-stop_after_global_route true | false]
+               [-reuse_existing_global_route true | false]
+               [-utilize_dangling_wires true | false]
+               [-exploration true | false]
+               [-route_nondefault_nets_first true | false]
+               -from_file file_name
 
    Data Types
-       digits            integer
-       scenario_list     list
+       num          integer
+       nets         collection
 
 ARGUMENTS
-       -significant_digits digits
-              Specifies the number of digits to the right of the decimal point
-icc_shell> 
+       -max_detail_route_iterations num
+              Specifies  the maximum number of detail routing iterations.  You
+              can specify an integer between 1 and 1000.
+
+              By default, the maximum number  of  iterations  for  the  detail
+              routing command (40) is used.
+
+       -nets nets
+              Specifies the nets to be routed.
+
+              You must specify the nets on which to run this command by speci-
+              fying  at  least  one   of   the   following   options:   -nets,
+              -all_clock_nets,  and  -from_file. The -nets and -all_clock_nets
+              options are mutually exclusive; you can specify  only  one.  You
+              can  specify  the  -from_file  option  in  addition to the -nets
+              option.
+
+       -all_clock_nets
+              Routes all clock nets.
+
+              You must specify the nets on which to run this command by speci-
+              fying   at   least   one   of   the  following  options:  -nets,
+              -all_clock_nets,   and   -from_file.   If   you   specify    the
+              -all_clock_nets   option,   you  cannot  specify  the  -nets  or
+              -from_file option.
+
+       -stop_after_global_route true | false
+              Controls whether the router stops after global routing  or  con-
+              tinues all the way to detail routing.
+
+              The  default value is false, which means that the router contin-
+              ues all the way to detail routing.
+
+       -reuse_existing_global_route true | false
+              Enables (true) or disables (false) incremental global routing.
+icc_shell> man clock_opt
+2.  Synopsys Commands                                        Command Reference
+                                   clock_opt
+
+NAME
+       clock_opt
+              Performs  clock  tree  synthesis, routing of clock nets, extrac-
+              tion, optimization,  and  hold  time  violation  fixing  on  the
+              design.   There  is  also  an option to perform interclock delay
+              balancing.
+
+SYNTAX
+       status clock_opt
+               [-only_psyn]
+               [-fix_hold_all_clocks]
+               [-inter_clock_balance]
+               [-update_clock_latency]
+               [-operating_condition   min | max | min_max]
+               [-only_cts]
+               [-clock_trees name_of_clocks]
+               [-optimize_dft]
+               [-continue_on_missing_scandef]
+               [-no_clock_route]
+               [-only_hold_time]
+               [-area_recovery]
+               [-size_only | -in_place_size_only]
+               [-power]
+               [-insert_self_gating]
+               [-congestion]
+               [-concurrent_clock_and_data]
+               [-incremental_concurrent_clock_and_data]
+
+ARGUMENTS
+       -only_psyn
+              Performs optimization only.
+
+       -fix_hold_all_clocks
+              Performs hold time violation fixing for all clocks during incre-
+              mental optimization.
+
+              By  default, the clock_opt command does not perform hold fixing.
+
+       -inter_clock_balance
+              Performs interclock delay balancing.
+
+              By default, the clock_opt command does  not  perform  interclock
+              delay balancing.
+
+       -update_clock_latency
+              Updates  the  latencies  on real and virtual clock objects after
+              clock tree synthesis, clock tree optimization, interclock  delay
+              balancing (if enabled), and clock tree detail routing.
+
+              This  option  effectively executes the set_clock_latency command
+              internally for the clock objects and uses the insertion delay of
+              the   clock   tree   as  the  latency  value.  If  you  run  the
+              set_latency_adjustment_options command before the clock_opt com-
+              mand,  the  directives  are  obeyed.  If  you do not specify any
+              directives,  only  the  latencies  of  real  clock  objects  are
+              updated.   The  update mechanism uses the insertion delay of the
+              clock tree as the latency value.
+
+       -operating_condition  min | max | min_max
+              Specifies the operating condition. The default is max.
+
+       -only_cts
+              Performs only clock tree synthesis, clock tree optimization, and
+              clock tree routing.
+
+       -clock_trees name_of_clocks
+              Performs  clock  tree  synthesis  and optimization on the clocks
+              specified in the order specified.
+
+       -optimize_dft
+              Enables clock-aware scan reordering.
+
+              The reordering tries to minimize the number of buffer  crossings
+              in  the  scan  chains. Minimizing the number of buffer crossings
+              can reduce hold time violations in the scan chains.
+
+              When you specify this option, you must  load  the  SCANDEF  data
+              that  defines  the scan chains before running the clock_opt com-
+              mand.  You can use the get_scan_chains command to check  if  the
+              SCANDEF data is available.
+
+              For  best results, first use the place_opt -optimize_dft command
+              to perform placement-aware scan reordering.
+
+              By default, the clock_opt command does not perform scan reorder-
+              ing.
+
+       -continue_on_missing_scandef
+              Continues  placement when the design contains scan chains but no
+              SCANDEF data.
+
+              By default, missing SCANDEF data causes the command to exit with
+              an  error  message. If you specify this option, the command con-
+              tinues with a warning and results in reduced quality-of-results.
+
+       -no_clock_route
+              Disables routing of clock nets.
+
+       -only_hold_time
+              Performs only hold time fixing after clock tree synthesis.
+
+              If  you  specify the -fix_hold_all_clocks option, the tool fixes
+              hold time violations for all clocks.  Otherwise, the tool  fixes
+              hold  time  violations  only  for  the clocks specified with the
+              set_fix_hold command.
+
+       -area_recovery
+              Enables area recovery for the cells not on the  timing  critical
+              paths.
+
+       -size_only
+              Restricts  post  clock  tree  synthesis  optimization  to sizing
+              changes only.  Optimization procedures that insert new cells and
+              remove cells are disabled.
+
+              See  the  description  for  the  -in_place_size_only  option for
+              information about how to further constrain sizing changes.
+
+              The -size_only  and  -in_place_size_only  options  are  mutually
+              exclusive.
+
+       -in_place_size_only
+              Restricts  post  clock  tree  synthesis optimization to in-place
+              sizing changes only.  Optimization procedures  that  insert  new
+              cells and remove cells are disabled.
+
+              With  the -in_place_size_only option, sizing changes are further
+              constrained for minimal engineering change order (ECO) placement
+              changes.   For  example,  a  cell  is sized to improve timing or
+              design rule costs only if the newly-sized cell can fit into  any
+              available  space  adjacent  to  the original cell location.  The
+              resulting transformation is verified to ensure that it is legal.
+
+              The  -size_only  and  -in_place_size_only  options  are mutually
+              exclusive.
+
+       -power
+              Performs the enabled clock tree power optimizations before clock
+              tree  synthesis,  as well as power-aware timing optimization and
+              leakage-power optimization after clock tree synthesis.
+
+              The supported clock tree  power  optimizations  are  power-aware
+              placement  and  clock  gate restructuring. To enable power-aware
+              placement, use the set_optimize_pre_cts_power_options command to
+              set  the  -low_power_placement  option  to true. When you enable
+              power-aware placement, the tool performs incremental  switching-
+              activity-based  power-aware placement. For the best results from
+              power-aware placement, you should specify the same coarse place-
+              ment  setup, such as the placer_max_cell_density_threshold vari-
+              able, used in the place_opt command before running the clock_opt
+              command.
+
+              To   enable   clock   gate   restructuring,  use  the  set_opti-
+              mize_pre_cts_power_options command to set the -merge_clock_gates
+              option to true.
+
+              The  clock_opt  command  can  perform leakage-power optimization
+              based on either the multiple-threshold-voltage constraint or the
+              leakage  values  of  the library cells. To perform leakage-power
+              optimization based on the multiple-threshold-voltage constraint,
+              use  the  set_multi_vth_constraint  command  to define this con-
+              straint before running the  clock_opt  command.   If  this  con-
+              straint  is  not defined, the tool bases the leakage-power opti-
+              mization on the leakage values of the library cells.
+
+              When you specify this option for a multicorner-multimode design,
+              you  must  use  the  set_scenario_options  command to select the
+              leakage scenarios before running the clock_opt command.
+
+              When you use the -power option with the  -only_cts  option,  the
+              enabled  clock  tree  power  optimizations  are performed before
+              clock tree synthesis; leakage-power  optimization  is  not  per-
+              formed.
+
+              When  you  use  the  -power  option  with the -only_psyn option,
+              power-aware timing optimization and  leakage-power  optimization
+              are  performed  but  the  clock tree power optimizations are not
+              performed.
+
+              To perform only power-aware-timing optimization and  not  clock-
+              tree-power  or leakage-power optimization, do not use the -power
+              option. Instead, set  the  icc_preroute_power_aware_optimization
+              variable to true before running the clock_opt command.
+
+       -insert_self_gating
+              Inserts XOR self-gating logic during clock tree synthesis before
+              clock tree construction.
+
+              For best results, you should provide the clock activity informa-
+              tion  by  reading  a SAIF file with the read_saif command before
+              running the clock_opt command.
+
+       -congestion
+              Performs congestion-driven incremental placement during the post
+              clock tree synthesis optimization stage.
+
+              By  default,  the clock_opt command does not consider congestion
+              during incremental placement.
+
+       -concurrent_clock_and_data
+              When   -only_cts   option   is   used   along   with    -concur-
+              rent_clock_and_data  option,  the  tool  synthesizes  the  clock
+              trees, performs data-path optimization, and computes useful skew
+              for  improving  the  setup  WNS  and TNS, and rebuilds the clock
+              trees   to   implement   the   useful   skew.   When    -concur-
+              rent_clock_and_data   is   used   along  with  only_cts  option,
+              clock_opt command accepts other data-path  optimization  options
+              such  as  area_recovery,  congestion, etc to guide the data-path
+              optimization that is performed inside.
+
+              When   -only_psyn   option   is   used   along   with   -concur-
+              rent_clock_and_data  option,  the  tool performs data-path opti-
+              mization, WNS improvement driven clock  tree  optimization,  and
+              finally performs an additional data-path optimization.
+
+              When  -concurrent_clock_and_datai  is  used  without only_cts or
+              only_psyn, it is  equivalent  to  clock_opt  -only_cts  -concur-
+              rent_clock_and_data  followed by  clock_opt  -only_psyn -concur-
+              rent_clock_and_data.
+
+       -incremental_concurrent_clock_and_data
+              Performs incremental data-path optimization and timing  improve-
+              ment  driven  clock  tree optimization. The optimization at this
+              stage  improves  timing  in  all   active   scenarios.   Options
+              -area_recovery and -continue_on_missing_scandef can be used with
+              -incremental_concurrent_clock_and_data.
+
+icc_shell> man route_opt
+2.  Synopsys Commands                                        Command Reference
+                                   route_opt
+
+NAME
+       route_opt
+              Performs  simultaneous routing and postroute optimization on the
+              design.
+
+SYNTAX
+       status route_opt
+               [-stage global | track | detail]
+               [-xtalk_reduction]
+               [-only_xtalk_reduction]
+               [-power]
+               [-size_only]
+               [-area_recovery]
+               [-wire_size]
+               [-effort low | medium | high]
+               [-initial_route_only
+                | -skip_initial_route
+                | -incremental]
+               [-only_wire_size]
+               [-only_hold_time]
+               [-only_design_rule]
+               [-only_power_recovery]
+               [-only_area_recovery]
+               [-register_to_register]
+               [-concurrent_clock_and_data]
+               [-only_concurrent_clock_and_data]
+               [-optimize_wire_via]
+               [-num_cpus count]
+
+   Data Types
+       count     integer
+
+ARGUMENTS
+       -stage global | track | detail
+              Specifies the routing stages to  run  before  running  topology-
+              based optimization.
+
+              If you do not specify this option, the tool runs global routing,
+              track assignment, and detail routing  before  running  optimiza-
+              tion.
+
+              If  you specify -stage global, the tool runs only global routing
+              before running optimization.
+
+              If you specify -stage track, the tool runs  global  routing  and
+              track assignment before running optimization.
+
+              IF  you specify -stage detail, the tool runs only detail routing
+              before running optimization. The  design  must  already  contain
+              global route and track assignment information.
+
+              If  you  specify -stage global or -stage track when block inter-
+              face optimization is enabled, the tool issues a warning  message
+              and ignores block interface optimization. To use block interface
+              optimization,  either  remove  this  option  or  specify  -stage
+              detail.
+
+       -xtalk_reduction
+              Runs  routing-based  crosstalk  reduction  signal integrity (SI)
+              optimization.
+
+              This option is applicable only if you  enable  signal  integrity
+              mode  before  running  the  route_opt command. You enable signal
+              integrity mode by setting the -route_xtalk_prevention option  of
+              the  set_si_options  command to true. By default, this option is
+              set to false. If you specify the -xtalk_reduction option without
+              enabling signal integrity mode, the tool issues an error message
+              and stops. If you specify this  option  and  also  enable  block
+              interface optimization, the tool honors the option only for top-
+              level nets.
+
+       -only_xtalk_reduction
+              Runs only routing-based crosstalk reduction.
+
+              Similar to the -xtalk_reduction option, this option is  applica-
+              ble  only  if  you  enable  signal  integrity  mode  running the
+              route_opt command. If you specify this option  without  enabling
+              signal  integrity  mode or if you specify any other options with
+              the -only_xtalk_reduction option, the tool issues an error  mes-
+              sage and stops. If you specify this option and also enable block
+              interface optimization, the tool will honor the option only  for
+              top-level nets.
+
+       -power
+              Enables topology-based leakage-power optimization.
+
+              The  route_opt  command  can  perform leakage-power optimization
+              based on either the multiple-threshold-voltage constraint or the
+              leakage  values  of  the library cells. To perform leakage-power
+              optimization based on the multiple-threshold-voltage constraint,
+              use  the  set_multi_vth_constraint  command  to define this con-
+              straint before running the  route_opt  command.   If  this  con-
+              straint  is  not defined, the tool bases the leakage-power opti-
+              mization on the leakage values of the library cells.
+
+              When you specify this option for a multicorner-multimode design,
+              you  must  use  the  set_scenario_options  command to select the
+              leakage scenarios before running the route_opt command.
+
+       -size_only
+              Performs only sizing of cells  in  topology-based  optimization.
+              You  can  use this option for designs that are very sensitive to
+              postroute optimization changes.
+
+              You control  the  sizing  method  by  setting  the  effort.   By
+              default, the tool runs medium effort optimization, which enables
+              in-place size-only optimization. To use footprint swapping,  set
+              the  -effort option to low. To use regular density-based sizing,
+              set the -effort option to high.
+
+       -area_recovery
+              Enables area recovery for cells that are not on timing  critical
+              paths.
+
+       -wire_size
+              Enables  the use of an additional technique that sizes the width
+              of route segments to fix setup time violations during  topology-
+              based optimization.
+
+              This  option  needs existing nondefault routing rules and it can
+              change netlist.  The tool applies nondefault  routing  rules  to
+              the  touched  nets  and the applied nondefault routing rules are
+              not removed after wire sizing.
+
+              If you specify this option and also enable block interface opti-
+              mization, the tool honors the option only for top-level nets.
+
+       -effort low | medium | high
+              Specifies  the  effort  level for postroute optimizations in the
+              route_opt flow. This option does not change  the  routing  steps
+              performed by the route_opt command.
+
+              Valid  values  are  low,  medium, and high.  In high effort, the
+              tool is more aggressive during optimization and runs three opti-
+              mization loops.
+
+              The default effort level is medium.
+
+       -initial_route_only
+              Runs  only  the initial routing stage and does not perform opti-
+              mization.
+
+              This option cannot  be  used  with  the  -skip_initial_route  or
+              -incremental options.
+
+       -skip_initial_route
+              Runs  the only topology-based optimization and ECO routing with-
+              out running initial routing.
+
+              Note that if signal integrity mode is enabled, this option  runs
+              ECO  routing  without  signal  integrity followed by ECO routing
+              with  signal  integrity.  This  differs  from  the  -incremental
+              option,  which  runs only ECO routing with signal integrity when
+              signal integrity mode is enabled.
+
+              Using this option on a design that is not  detail  routed  might
+              generate  erroneous  results;  therefore, you should verify that
+              the design is fully routed before you use this option.
+
+              This option cannot be used with the -initial_route_only, -incre-
+              mental, or -stage options.
+
+       -incremental
+              Disables  running  of  the initial routing steps.  The tool runs
+              only topology-based incremental optimization and ECO routing.
+
+              Note that if signal integrity mode is enabled, this option  runs
+              only  ECO routing with signal integrity and does not run the ECO
+              routing  step  without  signal  integrity,  as  the   -skip_ini-
+              tial_route option does.
+
+              This   option  cannot  be  used  with  the  -initial_route_only,
+              -skip_initial_route, or -stage options.
+
+       -only_wire_size
+              Performs only sizing of wires  during  topology-based  optimiza-
+              tion.   The tool applies nondefault routing rules to the touched
+              nets and the applied nondefault routing rules  are  not  removed
+              after  wire  sizing.  If you specify this option and also enable
+              block interface optimization, the tool honors  the  option  only
+              for top-level nets.
+
+       -only_hold_time
+              Specifies that only hold time violations are fixed.
+
+              This option is applicable only if you enabled hold fixing before
+              running the route_opt command. You enable hold fixing  by  using
+              the set_fix_hold command.
+
+              This option can be used only with the -incremental option.
+
+       -only_design_rule
+              Specifies that only design rule fixing is performed.
+
+              This option can be used only with the -incremental option.
+
+       -only_power_recovery
+              Specifies that only leakage power optimizations are performed.
+
+              This option can be used only with the -incremental option.
+
+       -only_area_recovery
+              Specifies that only area optimizations are performed.
+
+              This option can be used only with the -incremental option.
+
+       -register_to_register
+              Specifies  that  only  register-to-register optimization is per-
+              formed.
+
+              This option must be used with the -incremental option. The  only
+              other  options  that  you  can  specify  with  this  option  are
+              -size_only, -only_hold_time, or -only_design_rule.
+
+       -concurrent_clock_and_data
+              Optimizes the clock paths along with the data  paths.  The  data
+              paths are optimized to fix setup and hold violations, as well as
+              logical design rule violations.
+
+              By default, the route_opt command optimizes only data paths.
+
+              When you use this option, you must set  the  options  for  clock
+              path      optimization      by     using     the     set_concur-
+              rent_clock_and_data_strategy command.
+
+       -only_concurrent_clock_and_data
+              Optimizes the clock paths after performing  a  lightweight  data
+icc_shell> man create_floorplan
+2.  Synopsys Commands                                        Command Reference
+                               create_floorplan
+
+NAME
+       create_floorplan
+              Creates  a  floorplan with a chip boundary, core, rows, and wire
+              tracks.
+
+SYNTAX
+       status create_floorplan
+               [-control_type aspect_ratio | width_and_height | boundary]
+               [-core_aspect_ratio ratio]
+               [-core_utilization ratio]
+               [-core_width width]
+               [-core_height height]
+               [-use_vertical_row]
+               [-no_double_back]
+               [-start_first_row]
+               [-flip_first_row]
+               [-left_io2core distance]
+               [-right_io2core distance]
+               [-bottom_io2core distance]
+               [-top_io2core distance]
+               [-keep_macro_place]
+               [-keep_std_cell_place]
+               [-min_pad_height]
+               [-pad_limit]
+               [-keep_io_place]
+
+   Data Types
+       ratio        float
+       width        float
+       height       float
+       distance     float
+
+ARGUMENTS
+       -control_type aspect_ratio | width_and_height | boundary
+              Specifies how the command sizes the core area of the  floorplan.
+              The  aspect_ratio  control  type specifies the area based on the
+              ratio of  the  core  height  divided  by  the  core  width.  The
+              width_and_height  control  type  specifies the area based on the
+              true dimensions of the core. The boundary control type specifies
+              the  area  based  on the place and route boundary of the current
+              design. The default control type is aspect_ratio.
+
+       -core_aspect_ratio ratio
+              Specifies the aspect ratio for the floorplan. The  aspect  ratio
+              is the height divided by the width. For example, an aspect ratio
+              of 1.00 specifies a  square  core  area  with  equal  width  and
+              height. An aspect ratio of 3.00 specifies a height that is three
+              times the width. An aspect ratio of 0.50 specifies a width  that
+              is two times the height. Note that the specified aspect ratio is
+              only a target. The tool creates the floorplan  with  the  actual
+              core area perimeter as close as possible to the specified aspect
+              ratio.
+
+       -core_utilization ratio
+              Specifies the utilization for the core area. The utilization  is
+              the  total  area  of the core occupied by all standard cells and
+              macro cells divided by the total core area. You  can  specify  a
+              utilization  value  between  0 and 1. The cell area includes all
+              standard and macro cells. For example, a core utilization of 0.8
+icc_shell> man create_fp_placement
+2.  Synopsys Commands                                        Command Reference
+                              create_fp_placement
+
+NAME
+       create_fp_placement
+              Places hard macros and leaf cells.
+
+SYNTAX
+       status create_fp_placement
+               [-effort low | high]
+               [-max_fanout positive_integer]
+               [-no_hierarchy_gravity]
+               [-no_legalize]
+               [-incremental placement_string]
+               [-congestion_driven]
+               [-timing_driven]
+               [-num_cpus number_of_cpus]
+               [-plan_groups collection_of_plan_groups]
+               [-voltage_areas collection_of_voltage_areas]
+               [-optimize_pins]
+               [-consider_scan]
+               [-write_placement_blockages]
+               [-exploration]
+
+   Data Types
+       positive_integer                integer
+       placement_string                string
+       number_of_cpus                  integer
+       collection_of_plan_groups       collection
+       collection_of_voltage_areas     collection
+
+ARGUMENTS
+       -effort low | high
+              Sets  the  level of effort to apply to creating the virtual flat
+              placement. Use this option to tradeoff the  quality  of  virtual
+              flat placement results (QoR) and the amount of CPU runtime spent
+              performing a flat placement. Valid values for  this  option  are
+              low and high. For fast results that provide good, nonoverlapping
+              hard macro locations, set the effort to low. For higher  quality
+              placement,  but  with an increase in CPU runtime, set the effort
+              to high. The default is low.
+
+       -max_fanout positive_integer
+              Specifies that placement ignores nets  having  a  fanout  higher
+              than  the  number specified by positive_integer. The wire length
+              of nets with a fanout greater than the specified value  are  not
+              considered in placement. The default is 512.
+
+       -no_hierarchy_gravity
+              Prevents the grouping of cells within the same hierarchal block.
+              The default is to group together cells of  the  same  hierarchal
+              block.  In  general, grouping by using hierarchy gravity results
+              in better placement because designs tend to partition well along
+              the  hierarchy  boundaries. However, you can specify -no_hierar-
+              chy_gravity if you  know  that  the  partitioning  by  hierarchy
+              should be prevented.
+
+       -no_legalize
+              Creates  a  placement  that  is not legalized. The default is to
+              create a legalized placement.
+
+       -incremental placement_string
+              Performs an incremental placement of the current placement.  The
+              valid  values  are  all, top_level_cells, plan_groups, and volt-
+              age_areas. Use all to perform an incremental  placement  on  the
+              entire  design. Use top_level_cells to run an incremental place-
+              ment on top-level cells that do not belong to any plan group  or
+              voltage  area.  Use  the  plan_groups  keyword together with the
+              -plan_groups option to  perform  incremental  placement  to  the
+              cells  within  the  specified  plan  groups.  Use  voltage_areas
+              together with the -voltage_areas option to  perform  incremental
+              placement  to  cells  within  the  specified  voltage areas. The
+              default is for the command to run placement without using previ-
+              ous placement results.
+
+       -congestion_driven
+              Enables  congestion-driven  placement mode. By default, the com-
+              mand runs with congestion-driven placement mode off.
+
+       -timing_driven
+              Enables timing-driven placement mode. By  default,  the  command
+              runs with timing-driven placement mode off.
+
+       -num_cpus number_of_cpus
+              Specifies  the  number  of  CPUs  used in parallel during coarse
+              placement.  The number_of_cpus is an integer value that is  less
+              than  or  equal  to  the number of free CPUs on your machine and
+              greater than or equal to 1. By default, the command uses 1  CPU.
+              Only one IC Compiler-PSYN license is checked out.
+
+       -plan_groups collection_of_plan_groups
+              Refines the placement for the specified plan groups. This option
+              is valid only for plan groups placed inside the core  area  when
+              you specify the -incremental plan_groups option.
+
+       -voltage_areas collection_of_voltage_areas
+              Performs  refine placement for the specified voltage areas. This
+              option is valid only for voltage areas placed  inside  the  core
+              area when you specify the -incremental voltage_areas option.
+
+       -optimize_pins
+              Performs  simultaneous  placement  and  pin assignment for block
+              level designs. When you specify this option,  IC  Compiler  per-
+              forms  two  iterations of placement and pin assignment to obtain
+icc_shell> exit
+
+Thank you...
+

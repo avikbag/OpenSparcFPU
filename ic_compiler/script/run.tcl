@@ -61,12 +61,12 @@ create_floorplan \
   -bottom_io2core 5.0 \
 
 ## Create floorplan placements
-create_fp_placement
+create_fp_placement -num_cpus 16 -timing_driven
 
 ## Generate the floorplan power rails
 synthesize_fp_rail \
   -power_budget 1000 \
-  -voltage_supply 1.16 \
+  -voltage_supply 1.2 \
   -target_voltage_drop 250 \
   -nets "VDD VSS" \
   -output_dir "./power.pna" \
@@ -81,21 +81,21 @@ commit_fp_rail
 ## Runnning clock tree synthesis with power optimizations
 clock_opt \
   -only_cts \
+  -concurrent_clock_and_data \
   -no_clock_route
 
-#  -power
 
-#route_zrt_group \
-#  -all_clock_nets \
-#  -reuse_existing_global_route true
+route_zrt_group \
+  -all_clock_nets \
+  -reuse_existing_global_route true
 
 ## Routing with power optimization
-#route_opt -initial_route_only 
+route_opt -initial_route_only 
 
 route_opt \
   -skip_initial_route \
   -effort low
-#  -power
+  -concurrent_clock_and_data
 
 ## Generate resulting netlist
   write_verilog "./output/res.v"

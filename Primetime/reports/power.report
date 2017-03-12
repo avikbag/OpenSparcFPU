@@ -1,0 +1,33 @@
+****************************************
+Report : Averaged Power
+	-nosplit
+Design : fpu
+Version: L-2016.06-SP3-1
+Date   : Sun Mar 12 17:12:55 2017
+****************************************
+
+
+
+  Attributes
+  ----------
+      i  -  Including register clock pin internal power
+      u  -  User defined power group
+
+                        Internal  Switching  Leakage    Total
+Power Group             Power     Power      Power      Power   (     %)  Attrs
+--------------------------------------------------------------------------------
+clock_network           1.894e-03 1.719e-03 1.074e-05 3.623e-03 (43.48%)  i
+register                -3.630e-04 1.999e-04 6.484e-04 4.853e-04 ( 5.82%) 
+combinational           1.417e-03 1.028e-03 1.508e-03 3.952e-03 (47.43%)  
+sequential              -1.744e-07    0.0000 2.725e-04 2.724e-04 ( 3.27%) 
+memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+
+  Net Switching Power  = 2.946e-03   (35.36%)
+  Cell Internal Power  = 2.947e-03   (35.37%)
+  Cell Leakage Power   = 2.439e-03   (29.27%)
+                         ---------
+Total Power            = 8.333e-03  (100.00%)
+
+1

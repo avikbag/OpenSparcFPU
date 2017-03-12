@@ -1,4 +1,4 @@
-Voltage    1.16
+Voltage    1.20
 Instance bw_r_rf16x160/wrdata_d1_reg[95] 0.047028 
 Instance bw_r_rf16x160/wrdata_d1_reg[96] 0.047028 
 Instance bw_r_rf16x160/wrdata_d1_reg[97] 0.047028 
