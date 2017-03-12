@@ -26,3 +26,5 @@ export PATH=$SNPSDIR/icc/bin:$PATH
 export PATH=$PATH:$SNPSDIR/primetime/bin
 #Hspice
 export PATH=$PATH:$SNPSDIR/hspice/hspice/bin
+#StarRCXT
+export PATH=$PATH:$SNPSDIR/starrc/bin

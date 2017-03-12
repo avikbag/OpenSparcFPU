@@ -1,0 +1,25 @@
+Connection to IPC server failed.
+Starting IPC Server. (Port = 1925)
+IPC Server started successfully.
+No PseudoColor Visual avaiable, try TrueColor instead
+;; ;# Scheme
+
+                                 Milkyway (TM)
+
+           Version L-2016.03-BETA-160120 for linux64 - Jan 20, 2016 
+
+                    Copyright (c) 1988 - 2016 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+
+Loading /opt/synopsys/2016/starrc/linux64_starrc/etc/scheme/.avntrc
+#t
+ Info: loading setup file(s)
+Info: sourcing installation .synopsys_milkyway.tcl
+Info: sourced /opt/synopsys/2016/starrc/linux64_starrc/etc/auxx/tcllib/astro/milkyway.tbc
+;; configureWindow 0 "25x24+0+0"
+Initialization completed
+;; (tcl ";; exit;; ")
+Thank you for using Milkyway
