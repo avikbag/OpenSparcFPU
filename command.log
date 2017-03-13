@@ -1,13 +1,8 @@
 #@ # 
 #@ # Running icc_shell Version L-2016.03-SP5-1 for linux64 -- Dec 12, 2016
-#@ # Date:   Sun Mar 12 16:39:57 2017
+#@ # Date:   Sun Mar 12 22:50:33 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
-man route_zrt_global
-man route_zrt_group
 man clock_opt
-man route_opt
-man create_floorplan
-man create_fp_placement
-exit
+quit

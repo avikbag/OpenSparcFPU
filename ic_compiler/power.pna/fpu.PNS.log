@@ -17,4 +17,4 @@ Number of power pad nodes reaching to the power ports of the leaf cells or block
 Maximum IR drop in fpu : 106.50 mV
 Maximum current in fpu : 13.660 mA
 Memory usage for design data :      57868.288 Kbytes
-Overall takes     5.06 seconds
+Overall takes     4.82 seconds

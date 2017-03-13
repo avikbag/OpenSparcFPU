@@ -6,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Sun Mar 12 17:05:17 2017
+Date   : Sun Mar 12 22:44:35 2017
 ****************************************
 
  * Some/all delay information is back-annotated.

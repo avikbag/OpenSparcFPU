@@ -10,8 +10,6 @@ set_clock_transition 0.04 gclk
 set_clock_uncertainty 0.1 gclk
 set_clock_latency -max 0.4 gclk
 
-#read_parasitics -format sbpf "../ic_compiler/output/res_parasitics.sbpf.max"
-
 #report_crpr
 
 update_power

@@ -78,7 +78,7 @@ synthesize_fp_rail \
 ## Committing the design options chosen in the above commands
 commit_fp_rail
 
-## Runnning clock tree synthesis with power optimizations
+## Runnning clock tree synthesis with timing optimizations
 clock_opt \
   -only_cts \
   -concurrent_clock_and_data \

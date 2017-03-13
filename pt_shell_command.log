@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version L-2016.06-SP3-1 for linux64 -- Jan 12, 2017
-#@ # Date:   Sun Mar 12 16:34:19 2017
+#@ # Date:   Sun Mar 12 22:42:47 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
@@ -872,5 +872,6 @@ source /opt/synopsys/2016/primetime/admin/setup/.synopsys_pt.setup
 #@ }
 #@ # -- End source /opt/synopsys/2016/primetime/auxx/tcllib/lib/itcl4.0.2/itcl.tcl
 
-man report_crpr
+man read_parasitics
+man read_milkyway
 exit

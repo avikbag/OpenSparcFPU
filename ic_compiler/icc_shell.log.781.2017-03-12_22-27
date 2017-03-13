@@ -1,0 +1,85 @@
+Initializing gui preferences from file  /home/DREXEL/ab3433/.synopsys_icc_prefs.tcl
+## Author: Avik Bag, Austen Hall
+## Course: ASIC II
+## ICC Lab Script
+## 03 - 06 - 2017
+## Prof. Taskin
+## Clear out any outstanding milkyway library with the same name
+file delete -force $my_mw_lib
+## This is used to start the GUI for capturing 
+## the necessary maps for this project
+start_gui
+Information: Visibility is turned ON for cells and cell contents because the task is set to Block Implementation (GUI-026)
+## This creates a fresh copy of a milkyway library based 
+## on the designated technology files and reference libraries
+## all of which are defined in the setup file
+create_mw_lib -technology $tech_file   -mw_reference_library $ref_file   $my_mw_lib -open 
+Start to load technology file /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/process/astro/tech/astroTechFile.tf.
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'NWELL' and 'DIFF'. (line 1920). (TFCHK-082)
+Warning: DesignRule attribute 'layer2' is assigned a non-physical layer 'DNW'. (line 1930) (TFCHK-079)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'NWELL' and 'DNW'. (line 1933). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'PO' and 'DIFF'. (line 1940). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'DIFF' and 'CO'. (line 1948). (TFCHK-082)
+Warning: DesignRule attribute 'layer2' is assigned a non-physical layer 'RPOLY'. (line 2134) (TFCHK-079)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'PIMP' and 'DIFF'. (line 2142). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'NIMP' and 'DIFF'. (line 2148). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'DIFF_25' and 'DIFF'. (line 2154). (TFCHK-082)
+Warning: DesignRule attribute 'layer1' is assigned a non-physical layer 'HVTIMP'. (line 2157) (TFCHK-079)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'HVTIMP' and 'DIFF'. (line 2160). (TFCHK-082)
+Warning: DesignRule attribute 'layer1' is assigned a non-physical layer 'LVTIMP'. (line 2163) (TFCHK-079)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'LVTIMP' and 'DIFF'. (line 2166). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'SBLK' and 'DIFF'. (line 2173). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'SBLK' and 'PO'. (line 2180). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'PIMP' and 'PO'. (line 2192). (TFCHK-082)
+Warning: DesignRule is defined with invalid metal-to-via enclosure layers 'NIMP' and 'PO'. (line 2198). (TFCHK-082)
+Warning: Layer 'M1' has a pitch 0.32 that does not match the recommended wire-to-via pitch 0.33. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.32 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.64 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.64 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 1.28 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 1.28 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 2.56 that does not match the recommended wire-to-via pitch 0.36. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 3.84 that does not match the recommended wire-to-via pitch 0.465 or 0.5. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 5.12 that does not match the recommended wire-to-via pitch 0.935 or 0.9. (TFCHK-049)
+Technology file /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/process/astro/tech/astroTechFile.tf has been loaded successfully.
+{fpu.mw}
+## This imports the s15850 compiled ddc file that was generated
+## in the previous dc_shell lab, and will be used for this lab
+import_designs $ddc_file -format ddc -top $top_design
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db'
+Warning: Unit conflict found: Milkyway technology file capacitance unit is pF; main library capacitance unit is fF. (IFS-007)
+Warning: Unit conflict found: Milkyway technology file resistance unit is kOhm; main library resistance unit is MOhm. (IFS-007)
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_max.db'
+Loading db file '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db'
+Loading db file '/opt/synopsys/2016/icc/libraries/syn/gtech.db'
+Loading db file '/opt/synopsys/2016/icc/libraries/syn/standard.sldb'
+Information: linking reference library : /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/process/astro/fram/saed90nm. (PSYN-878)
+Warning: The 'CGLPPSX2' cell in the '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/process/astro/fram/saed90nm' physical library does not 
+        have corresponding logical cell description. (PSYN-025)
+Warning: The 'CGLPPSX4' cell in the '/mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/process/astro/fram/saed90nm' physical library does not 
+        have corresponding logical cell description. (PSYN-025)
+  Loading link library 'saed90nm_typ'
+  Loading link library 'saed90nm_max'
+  Loading link library 'saed90nm_min'
+  Loading link library 'gtech'
+Reading ddc file '/home/DREXEL/ab3433/sparcProject/dc_compiler/unmapped/fpu.ddc'.
+Loaded 3568 designs.
+Current design is 'fpu'.
+Current design is 'fpu'.
+
+  Linking design 'fpu'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (3568 designs)            /home/DREXEL/ab3433/sparcProject/dc_compiler/unmapped/fpu.ddc, etc
+  saed90nm_typ (library)      /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db
+  saed90nm_max (library)      /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_max.db
+  saed90nm_min (library)      /mnt/class_data/ecec574-f2016/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db
+
+Info: Creating auto CEL.
+
+
+    while executing
+"get_app_var gui_suppress_auto_layout"
+    (procedure "iccGUI::on_current_design_changed_cb" line 10)
+    invoked from within
+"iccGUI::on_current_design_changed_cb physical {__auto_cel_xunil-03.coe.drexel.edu_781.CEL;1} {{}} ˜hange ame"

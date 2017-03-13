@@ -3,7 +3,7 @@
 Report : qor
 Design : fpu
 Version: L-2016.03-SP5-1
-Date   : Sun Mar 12 17:05:25 2017
+Date   : Sun Mar 12 22:44:42 2017
 ****************************************
 
 
@@ -69,10 +69,10 @@ Date   : Sun Mar 12 17:05:25 2017
   -----------------------------------------
   Resource Sharing:                   28.84
   Logic Optimization:                 51.05
-  Mapping Optimization:              128.66
+  Mapping Optimization:              131.47
   -----------------------------------------
-  Overall Compile Time:              245.00
-  Overall Compile Wall Clock Time:   249.62
+  Overall Compile Time:              247.99
+  Overall Compile Wall Clock Time:   252.85
 
   --------------------------------------------------------------------
 
