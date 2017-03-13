@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version L-2016.06-SP3-1 for linux64 -- Jan 12, 2017
-#@ # Date:   Sun Mar 12 17:12:21 2017
+#@ # Date:   Sun Mar 12 18:54:11 2017
 #@ # Run by: ab3433@xunil-03.coe.drexel.edu
 #@ 
 
@@ -37254,7 +37254,7 @@ source -echo -verbose scripts/runpt.tcl
 #@ read_milkyway -library ../ic_compiler/fpu.mw fpu
 #@ read_parasitics -format PARA
 #@ 
-#@ create_clock gclk -period 6
+#@ create_clock gclk -period 5
 #@ set_clock_transition 0.04 gclk
 #@ set_clock_uncertainty 0.1 gclk
 #@ set_clock_latency -max 0.4 gclk

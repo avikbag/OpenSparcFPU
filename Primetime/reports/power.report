@@ -3,7 +3,7 @@ Report : Averaged Power
 	-nosplit
 Design : fpu
 Version: L-2016.06-SP3-1
-Date   : Sun Mar 12 17:12:55 2017
+Date   : Sun Mar 12 18:54:47 2017
 ****************************************
 
 
@@ -16,18 +16,18 @@ Date   : Sun Mar 12 17:12:55 2017
                         Internal  Switching  Leakage    Total
 Power Group             Power     Power      Power      Power   (     %)  Attrs
 --------------------------------------------------------------------------------
-clock_network           1.894e-03 1.719e-03 1.074e-05 3.623e-03 (43.48%)  i
-register                -3.630e-04 1.999e-04 6.484e-04 4.853e-04 ( 5.82%) 
-combinational           1.417e-03 1.028e-03 1.508e-03 3.952e-03 (47.43%)  
-sequential              -1.744e-07    0.0000 2.725e-04 2.724e-04 ( 3.27%) 
+clock_network           2.405e-03 2.065e-03 1.175e-05 4.482e-03 (46.37%)  i
+register                -4.309e-04 2.363e-04 6.482e-04 4.536e-04 ( 4.69%) 
+combinational           1.709e-03 1.232e-03 1.516e-03 4.457e-03 (46.12%)  
+sequential              -2.113e-07    0.0000 2.725e-04 2.723e-04 ( 2.82%) 
 memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 
-  Net Switching Power  = 2.946e-03   (35.36%)
-  Cell Internal Power  = 2.947e-03   (35.37%)
-  Cell Leakage Power   = 2.439e-03   (29.27%)
+  Net Switching Power  = 3.533e-03   (36.56%)
+  Cell Internal Power  = 3.683e-03   (38.11%)
+  Cell Leakage Power   = 2.448e-03   (25.33%)
                          ---------
-Total Power            = 8.333e-03  (100.00%)
+Total Power            = 9.664e-03  (100.00%)
 
 1

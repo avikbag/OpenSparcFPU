@@ -31,7 +31,7 @@ set_tlu_plus_files \
 
 
 ## Setting clock constraint
-  create_clock gclk -period 6
+  create_clock gclk -period 5
   set_clock_transition 0.04 gclk
   set_clock_uncertainty 0.1 gclk
   set_clock_latency -max 0.4 gclk

@@ -8,7 +8,7 @@ Report : timing
         -max_paths 1
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Mon Mar  6 14:35:19 2017
+Date   : Sun Mar 12 18:30:47 2017
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -16,9 +16,9 @@ Date   : Mon Mar  6 14:35:19 2017
 Operating Conditions: TYPICAL   Library: saed90nm_typ
 Wire Load Model Mode: enclosed
 
-  Startpoint: fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[10]
+  Startpoint: fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[26]
               (rising edge-triggered flip-flop clocked by gclk)
-  Endpoint: fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[45]
+  Endpoint: fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[6]
             (rising edge-triggered flip-flop clocked by gclk)
   Path Group: gclk
   Path Type: max
@@ -34,223 +34,186 @@ Wire Load Model Mode: enclosed
   --------------------------------------------------------------------------
   clock gclk (rise edge)                                  0.00       0.00
   clock network delay (ideal)                             0.40       0.40
-  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[10]/CLK (DFFX1)
+  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[26]/CLK (DFFX1)
                                                           0.00 #     0.40 r
-  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[10]/Q (DFFX1)
+  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q_reg[26]/Q (DFFX1)
                                                           0.17       0.57 r
-  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q[10] (dffe_SIZE64_6)
+  fpu_add/fpu_add_frac_dp/i_a3stg_frac1/q[26] (dffe_SIZE64_6)
                                                           0.00       0.57 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/A[10] (fpu_add_frac_dp_DW01_add_3)
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/A[26] (fpu_add_frac_dp_DW01_add_3)
                                                           0.00       0.57 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U283/ZN (INVX0)
-                                                          0.53       1.10 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U282/Q (AND2X1)
-                                                          0.10       1.20 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U142/QN (OAI21X1)
-                                                          0.13       1.33 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U140/QN (AOI21X1)
-                                                          0.11       1.44 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U101/QN (OAI21X1)
-                                                          0.14       1.58 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U372/Q (AO21X1)
-                                                          0.11       1.69 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U297/Q (AO222X1)
-                                                          0.12       1.81 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U254/Q (AO221X1)
-                                                          0.15       1.96 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U598/QN (NAND2X0)
-                                                          0.08       2.03 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U599/QN (NAND3X0)
-                                                          0.09       2.13 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U601/QN (NAND2X0)
-                                                          0.08       2.21 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U603/QN (NAND3X0)
-                                                          0.10       2.30 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U443/QN (NAND2X0)
-                                                          0.08       2.39 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U445/QN (NAND3X0)
-                                                          0.10       2.48 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U632/QN (NAND2X0)
-                                                          0.08       2.56 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U634/QN (NAND3X0)
-                                                          0.10       2.66 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U636/QN (NAND2X0)
-                                                          0.08       2.74 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U638/QN (NAND3X0)
-                                                          0.10       2.84 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U480/QN (NAND2X0)
-                                                          0.08       2.92 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U482/QN (NAND3X0)
-                                                          0.10       3.02 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U487/QN (NAND2X0)
-                                                          0.08       3.10 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U488/QN (NAND3X0)
-                                                          0.10       3.20 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U335/QN (NAND2X0)
-                                                          0.08       3.28 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U337/QN (NAND3X0)
-                                                          0.10       3.38 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U342/QN (NAND2X0)
-                                                          0.08       3.46 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U343/QN (NAND3X0)
-                                                          0.10       3.56 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U357/QN (NAND2X0)
-                                                          0.08       3.64 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U360/QN (NAND3X0)
-                                                          0.10       3.74 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U390/QN (NAND2X0)
-                                                          0.08       3.82 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U392/QN (NAND3X0)
-                                                          0.10       3.92 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U397/QN (NAND2X0)
-                                                          0.08       4.00 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U398/QN (NAND3X0)
-                                                          0.10       4.10 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U655/QN (NAND2X0)
-                                                          0.08       4.18 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U657/QN (NAND3X0)
-                                                          0.10       4.28 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U659/QN (NAND2X0)
-                                                          0.08       4.36 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U661/QN (NAND3X0)
-                                                          0.10       4.46 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U401/QN (NAND2X0)
-                                                          0.08       4.54 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U404/QN (NAND3X0)
-                                                          0.10       4.64 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U607/QN (NAND2X0)
-                                                          0.08       4.72 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U608/QN (NAND3X0)
-                                                          0.10       4.82 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U610/QN (NAND2X0)
-                                                          0.08       4.90 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U612/QN (NAND3X0)
-                                                          0.10       5.00 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U376/QN (NAND2X0)
-                                                          0.08       5.08 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U379/QN (NAND3X0)
-                                                          0.10       5.17 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U407/QN (NAND2X0)
-                                                          0.08       5.26 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U410/QN (NAND3X0)
-                                                          0.10       5.35 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U448/QN (NAND2X0)
-                                                          0.08       5.43 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U449/QN (NAND3X0)
-                                                          0.10       5.53 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U454/QN (NAND2X0)
-                                                          0.08       5.61 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U455/QN (NAND3X0)
-                                                          0.10       5.71 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U366/QN (NAND2X0)
-                                                          0.08       5.79 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U698/QN (NOR2X0)
+                                                          0.68       1.25 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U72/QN (OAI21X1)
+                                                          0.14       1.39 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U70/QN (AOI21X1)
+                                                          0.11       1.51 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U41/QN (OAI21X1)
+                                                          0.13       1.64 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U39/QN (AOI21X1)
+                                                          0.12       1.76 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U311/QN (OAI21X1)
+                                                          0.13       1.89 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U316/Q (AO221X1)
+                                                          0.14       2.03 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U465/QN (NAND2X0)
+                                                          0.07       2.10 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U467/QN (NAND3X0)
+                                                          0.10       2.20 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U472/QN (NAND2X0)
+                                                          0.08       2.28 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U473/QN (NAND3X0)
+                                                          0.10       2.38 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U497/QN (NAND2X0)
+                                                          0.08       2.46 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U499/QN (NAND3X0)
+                                                          0.10       2.56 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U504/QN (NAND2X0)
+                                                          0.08       2.64 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U505/QN (NAND3X0)
+                                                          0.10       2.74 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U367/QN (NAND2X0)
+                                                          0.08       2.82 f
   fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U369/QN (NAND3X0)
-                                                          0.10       5.89 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U589/QN (NAND2X0)
-                                                          0.08       5.97 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U591/QN (NAND3X0)
-                                                          0.10       6.07 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U593/QN (NAND2X0)
-                                                          0.08       6.15 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U595/QN (NAND3X0)
-                                                          0.10       6.25 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U624/QN (NAND2X0)
-                                                          0.08       6.33 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U626/QN (NAND3X0)
-                                                          0.10       6.43 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U628/QN (NAND2X0)
-                                                          0.08       6.51 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U630/QN (NAND3X0)
-                                                          0.10       6.61 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U421/QN (NAND2X0)
-                                                          0.08       6.69 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U424/QN (NAND3X0)
-                                                          0.10       6.79 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U416/QN (NAND2X0)
-                                                          0.08       6.87 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U419/QN (NAND3X0)
-                                                          0.10       6.97 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U432/QN (NAND2X0)
-                                                          0.08       7.05 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U434/QN (NAND3X0)
-                                                          0.10       7.15 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U439/QN (NAND2X0)
-                                                          0.08       7.23 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U440/QN (NAND3X0)
-                                                          0.10       7.33 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U647/QN (NAND2X0)
-                                                          0.08       7.41 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U649/QN (NAND3X0)
-                                                          0.10       7.51 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U651/QN (NAND2X0)
-                                                          0.08       7.59 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U653/QN (NAND3X0)
-                                                          0.10       7.69 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U616/QN (NAND2X0)
-                                                          0.08       7.77 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U618/QN (NAND3X0)
-                                                          0.10       7.87 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U620/QN (NAND2X0)
-                                                          0.08       7.95 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U622/QN (NAND3X0)
-                                                          0.10       8.04 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U470/QN (NAND2X0)
-                                                          0.08       8.13 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U472/QN (NAND3X0)
-                                                          0.10       8.22 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U477/QN (NAND2X0)
-                                                          0.08       8.30 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U478/QN (NAND3X0)
-                                                          0.10       8.40 r
+                                                          0.10       2.92 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U395/QN (NAND2X0)
+                                                          0.08       3.00 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U398/QN (NAND3X0)
+                                                          0.10       3.10 r
   fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U385/QN (NAND2X0)
-                                                          0.08       8.48 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U388/QN (NAND3X0)
-                                                          0.10       8.58 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U457/QN (NAND2X0)
-                                                          0.08       8.66 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U459/QN (NAND3X0)
-                                                          0.10       8.76 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U464/QN (NAND2X0)
-                                                          0.08       8.84 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U465/QN (NAND3X0)
-                                                          0.10       8.94 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U345/QN (NAND2X0)
-                                                          0.08       9.02 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U347/QN (NAND3X0)
-                                                          0.10       9.13 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U351/QN (NAND2X0)
-                                                          0.08       9.21 f
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U353/QN (NAND3X0)
-                                                          0.09       9.30 r
-  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U411/Q (XNOR2X2)
-                                                          0.15       9.45 f
+                                                          0.08       3.18 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U387/QN (NAND3X0)
+                                                          0.10       3.28 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U392/QN (NAND2X0)
+                                                          0.08       3.36 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U393/QN (NAND3X0)
+                                                          0.10       3.46 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U400/QN (NAND2X0)
+                                                          0.08       3.54 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U402/QN (NAND3X0)
+                                                          0.10       3.64 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U407/QN (NAND2X0)
+                                                          0.08       3.72 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U408/QN (NAND3X0)
+                                                          0.10       3.82 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U430/QN (NAND2X0)
+                                                          0.08       3.90 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U432/QN (NAND3X0)
+                                                          0.10       3.99 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U437/QN (NAND2X0)
+                                                          0.08       4.08 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U438/QN (NAND3X0)
+                                                          0.10       4.17 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U442/QN (NAND2X0)
+                                                          0.08       4.25 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U444/QN (NAND3X0)
+                                                          0.10       4.35 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U449/QN (NAND2X0)
+                                                          0.08       4.43 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U450/QN (NAND3X0)
+                                                          0.10       4.53 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U453/QN (NAND2X0)
+                                                          0.08       4.61 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U456/QN (NAND3X0)
+                                                          0.10       4.71 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U461/QN (NAND2X0)
+                                                          0.08       4.79 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U463/QN (NAND3X0)
+                                                          0.10       4.89 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U526/QN (NAND2X0)
+                                                          0.08       4.97 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U528/QN (NAND3X0)
+                                                          0.10       5.07 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U533/QN (NAND2X0)
+                                                          0.08       5.15 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U534/QN (NAND3X0)
+                                                          0.10       5.25 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U372/QN (NAND2X0)
+                                                          0.08       5.33 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U375/QN (NAND3X0)
+                                                          0.10       5.43 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U487/QN (NAND2X0)
+                                                          0.08       5.51 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U489/QN (NAND3X0)
+                                                          0.10       5.61 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U494/QN (NAND2X0)
+                                                          0.08       5.69 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U495/QN (NAND3X0)
+                                                          0.10       5.79 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U355/QN (NAND2X0)
+                                                          0.08       5.87 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U357/QN (NAND3X0)
+                                                          0.10       5.97 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U349/QN (NAND2X0)
+                                                          0.08       6.05 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U352/QN (NAND3X0)
+                                                          0.10       6.15 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U476/QN (NAND2X0)
+                                                          0.08       6.23 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U478/QN (NAND3X0)
+                                                          0.10       6.33 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U483/QN (NAND2X0)
+                                                          0.08       6.41 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U484/QN (NAND3X0)
+                                                          0.10       6.51 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U516/QN (NAND2X0)
+                                                          0.08       6.59 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U518/QN (NAND3X0)
+                                                          0.10       6.69 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U523/QN (NAND2X0)
+                                                          0.08       6.77 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U524/QN (NAND3X0)
+                                                          0.10       6.87 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U411/QN (NAND2X0)
+                                                          0.08       6.95 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U414/QN (NAND3X0)
+                                                          0.10       7.05 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U420/QN (NAND2X0)
+                                                          0.08       7.13 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U422/QN (NAND3X0)
+                                                          0.10       7.22 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U427/QN (NAND2X0)
+                                                          0.08       7.31 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U428/QN (NAND3X0)
+                                                          0.10       7.40 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U508/QN (NAND2X0)
+                                                          0.08       7.48 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U509/QN (NAND3X0)
+                                                          0.10       7.59 r
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U513/QN (NAND2X0)
+                                                          0.08       7.67 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U315/Q (AND3X1)
+                                                          0.11       7.77 f
+  fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/U314/Q (XNOR3X1)
+                                                          0.14       7.91 f
   fpu_add/fpu_add_frac_dp/add_1_root_add_767_2/SUM[63] (fpu_add_frac_dp_DW01_add_3)
-                                                          0.00       9.45 f
-  fpu_add/fpu_add_frac_dp/U324/ZN (INVX0)                 0.51       9.97 r
-  fpu_add/fpu_add_frac_dp/U89/Q (AND3X1)                  0.40      10.36 r
-  fpu_add/fpu_add_frac_dp/U108/QN (NAND3X1)               0.44      10.80 f
-  fpu_add/fpu_add_frac_dp/U105/Q (AO21X1)                 0.53      11.33 f
-  fpu_add/fpu_add_frac_dp/U2003/QN (NOR2X0)               1.15      12.48 r
-  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/din[45] (dff_SIZE64_3)
-                                                          0.00      12.48 r
-  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/U85/Q (MUX21X1)
-                                                          0.53      13.01 r
-  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[45]/D (DFFX1)
-                                                          0.04      13.05 r
-  data arrival time                                                 13.05
+                                                          0.00       7.91 f
+  fpu_add/fpu_add_frac_dp/U91/ZN (INVX0)                  0.52       8.43 r
+  fpu_add/fpu_add_frac_dp/U92/Q (AND3X1)                  0.40       8.82 r
+  fpu_add/fpu_add_frac_dp/U16/QN (NAND3X1)                0.44       9.26 f
+  fpu_add/fpu_add_frac_dp/U85/Q (AO21X1)                  0.50       9.76 f
+  fpu_add/fpu_add_frac_dp/U96/Z (DELLN1X2)                0.57      10.34 f
+  fpu_add/fpu_add_frac_dp/U2061/QN (NOR2X0)               0.64      10.98 r
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/din[6] (dff_SIZE64_3)
+                                                          0.00      10.98 r
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/U25/Q (MUX21X1)
+                                                          0.53      11.51 r
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[6]/D (DFFX1)
+                                                          0.04      11.55 r
+  data arrival time                                                 11.55
 
-  clock gclk (rise edge)                                  6.00       6.00
-  clock network delay (ideal)                             0.40       6.40
-  clock uncertainty                                      -0.10       6.30
-  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[45]/CLK (DFFX1)
-                                                          0.00       6.30 r
-  library setup time                                     -0.05       6.25
-  data required time                                                 6.25
+  clock gclk (rise edge)                                  5.00       5.00
+  clock network delay (ideal)                             0.40       5.40
+  clock uncertainty                                      -0.10       5.30
+  fpu_add/fpu_add_frac_dp/i_a4stg_rnd_frac_pre3/q_reg[6]/CLK (DFFX1)
+                                                          0.00       5.30 r
+  library setup time                                     -0.05       5.25
+  data required time                                                 5.25
   --------------------------------------------------------------------------
-  data required time                                                 6.25
-  data arrival time                                                -13.05
+  data required time                                                 5.25
+  data arrival time                                                -11.55
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -6.80
+  slack (VIOLATED)                                                  -6.30
 
 
 1

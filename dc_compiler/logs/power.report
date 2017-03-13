@@ -8,7 +8,7 @@ Report : power
         -analysis_effort low
 Design : fpu
 Version: M-2016.12-SP1
-Date   : Mon Mar  6 14:35:25 2017
+Date   : Sun Mar 12 18:30:54 2017
 ****************************************
 
 
@@ -3590,8 +3590,6 @@ mul_ppgen_1150         ForQA             saed90nm_typ
 mul_ppgen_1151         ForQA             saed90nm_typ
 fpu_div_exp_dp_DW01_add_1
                        8000              saed90nm_typ
-fpu_mul_frac_dp_DW01_add_0
-                       8000              saed90nm_typ
 fpu_mul_exp_dp_DW01_inc_0
                        ForQA             saed90nm_typ
 fpu_mul_exp_dp_DW01_inc_1
@@ -3599,8 +3597,6 @@ fpu_mul_exp_dp_DW01_inc_1
 fpu_mul_exp_dp_DW01_add_2
                        8000              saed90nm_typ
 fpu_mul_ctl_DW01_add_1 ForQA             saed90nm_typ
-fpu_add_frac_dp_DW01_add_0
-                       8000              saed90nm_typ
 fpu_add_exp_dp_DW01_inc_0
                        ForQA             saed90nm_typ
 fpu_add_exp_dp_DW01_dec_0
@@ -3625,6 +3621,10 @@ fpu_add_frac_dp_DW01_add_4
                        8000              saed90nm_typ
 fpu_div_frac_dp_DW01_add_1
                        8000              saed90nm_typ
+fpu_mul_frac_dp_DW01_add_1
+                       8000              saed90nm_typ
+fpu_add_frac_dp_DW01_add_5
+                       8000              saed90nm_typ
 
 
 Global Operating Voltage = 1.2  
@@ -3636,12 +3636,12 @@ Power-specific unit information :
     Leakage Power Units = 1pW
 
 
-  Cell Internal Power  =   1.0868 mW   (49%)
-  Net Switching Power  =   1.1160 mW   (51%)
+  Cell Internal Power  =   1.3086 mW   (49%)
+  Net Switching Power  =   1.3379 mW   (51%)
                          ---------
-Total Dynamic Power    =   2.2028 mW  (100%)
+Total Dynamic Power    =   2.6465 mW  (100%)
 
-Cell Leakage Power     =   2.4498 mW
+Cell Leakage Power     =   2.4585 mW
 
 
                  Internal         Switching           Leakage            Total
@@ -3650,10 +3650,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network     16.5253          704.3077        8.1537e+05          721.6484  (  15.51%)
-register         336.8010           27.4913        6.4813e+08        1.0124e+03  (  21.76%)
-sequential     -1.1648e-01            0.0000        2.7253e+08          272.4142 (   5.86%)
-combinational    733.6459          384.2248        1.5283e+09        2.6461e+03  (  56.87%)
+clock_network     19.8304          845.1693        8.1537e+05          865.8149  (  16.96%)
+register         403.1991           32.4843        6.4748e+08        1.0832e+03  (  21.22%)
+sequential     -1.3977e-01            0.0000        2.7253e+08          272.3909 (   5.34%)
+combinational    885.7230          460.2265        1.5377e+09        2.8837e+03  (  56.49%)
 --------------------------------------------------------------------------------------------------
-Total          1.0869e+03 uW     1.1160e+03 uW     2.4498e+09 pW     4.6526e+03 uW
+Total          1.3086e+03 uW     1.3379e+03 uW     2.4585e+09 pW     5.1051e+03 uW
 1
